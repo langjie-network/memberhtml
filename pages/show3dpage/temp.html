@@ -8,11 +8,9 @@
             margin: 0;
             height: 100%;
         }
-
         canvas {
             display: block;
         }
-
     </style>
 </head>
 <body onload="draw();">
@@ -25,14 +23,15 @@
 <script src="./js/stats.min.js"></script>
 <script src="./js/dat.gui.min.js"></script>
 <script>
-    var renderer, camera, scene, gui, stats, ambientLight, directionalLight, control;
+    var renderer, camera, scene, gui, stats,pointLight, ambientLight, directionalLight, control;
 
     function initRender() {
-        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer = new THREE.WebGLRenderer({antialias: true,alpha: false});
         renderer.setSize(window.innerWidth, window.innerHeight);
         //告诉渲染器需要阴影效果
         renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // 默认的是，没有设置的这个清晰 THREE.PCFShadowMap
+        renderer.shadowMap.type = THREE.PCFShadowMap; // 默认的是，没有设置的这个清晰 THREE.PCFShadowMap
+       // renderer.setClearColor(0xffffff, 0);
         document.body.appendChild(renderer.domElement);
     }
 
@@ -54,57 +53,67 @@
     }
 
     function initLight() {
-        ambientLight = new THREE.AmbientLight("#ffffff");
+        ambientLight = new THREE.AmbientLight(0xffffff);
+
         scene.add(ambientLight);
 
-        directionalLight = new THREE.DirectionalLight("#ffffff");
-        directionalLight.position.set(40, 60, 10);
-        directionalLight.shadow.camera.near = 1; //产生阴影的最近距离
-        directionalLight.shadow.camera.far = 400; //产生阴影的最远距离
+        directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(200, 40, 35);
+        directionalLight.shadow.camera.near = 2; //产生阴影的最近距离
+        directionalLight.shadow.camera.far = 100; //产生阴影的最远距离
         directionalLight.shadow.camera.left = -50; //产生阴影距离位置的最左边位置
         directionalLight.shadow.camera.right = 50; //最右边
         directionalLight.shadow.camera.top = 50; //最上边
         directionalLight.shadow.camera.bottom = -50; //最下面
-
         //这两个值决定生成阴影密度 默认512
         directionalLight.shadow.mapSize.height = 1024;
         directionalLight.shadow.mapSize.width = 1024;
-
         //告诉平行光需要开启阴影投射 
         directionalLight.castShadow = true;
 
         scene.add(directionalLight);
+
+
+
+
+        pointLight = new THREE.PointLight(0xffffff, 10, 100, 2);
+        pointLight.position.set(50, 200,200);
+        scene.add(pointLight);
+
     }
 
     function initModel() {
 
         //底部平面
-        var planeGeometry = new THREE.PlaneGeometry(200, 200);
-        var planeMaterial = new THREE.MeshLambertMaterial({color: 0xaaaaaa, side: THREE.DoubleSide});
-        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-        plane.rotation.x = -0.5 * Math.PI;
-        plane.position.y = -.1;
-        plane.receiveShadow = true; //可以接收阴影
-        scene.add(plane);
+        if(0){
+            var planeGeometry = new THREE.PlaneGeometry(0, 0);
+            var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, side: THREE.DoubleSide});
+            var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            plane.rotation.x = -0.5 * Math.PI;
+            plane.position.y = -.1;
+            plane.receiveShadow = true; //可以接收阴影
+            scene.add(plane);
+        }
         //创建MTL加载器
         var mtlLoader = new THREE.MTLLoader();
         //设置文件路径
-        mtlLoader.setPath('https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/exhibition2022/obj/');
+
+        mtlLoader.setPath('/langjie_static_server/show3dpage/models/obj/');
         //加载mtl文件
-        mtlLoader.load('female02.mtl', function (material) {
+        mtlLoader.load('V884.mtl', function (material) {
             //创建OBJ加载器
             var objLoader = new THREE.OBJLoader();
-			
             //设置当前加载的纹理
-            objLoader.setMaterials(material); 
-            objLoader.setPath('https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/exhibition2022/obj/');
-			
-            objLoader.load('female02.obj', function (object) {
+            objLoader.setMaterials(material);
+            objLoader.setPath('/langjie_static_server/show3dpage/models/obj/');
+            objLoader.load('V884.obj', function (object) {
                 //添加阴影
                 object.traverse(function (item) { 
                     if(item instanceof THREE.Mesh){
-                        item.castShadow = true;
+                       item.castShadow = true;
                         item.receiveShadow = true;
+                        item.material.emissive =  item.material.color;
+                        item.material.emissiveMap = item.material.map ;
                     }
                 });
                 //缩放
@@ -142,9 +151,6 @@
         //更新控制器
         render();
 
-        //更新性能插件
-        // stats.update();
-
         requestAnimationFrame(animate);
     }
 
@@ -159,5 +165,39 @@
         initControl();
         animate();
         window.onresize = onWindowResize;
+
+       // addClick();
     }
+
+
+
+
+
+    function addClick () {
+        var raycaster = new THREE.Raycaster();//光线投射，用于确定鼠标点击位置
+        var mouse = new THREE.Vector2();//创建二维平面
+        window.addEventListener("mousedown",mousedown);//页面绑定鼠标点击事件
+        //点击方法
+        function mousedown(e){
+
+            //将html坐标系转化为webgl坐标系，并确定鼠标点击位置
+            mouse.x =  e.clientX / renderer.domElement.clientWidth*2-1;
+            mouse.y =  -(e.clientY / renderer.domElement.clientHeight*2)+1;
+            //以camera为z坐标，确定所点击物体的3D空间位置
+            raycaster.setFromCamera(mouse,camera);
+            //确定所点击位置上的物体数量
+            var intersects = raycaster.intersectObjects(scene.children);
+
+
+            //选中后进行的操作
+            if(intersects.length){
+                var selected = intersects[0];//取第一个物体
+                console.log("x坐标:"+selected.point.x);
+                console.log("y坐标:"+selected.point.y);
+                console.log("z坐标:"+selected.point.z);
+                document.title="AAAA"
+            }
+        }
+    }
+
 </script>
