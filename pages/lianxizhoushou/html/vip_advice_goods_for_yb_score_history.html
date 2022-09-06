@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>历史推荐</title>
+    <script src="https://minglie.gitee.io/mingpage/static/public/vue/3.2/vue.global.prod.min.js"></script>
+    <script src="/memberhtml/common/lib/ming_mock/petite_ming_mock.js"></script>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css"/>
+    <script type="text/javascript" src="../script/jquery.min.js"></script>
+    <style>
+        .imgWrap {
+            border: rgb(223, 223, 223) 1px solid;
+            border-radius: 1vw;
+            height: 25.83404vw;
+            width: 26.00513vw;
+        }
+        .imgWrap img{
+            border-radius: 1vw;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .good_name_div{
+            transform: translateY(-3vw);
+            margin-left: 4.27715vw;
+            font-size: 4.79041vw;
+        }
+        .gmt_create_div{
+            margin-left: 4.27715vw;
+            color: rgb(149,148,148);
+            font-size: 2.73738vw;
+        }
+        .state_img{
+            width:5.13259vw;
+        }
+        .status01{
+            margin-left: 2vw;
+            font-size: 3.73738vw;
+            font-weight: bold;
+        }
+        .status02{
+            margin-left: 2.27715vw;
+            color: rgb(149,148,148);
+            font-size: 2.73738vw;
+        }
+    </style>
+</head>
+
+<body>
+<div id="root">
+    <div>
+            <div class="aui-refresh-content">
+                <div class="aui-content">
+                    <div class="aui-content aui-margin-b-15">
+                        <ul class="aui-list aui-media-list">
+                            <li v-for="(item,i) in dataList" :key="id" class="aui-list-item aui-list-item-middle">
+                                <div class="aui-list-item-inner" style="display: flex">
+                                    <div>
+                                        <div class="imgWrap">
+                                            <img :src="item.oss_url">
+                                        </div>
+                                    </div>
+                                    <div style="flex: 3">
+                                        <div class="good_name_div">
+                                            {{item.goods_name}}
+                                        </div>
+                                        <div class="gmt_create_div">
+                                            {{formatDate(item.gmt_create, 'yyyy年MM月dd日')}}推荐
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div style="display: flex">
+                                    <img class="state_img" :src="stateImg(item)"></img>
+                                    <span class="status01"> {{formatState(item)[0]}}</span>
+                                    <span class="status02">  {{formatState(item)[1]}}</span>
+                                </div>
+                                <div style="height: 2vw"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</body>
+
+
+<script>
+
+    app.get("/vipAdviceGoodsForYbScoreHistory", async (req, res) => {
+        let r = await M.request.get("/member_ajax/vipAdviceGoodsForYbScore/history")
+        res.send(r);
+    })
+
+
+</script>
+
+
+<script>
+    const {
+        ref,
+        createApp,
+    } = Vue
+    const vueApp = createApp({
+        data() {
+            return {
+                //总数据
+                totalDataList: [],
+                //要显示的数据
+                dataList: []
+            }
+        },
+        methods: {
+            formatDate(date, dataFormat = "yyyy-MM-dd hh:mm:ss") {
+                let post_time_data = new Date(date);
+                return post_time_data.format(dataFormat);
+            },
+            formatState(item) {
+                let state=item.state;
+                if (state == "拒绝") {
+                    return ["感谢您的参与", item.reasons_for_refusal];
+                } else if (state == "待审核") {
+                    return ["审核中", "请耐心等待~"];
+                } else if (state == "采纳") {
+                    return ["已通过", "请注意查收私信!"];
+                }
+            },
+            stateImg(item){
+                let state=item.state;
+                if (state == "拒绝") {
+                    return "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_advice_weitongguo.png";
+                } else if (state == "待审核") {
+                    return "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_advice_shenhezhong.png";
+                } else if (state == "采纳") {
+                    return "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_advice_yitongguo.png";
+                }
+                return "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_advice_weitongguo.png";
+
+            }
+        },
+        async mounted() {
+            let r = await MIO.vipAdviceGoodsForYbScoreHistory();
+            this.dataList = r.data.rows;
+        }
+
+
+    })
+
+    vueApp.mount('#root')
+
+    window.vueApp = vueApp;
+</script>
+
+
+</html>

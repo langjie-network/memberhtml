@@ -1,0 +1,71 @@
+html,body {  font-size:5vw; height:100%;  }
+.weui-cell{
+    height: 15vw;
+}
+.layout-left-nav{
+    background-color: white;
+    position: absolute;
+    z-index: 1000;
+    width: 54vw;
+    height: 100vh;
+    padding-top: 5vw;
+}
+
+.g_coverMaskDiv{
+    position:fixed;
+    left:0px;
+    top:0px;
+    background:rgba(0, 0, 0, 0.3);
+    width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+    height:100%;
+    filter:alpha(opacity=60);  /*设置透明度为60%*/
+    opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+    z-Index:1000;
+}
+
+
+#searchCompanyResult {
+    width: 70vw;
+    position: absolute;
+    z-index: 5;
+    margin-top: 0px;
+    max-height: 60vw;
+    overflow-y: auto;
+
+}
+#searchCompanyResult .weui-cell {
+    padding-left: 10px;
+    padding-top: 14px;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+
+#searchMemberNameResult {
+    width: 70vw;
+    position: absolute;
+    z-index: 5;
+    margin-top: 0px;
+    max-height: 60vw;
+    overflow-y: auto;
+}
+#searchMemberNameResult .weui-cell {
+    padding-left: 10px;
+    padding-top: 14px;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.ybVoucherList{
+    display: flex;
+    background-color: pink;
+}
+
+
+.noguangbiao{
+    outline: none;
+    color:transparent;
+    text-shadow:0 0 0 #000;
+    height: 30px;
+}
+

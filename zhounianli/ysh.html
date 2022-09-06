@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>已收货</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+
+    <link rel="stylesheet" href="../../styles/responsive.css">
+    <link href="../../styles/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles/weui.min.css" />
+    <link rel="stylesheet" href="../styles/open_id.css" />
+    <script src="../js/kendo/jquery.min.js"></script>
+    <script src="../../js/common.js" type="text/javascript"></script>
+    <script src="../../js/request.js" type="text/javascript"></script>
+    <style>
+	 html,body{overflow:hidden;overflow-y:auto;margin: 0;}
+        .conter{
+            width: 100%;
+            position: absolute; left: 73%; top: 30%;
+            transform: translate(-50%, -50%);    /* 50%为自身尺寸的一半 */
+        }
+        svg{
+            display: inline;
+        }
+        header{
+            color: rgb(0,136,228);
+            font-size: 38px;
+           
+        }
+        #conterTail {
+            letter-spacing: 2px;
+            margin-top:25%;
+            padding: 0;
+            width: 100%;
+            font-size: 16px;
+            line: height 3px;
+            color: rgb(98, 98, 98);
+            transform: translateX(-25%);
+            text-align: center;
+        }
+        #hid{
+            letter-spacing:2px;
+            display: inline-block;
+            transform:translateY(-10px);
+        }
+    </style>
+</head>
+
+<body >
+    <div id="Layer1" style="position:absolute; width:100%; height:100%; z-index:-1">
+        <img src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/znl/ysh.png" height="100%" width="100%"/>
+    </div>
+    <div class="conter">
+        <!-- <header> <svg t="1626786362976" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2046" width="50"><path d="M512 938.667c-235.264 0-426.667-191.424-426.667-426.645 0-235.264 191.403-426.688 426.667-426.688 235.243 0 426.667 191.424 426.667 426.688 0 235.221-191.424 426.645-426.667 426.645zM512 128c-211.733 0-384 172.267-384 384.021 0 211.733 172.267 383.979 384 383.979s384-172.245 384-383.979c0-211.755-172.267-384.021-384-384.021zM448.448 738.539l-150.379-186.475 33.195-26.795 116.288 144.192 260.843-341.077 33.877 25.899z" p-id="2047" fill="rgb(0,136,228)"></path></svg>
+           <span id="hid">已收货</span></header> -->
+         
+             <div id="conterTail">
+                 <p>感谢你对朗杰的支持</p>
+                 <p>期待与你再次合作</p>
+             </div>
+         
+  </div>
+    <!-- <div class="weui-btn-area" style="position:absolute;width: 92%;top:80%">
+        <a class="weui-btn weui-btn_primary" id="showTooltips" onclick="cd_submit()">确定收货</a>
+        <a class="weui-btn weui-btn_default" style="display: none;" id="reLaunch" onclick="reLaunch()">返回</a>
+    </div> -->
+    </body>
+</html>
+<script>
+
+    document.body.addEventListener('touchmove' , function(e){
+        var e=e||window.event;
+        e.preventDefault();
+    },{ passive: false })
+
+</script>

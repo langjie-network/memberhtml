@@ -1,0 +1,41 @@
+.MingMenuItem{
+    width: 52vw;
+    background-color: white;
+    overflow: hidden;
+    color: rgb(51,153,102);
+    font-weight: 700;
+    font-size: 4vw;
+}
+
+.MingMenuItem-item {
+    cursor: pointer;
+}
+
+.MingMenuItem-item:active {
+    cursor: pointer;
+    background-color: rgb(142,214,232);
+}
+.MingMenuItem. bold {
+    font-weight: bold;
+}
+.MingMenuItem-ul {
+    margin-left: 13px;
+    line-height: 1.5em;
+
+}
+.MingMenuItem-li{
+    /*background-color: pink;*/
+    margin-top: 2vw;
+    margin-bottom: 2vw;
+    list-style-type:none;
+    line-height: 6vw;
+    margin-left: 5vw;
+    font-size: 4vw;
+}
+.MingMenuItem-img{
+    position: absolute;
+    left: 40vw;
+    width: 15px;
+    height: 15px;
+    transform: translateY(1vw);
+}

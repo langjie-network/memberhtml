@@ -1,0 +1,87 @@
+body{
+
+}
+.cardImg{
+    width: 52.49266vw;
+    height: 45.89442vw;
+
+}
+
+header{
+    height: 40vw;
+    width: 90vw;
+    display: flex;
+    margin: 0 auto;
+}
+
+
+
+li{
+    list-style-type:none;
+}
+
+.card_info>ul>li {
+    height:12vw;
+}
+.card_info{
+    width: 90vw;
+    margin: 0 auto;
+}
+.card_info-head{
+    color: rgb(62,62,62);
+    font-size: 5.27859vw;
+    font-weight: 350;
+}
+
+.card_info-body{
+    font-size: 5vw;
+    line-height: 12vw;
+    overflow: scroll;
+    height: 90vw;
+}
+
+.card_info-body>ul>li{
+    width: 90vw;
+    overflow:hidden;
+    height: 10.26392vw;
+    white-space: nowrap;
+    text-overflow:ellipsis;
+}
+
+
+.card_info_bottom_line{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 2vw;
+    padding-left: 2vw;
+}
+.card_info_bottom_line div{
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
+}
+
+.tail_btn{
+
+}
+.kaishishiyongbtn{
+    position: relative;
+    display: block;
+    width: 35.10997vw;
+    height: 12.44721vw;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    font-weight: 700;
+    font-size: 7vw;
+    text-align: center;
+    line-height:12.44721vw;
+    text-decoration: none;
+    color: white;
+    border-radius: 4px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    overflow: hidden;
+    background-color: rgb(51,153,102);
+    border-radius: 2.49266vw;
+}

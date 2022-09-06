@@ -1,0 +1,53 @@
+
+.header-wrap {
+    display: flex;
+    width: 100vw;
+    height: 14.22287vw;
+    top:0;
+    position: sticky;
+    background-color: rgb(63,81,181);
+    justify-content: space-between;
+}
+.header-wrap .header-wrap__title{
+    color: white;
+    line-height: 14.22287vw;
+    letter-spacing:0.5vw;
+    font-size: 6.8vw;
+    /*background-color: pink;*/
+}
+
+.left-back-btn {
+    width: 24vw;
+    height: 44px;
+    top:0;
+    position: relative;
+}
+
+.left-menu-wrap{
+    width: 15vw;
+    padding-top:  4vw;
+    padding-left: 4.39882vw;
+}
+
+.left-menu-wrap .left-menu-img{
+    width: 6.49266vw;
+    vertical-align:middle;
+    content: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/san_heng.png");
+}
+
+.left-menu-wrap .left-back-img{
+    width: 2.49266vw;
+    vertical-align:middle;
+    content: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/white_left.png");
+}
+
+.left-menu-wrap span{
+    margin-left: 1.05278vw
+}
+
+.avatar img {
+    height: 12vw;
+    margin: 1vw 3vw;
+    border-radius: 50%;
+
+}

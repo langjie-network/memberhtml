@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/memberhtml/common/css/index.css" />
+    <script src="/memberhtml/common/lib/ming_mock/ming_mock_vue.js"></script>
+    <script src="/memberhtml/pages/pinLogin/config.js"></script>
+    <script src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/petite-vue.iife.js"></script>
+    <style>
+        .pinHeader{
+            margin-top: 9.25925vw;
+            font-size: 4.62962vw;
+            text-align: center;
+            color: #908e8e;
+        }
+
+        .pinContent{
+            margin-top: 9.25925vw;
+            font-size: 4.62962vw;
+            text-align: center;
+            color: #908e8e;
+        }
+
+    </style>
+    <title>密码生成</title>
+    <script>
+        M.userInfo = {
+            "lj_token":"<%- result.lj_token%>",
+            "unionid": "<%- result.unionid%>",
+            "name": "<%- result.name%>",
+            "company": "<%- result.company%>",
+            "open_id": "<%- result.open_id%>",
+            "avatar":"<%- result.avatar%>",
+            "param":"<%- result.param%>",
+        }
+        const paramSplit=M.userInfo.param.split(".")
+        M.p={
+            pin:paramSplit[0],
+            mid:paramSplit[1],
+            generateTimestamp:paramSplit[2]
+        }
+    </script>
+</head>
+<body>
+<div  v-cloak id="main" @vue:mounted="mounted()">
+    <div>
+        <div class="pinHeader">
+            <p>pin码:{{Mp.pin}}</p>
+            <p>的密码为</p>
+        </div>
+        <div class="pinContent">
+            <p>{{pinSecret}}</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script src="/memberhtml/pages/pinLogin/index.js"></script>

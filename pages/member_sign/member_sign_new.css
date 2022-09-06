@@ -1,0 +1,321 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+ul li {
+    list-style:none;
+}
+a {
+    text-decoration: none;
+}
+html {
+    /*font-size: 100px;*/
+    font-family: '微软雅黑';
+}
+
+body{
+    background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/member_sign_bg.png");
+    background-size:100vw 100vh;
+    margin: 0;
+    padding: 0;
+
+}
+.calendar{
+    width: 89.18128vw;
+    height: 137vw;
+    background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/member_sign_calendar.png");
+    background-size:100% 100%;
+    margin: 0 auto;
+    position: relative;
+}
+.calendar_month{
+    width:58.18713vw;
+    height: 10vw;
+    display: flex;
+    justify-content: space-between;
+    left: 17vw;
+    top: 18vw;
+    font-size: 5vw;
+    position: absolute;
+    color: white;
+    font-weight: bold;
+}
+.calendar_month_data{
+    font-size: 6vw;
+    height: 10vw;
+}
+.calendar_month_arrow{
+
+    font-size: 8vw;
+    height: 10vw;
+    transform: translateY(-2vw);
+}
+
+.continuous_day{
+    position: absolute;
+    top:8vw;
+    right: -9vw;
+    font-size: 3vw;
+}
+.continuous_day span{
+    font-size:6vw ;
+}
+
+.calendar_week{
+    width: 81.1404vw;
+    position: absolute;
+    top: 38.59649vw;
+    left: 3.9474vw;
+    font-size: 4.09356vw;
+    margin: 0 auto;
+  
+}
+.calendar_week ul{
+    display: flex;
+    justify-content: space-between;
+}
+
+.calendar_week ul li{
+    width: 10vw;
+    /*background-color: yellow;*/
+    text-align: center;
+    color: red;
+    font-weight: 700;
+}
+
+.calendar_day{
+    width: 80.848vw;
+   
+    position: absolute;
+    top: 46.63742vw;
+    left: 4.5474vw;
+    display: inline-grid;
+    justify-content: center;
+    grid-template-columns: repeat(7, 10.64912vw);
+    grid-gap: 2.924vw 1.193vw;
+}
+
+
+.day-item{
+    text-align: center;
+    width: 9.6491vw;
+    height: 12.4269vw;
+    border-radius: 1vw;
+}
+
+
+.day-item_num{
+    color: white;
+    margin-top: 1vw;
+}
+.sign_ok {
+    display: block;
+    font-size: 20px !important;
+    color: white !important;
+    margin-top: -1vw;
+}
+
+.yuanbaoImg{
+    display: block;
+    width: 6vw;
+    margin: 0 auto;
+}
+
+
+.vip_sign_group_btn{
+    width: 23.02052vw;
+    position: absolute;
+    transform: translateY(-5vw);
+    z-index: 2;
+}
+
+
+
+
+.tishibang{
+    overflow: hidden;
+    width: 86.69590vw;
+    height: 67vw;
+    margin: 0 auto;
+    background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/sign_tishi_bang.png");
+    background-size: 100%,100%;
+    margin-top: 2vw;
+    z-index: 1;
+}
+
+.qiandaozhixing{
+    width: 60vw;
+    height: 30vw;
+    margin-top: 8vw;
+    margin-left: 13vw;
+}
+.qiandaozhixing__header{
+   text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+.qiandaozhixing__list ul li{
+    display: flex;
+    justify-content: space-between;
+    width: 58vw;
+    height: 9vw;
+}
+
+.qiandaozhixing__list .huanguyan{
+    width: 10vw;
+}
+
+.sign_order{
+    width: 7.30994vw;
+    height: 10vw;
+    background-size: 7.30994vw;
+    background-repeat: no-repeat;
+}
+
+.sign_order_num{
+    transform: translateX(2.8vw);
+    color: red;
+    font-size: 4vw;
+    font-weight: 700;
+}
+.sign_avatar{
+    width: 6vw;
+    height: 6vw;
+}
+.sign_name{
+    color: rgb(127,124,124);
+    font-size: 4vw;
+}
+.sign_time{
+    color: rgb(127,124,124);
+    font-size: 3vw;
+    line-height: 7vw;
+}
+
+.todayRanking{
+    width: 60vw;
+    margin: 0 auto;
+    margin-top: 8vw;
+    font-size: 4vw;
+    text-align: center;
+    color: rgb(127,124,124);
+}
+
+.weui_icon_checked{
+    position: absolute;
+}
+
+.memberListFormWrap{
+    top:5vw;
+    width: 90.46920vw;
+    height: 132.72727vw;
+    transform: translateX(5vw);
+    position: absolute;
+    background-color: rgb(248,248,248);
+    border-radius:1.31964vw ;
+    z-index: 1000;
+}
+.memberListForm{
+    padding: 8vw;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 8.5vw;
+    width: 74.48680vw;
+}
+
+.memberListForm-item{
+    height: 15.54252vw;
+    height: 20vw;
+    margin: 4vw;
+    margin-top: 0.5vw;
+    position: relative;
+}
+
+.memberListForm-memberItem{
+
+
+
+}
+
+.memberListForm-portrait-wrap{
+    border: 0.29325vw solid rgb(208,152,126);
+    height: 15.54252vw;
+    width: 15.54252vw;
+}
+
+.memberListForm-portrait{
+    width: 100%;
+    height: 100%;
+}
+.memberListForm-member-name{
+    color: rgb(126,124,124);
+    text-align: center;
+}
+
+.memberListForm-huanyipi-btn{
+    border-radius: 3.81231vw;
+    margin-left: 33vw;
+    color: red;
+    font-size:4.54545vw ;
+    width: 24.92668vw;
+    height: 8.94428vw;
+    line-height: 8.94428vw;
+    background-color:rgb(242,212,237) ;
+}
+.memberListForm-huanyipi-btn{
+    bottom: 8vw;
+    position: absolute;
+    text-align: center;
+}
+
+
+
+.g_coverMaskDiv{
+    position:fixed;
+    left:0px;
+    top:0px;
+    background:rgba(0, 0, 0, 0.8);
+    width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+    height:100%;
+    filter:alpha(opacity=60);  /*设置透明度为60%*/
+    opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+    z-Index:1000;
+}
+
+.no_fellow_title{
+    text-align:center;
+    font-size: 3.5vw;
+    text-align: center;
+    margin-top: 3.6vw;
+
+}
+
+.member_regist_bg_img{
+    width: 63vw;
+    margin: 0 auto;
+    margin-top: 4.3vw;
+
+}
+
+.member_regist_bg_img img{
+    width: 63vw;
+
+}
+
+
+.no_fellow_tail_div{
+    width: 50vw;
+    margin: 0 auto;
+    margin-top: 2vw;
+    text-align: center;
+}
+
+
+.no_fellow_tail_div img{
+    height: 5vw;
+    vertical-align:middle;
+}
+.no_fellow_tail_div span{
+    font-size: 2.2vw;
+}

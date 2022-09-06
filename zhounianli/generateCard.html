@@ -1,0 +1,449 @@
+<!--//////////////----------start-------////////////////-->
+<script>
+    //文字模板
+    m={
+        name:"田小红",
+        gender:"女士",
+        year:new Date().getFullYear()
+    }
+    //绘图模板
+    config = {
+         backGround:{  //背景
+            url:"https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/laohuchoujiangbg.jpg",
+            position:[0,0,720,1150], // 背景图片的大小等于画布尺寸
+         },
+        qrCode: {  //二维码
+            url: "https://www.baidu.com",
+            position: [433, 870, 225, 225], //前两个是位置,后两个是大小
+            click:(v)=>{
+                $("#mgsLogId2").html("我是二维码--")
+            }
+        },
+        list: [
+            {
+                type: "img", //图片
+                url: "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/default_avatar.png",
+                position: [433, 870, 25, 25]
+            },
+            {
+                type: "img", //图片
+                url: "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/default_avatar.png",
+                position: [0, 50, 100, 100]
+            },
+            {
+                type: "text", //文本
+                color: "red", //文本颜色
+                font: "50px 楷体", //文本字体
+                position:[35,450,2118,50],
+                content: ()=>`${m.year}年,我是文本${m.name}${m.gender}`(),
+                clickPosition:[41,409,670,472], //点击有效范围
+                click:(v)=>{
+                    $("#mgsLogId2").html("我是田小红--"+v.font)
+                }
+            },
+            {
+                type: "rect", //矩形
+                fillColor: "red",//填充色
+                borderColor: "green",//边框色
+                lineWidth:20,//线宽
+                position:[200,200,100,100],
+            },
+            {
+                type: "rect", //矩形
+                borderColor: "pink",//边框色
+                lineWidth:20,//线宽
+                position:[200,500,100,200],
+            },
+            {
+                type: "line", //直线
+               // fillColor: "red",//填充色
+                borderColor: "green",//边框色
+                lineWidth:2,//线宽
+                position:[    // 分段直线的转折点
+                    [10,220],
+                    [110,220],
+                    [110,120]
+                ],
+            },
+            {
+                 type: "ellipse", //椭圆
+                 fillColor: "red",//填充色
+                 borderColor: "green",//边框色
+                 lineWidth:12,//线宽
+                 //[起点x,起点y,半径x,半径y,旋转的角度，起始角，结果角,顺时针还是逆时针false=顺时针]
+                 position:[500,300,100,200,2,0,2*Math.PI,true],
+            },
+        ]
+    }
+
+    async function main0(){
+           //显示图片
+           await render();
+           //下载图片
+           downloadImage("p1")
+           await M.delayMs(1000)
+          //修改图片
+          config.qrCode.position=[0, 870, 225, 225]
+          //显示图片
+          await render();
+          //再下载图片
+          downloadImage("p2")
+          await M.delayMs(1000)
+          config.list[6].position=[500,700,100,200,1,0,Math.PI,true];
+          await render();
+    }
+
+
+
+    nameList=["田小红","李大红","张三"];
+
+    async function main(){
+       for (let i=0;i<nameList.length;i++){
+           await render();
+            m.name=nameList[i];
+            downloadImage("p"+i)
+       }
+        //再下载图片
+        await M.delayMs(1000)
+
+    }
+
+
+
+
+
+
+    async function drawCard() {
+        //画背景图
+        await drawImg({
+            url: config.backGround.url,
+            position: config.backGround.position,
+
+        });
+        //画二维码
+        if(M.qrCodeImgUrl){
+            await drawImg({
+                url: M.qrCodeImgUrl,
+                position: config.qrCode.position
+            });
+        }
+        //画其他元素
+        for (let i=0;i<config.list.length;i++){
+            let item=config.list[i];
+            if(item.type=="img"){
+                await drawImg({
+                    url: item.url,
+                    position:item.position,
+                });
+            }
+            if(item.type=="text"){
+                M.context.fillStyle  = item.color;
+                M.context.font =  item.font;
+                M.context.fillText(item.content,item.position[0],item.position[1]);
+            }
+            if(item.type=="rect"){
+                if(item.borderColor){
+                    M.context.strokeStyle=item.borderColor
+                }
+                if(item.fillColor){
+                    M.context.fillStyle  =item.fillColor;
+                }
+                M.context.beginPath()
+                M.context.lineWidth=item.lineWidth;
+                M.context.rect(item.position[0],item.position[1],item.position[2],item.position[3]) ;
+                M.context.closePath();
+                if(item.borderColor){
+                    M.context.stroke();
+                }
+                if(item.fillColor){
+                    M.context.fill();
+                }
+            }
+
+            if(item.type=="line"){
+                if(item.borderColor){
+                    M.context.strokeStyle=item.borderColor
+                }
+                if(item.fillColor){
+                    M.context.fillStyle  =item.fillColor;
+                }
+                M.context.lineWidth=item.lineWidth;
+                M.context.beginPath()
+                for (let i=0;i<item.position.length;i++){
+                    if(i==0){
+                        M.context.moveTo(item.position[0][0], item.position[0][1]);
+                    }else {
+                        M.context.lineTo(item.position[i][0], item.position[i][1])
+                    }
+                    if(item.borderColor){
+                        M.context.stroke();
+                    }
+                    if(item.fillColor){
+                        M.context.fill();
+                    }
+
+                }
+            }
+
+            if(item.type=="ellipse"){
+                if(item.borderColor){
+                    M.context.strokeStyle=item.borderColor
+                }
+                if(item.fillColor){
+                    M.context.fillStyle  =item.fillColor;
+                }
+                M.context.beginPath()
+                M.context.lineWidth=item.lineWidth;
+                M.context.ellipse(
+                    item.position[0],
+                    item.position[1],
+                    item.position[2],
+                    item.position[3],
+                    item.position[4],
+                    item.position[5],
+                    item.position[6],
+                    item.position[7],
+                );
+
+                M.context.closePath();
+                if(item.borderColor){
+                    M.context.stroke();
+                }
+                if(item.fillColor){
+                    M.context.fill();
+                }
+            }
+
+
+
+
+        }
+    }
+
+
+
+</script>
+
+
+
+
+
+<!--//////////////----------end-------////////////////-->
+
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<script type="text/javascript"  src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/jquery/jquery_and_ming_qrcode.js"></script>
+
+<style>
+    body{
+        margin: 0 ;
+        background-color: black;
+    }
+</style>
+
+<body>
+
+<img id="cardImgId"></img>
+<div style="display: none" id="qr_container"></div>
+<pre id="mgsLogId" style="background-color: pink; font-size: 50"> </pre>
+<pre id="mgsLogId2" style="background-color: pink; font-size: 50"> </pre>
+
+</body>
+
+
+<script>
+    M = {}
+    M.delayMs=async function (ms){
+        return new Promise(r=>{
+            setTimeout(()=>{
+                r(1)
+            },ms)
+        })
+    }
+
+
+    main();
+    $("body").click(e=>{
+        let x=e.pageX;
+        let y=e.pageY;
+
+        $("#mgsLogId").html(`${x},${y}---`)
+
+        if(config.qrCode.click){
+            let position=config.qrCode.clickPosition?config.qrCode.clickPosition:config.qrCode.position
+            let p1x,p1y,p2x,p2y;
+            if(config.qrCode.position){
+
+                 p1x=  position[0];
+                 p1y=  position[1];
+                 p2x=  position[0]+ position[2];
+                 p2y=  position[1]+position[3];
+            }
+            if(config.qrCode.clickPosition){
+
+                 p1x=  position[0];
+                 p1y=  position[1];
+                 p2x=  position[2];
+                 p2y=  position[3];
+            }
+            if(x>Math.min(p1x,p2x) && x< Math.max(p1x,p2x) &&  y>Math.min(p1y,p2y) && y< Math.max(p1y,p2y)) {
+                $("#mgsLogId").html(`${x},${y}---${p1x},${p1y},${p2x},${p2y},`)
+                config.qrCode.click(config.qrCode)
+            }
+        }
+
+        for (let i=0;i<config.list.length;i++){
+            let item=config.list[i];
+            let position=item.clickPosition?item.clickPosition:item.position
+            let p1x,p1y,p2x,p2y;
+            if(item.position){
+                p1x=  position[0];
+                p1y=  position[1];
+                p2x=  position[0]+ position[2];
+                p2y=  position[1]+position[3];
+            }
+            if(item.clickPosition){
+                p1x=  position[0];
+                p1y=  position[1];
+                p2x=  position[2];
+                p2y=  position[3];
+            }
+            if(x>Math.min(p1x,p2x) && x< Math.max(p1x,p2x) &&  y>Math.min(p1y,p2y) && y< Math.max(p1y,p2y)) {
+                $("#mgsLogId").html(`${x},${y}---${p1x},${p1y},${p2x},${p2y},`)
+                item.click(item)
+            }
+
+        }
+    })
+
+
+    async function drawImg({
+                               url, position
+                           }) {
+        return new Promise(((resolve, reject) => {
+                var myImage2 = new Image();
+                myImage2.src = url;
+                myImage2.crossOrigin = 'Anonymous';
+
+                myImage2.onload = function () {
+                    M.context.drawImage(myImage2, position[0], position[1], position[2], position[3]);
+                    resolve(1);
+                }
+            }
+        ))
+    }
+
+    async function render() {
+        await init();
+        await drawCard();
+        await disPlayImg();
+    }
+
+
+
+    function init() {
+        if(config.qrCode){
+            M.qrCodeImgUrl = createQr(config.qrCode.url)
+        }
+        M.canvas = document.createElement("canvas");
+        M.canvas.width = config.backGround.position[2];
+        M.canvas.height = config.backGround.position[3];
+        M.context = M.canvas.getContext("2d");
+        M.context.rect(0, 0, M.canvas.width, M.canvas.height);
+        M.context.fillStyle = "#fff";
+        M.context.fill();
+    }
+
+    function disPlayImg() {
+        var base64 = M.canvas.toDataURL("image/png"); //"image/png" 这里注意一下
+        var allResult = document.getElementById("cardImgId");
+        allResult.setAttribute('src', base64);
+        M.base64=base64;
+    }
+
+
+    // 生成二维码
+    function createQr(valText) {
+        document.createElement('canvas').getContext('2d');
+        // 采用正则表达式判断输入的内容是否是中文
+        var reg = /^[\u0391-\uFFE5]+$/;
+        if (valText != "" && !reg.test(valText)) {
+            // 如果不是中文，直接将输入的内容转换成二维码
+            $('#qr_container').qrcode(
+                {
+                    render: "canvas",
+                    height: 180,
+                    width: 180,
+                    correctLevel: 0,
+                    text: valText,
+                    src: 'https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/qrcodeYuanbao_80_80.png'
+
+                });
+        } else {
+            // 如果是中文，直接将输入的内容字符串转换成UTF-8，然后再转换成二维码
+            $('#qr_container').qrcode({
+                render: "canvas",
+                height: 180,
+                width: 180,
+                correctLevel: 0,
+                text: utf16to8(valText),
+                src: 'https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/qrcodeYuanbao_80_80.png'
+
+            });
+        }
+        //获取网页中的canvas对象
+        var mycanvas1 = document.getElementsByTagName('canvas')[0];
+        //将转换后的img标签插入到html中
+        var imgSrc = mycanvas1.toDataURL("image/png")
+        $('canvas').remove();
+        return imgSrc;
+    }
+
+    // 字符编码
+    function utf16to8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for (i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+            }
+        }
+        return out;
+    }
+
+
+    downloadImage = (name) => {
+        const link = document.createElement('a')
+        link.setAttribute('download', name)
+        const image = new Image()
+        // 添加时间戳，防止浏览器缓存图片
+        image.src = M.base64
+        // 设置 crossOrigin 属性，解决图片跨域报错
+        image.setAttribute('crossOrigin', 'Anonymous')
+        image.onload = () => {
+            link.href = M.base64;
+            link.click()
+        }
+    }
+
+
+</script>
+
+

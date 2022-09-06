@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物流</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/weui/2.4.4/style/weui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/pure_kuaidi.css" />
+    <script src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/jquery/zepto.min.js"></script>
+    <script src="/memberhtml/common/lib/ming_mock/petite_ming_mock.js"></script>
+    <script src="./js/pure_kuaidi_server.js"></script>
+
+</head>
+<body>
+<div class="status_head">
+    <img class="goods_img" style="width: 20vw" src="">
+    <ul class="steps">
+        <li class="active">待发货</li>
+        <li class="">已发货</li>
+        <li class="">已收货</li>
+    </ul>
+</div>
+<div id="wuliuCon">
+
+
+    <div id="wuliuDiv">
+        <div class="track_info">
+            <a class="track_info_serve" href="javascript:;" style="display:none" id="wuliudongdong">联系卖家</a>
+            <div class="track_info_item">
+                <p class="track_info_item_label">物流公司：</p>
+                <div class="track_info_item_content" id="kuaidi_company_id">
+<!--                    中通-->
+                </div>
+            </div>
+            <div class="track_info_item">
+                <p class="track_info_item_label">快递单号：</p>
+                <div class="track_info_item_content" id="kuaidi_danhao_id">
+<!--                    7764528089-->
+                </div>
+            </div>
+        </div>
+
+        <ul class="track_shipflow">
+            <script id="track_shipflow_id_template" type="text/template">
+                <div>
+                    ${list.map(u=>{
+                    return `<li class="track_shipflow_item ${u.cur}"> <i class="track_shipflow_item_status type_dot"></i>
+                    <div class="track_shipflow_item_msg">
+                        <p class="track_shipflow_item_msg_text"> ${u.status} </p>
+                        <p class="track_shipflow_item_msg_time"> ${u.time}</p>
+                    </div>
+                </li>`
+                    }).join("")}
+                </div>
+            </script>
+        </ul>
+    </div>
+    <a href="javascript:" onclick="querenShuohuoclick()" id="gotoGoodsInfoId" class="weui-btn_cell weui-btn_cell-default ok_bth">确认收货</a>
+    <div class="tailDiv">
+
+    </div>
+</div>
+
+<script>
+
+</script>
+<script src="./js/pure_kuaidi.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+
+
+.rootFileDetailHeader{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.rootFileDetailIconImg{
+    display: block;
+    width: 45.45454vw;
+    height: 45.45454vw;
+    margin-top: 5vw;
+}
+
+
+.vircard-title {
+    color: rgb(76, 156, 118);
+    margin-left: 0;
+    margin-top: 6vw;
+    font-size: 4vw;
+    margin-bottom: 2vw;
+    margin-left: 5vw;
+    /*background: red;*/
+}
+
+.vircard-title img{
+    transform: translateY(1.5vw);
+    margin-left: 2vw;
+    width: 6vw;
+}
+
+.downloadBtnImg{
+    height: 8.7636vw;
+    width: 24.1vw;
+    margin-top: 15vw;
+    display: block;
+}
+
+
+
+
+
+.coverMaskDiv2{
+    position:fixed;
+    left:0px;
+    top:0px;
+    width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+    height:100%;
+    background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/android_help-v3.png");
+    background-size: 100% 100%;
+    z-Index:1000;
+}
+
+.coverMaskDiv3{
+    position:fixed;
+    left:0px;
+    top:0px;
+    width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+    height:100%;
+    background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/ios_help-v2.png");
+    background-size: 100% 100%;
+    z-Index:1000;
+}
+
+
+
+.help1{
+    position:absolute;
+    left:50vw;
+    top:10vw;
+    color: red;
+    z-Index:1000;
+}
+.help2{
+    position:absolute;
+    left:50vw;
+    top:80vh;
+    color: red;
+    z-Index:1000;
+}
+
+.burndiskDetailTabDiv{
+    margin-top: 5vw;
+}
+#burndiskDetailTabId .weui-bar__item_on{
+    background-color: rgb(51,153,102);
+    color: white;
+}
+#noticlientfileTabId .weui-bar__item_on{
+    background-color: rgb(51,153,102);
+    color: white;
+}
+
+.burndiskDetailTabDiv .weui-navbar__item{
+    border: 1px rgb(85,170,127) solid;
+    border-top-left-radius :2.19vw;
+    border-top-right-radius:9.21052vw;
+    color: rgb(51,153,102);
+    font-weight: 400;
+    font-size: 5.27859vw;
+    vertical-align: center;
+    line-height: 100%;
+}
+
+
+.weui-tab__content{
+    margin-top: 0vw;
+
+}
+
+
+.budingList {
+    width: 100vw;
+    height: 100%;
+    margin: 0 auto;
+    background-color: rgb(225,240,232);
+}
+.budingOverflowy{
+    overflow-y:scroll;
+}
+
+
+.budingList::-webkit-scrollbar {
+    background-color: white;
+}
+.budingList::-webkit-scrollbar-thumb {
+    background: #000;
+}
+.budingListLi{
+    border-top: silver 1px solid;
+    border-bottom: silver 1px solid;
+    justify-content: space-between;
+    display: flex;
+    margin:0px;
+    height: 10vw;
+    line-height: 12vw;
+}
+
+
+.budingListLi .fileInfo{
+    margin-left: 5vw;
+    width: 30vw;
+    font-size: 4vw;
+    white-space: nowrap;
+}
+
+
+.budingListLi .budingItemName{
+    margin-left: 5vw;
+    width: 40vw;
+    font-size: 3vw;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+.budingListLi .budingHeadName{
+    margin-left: 5vw;
+    width: 30vw;
+    font-size: 4vw;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+
+.budingListLi div:nth-child(2){
+    /*background-color: red;*/
+    font-size: 3vw;
+    width: 20vw;
+}
+.rootFileDetailCollect{
+    width: 9.35672vw;
+    top:   21.19883vw;
+    right: 4.38596vw;
+    position: absolute;
+}
+
+.rootFileDetailImgs_more{
+    top:   62vw;
+    right: 4vw;
+    position: absolute;
+    font-size: 3vw;
+    color: rgb(0,128,255) ;
+}
+
+.rootFileDetailImgs_more img{
+    vertical-align: middle;
+    width: 5vw;
+}
+
+.downloadImg {
+    margin-top: 3vw;
+    height: 5vw;
+    margin-right: 5vw;
+}

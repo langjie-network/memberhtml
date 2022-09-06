@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../public/js/ming_mock/ming_mock_vue.js"></script>
+    <script src="https://minglie.gitee.io/mingpage/static/public/jsoneditor/jsoneditor.min.js"></script>
+    <link href="https://minglie.gitee.io/mingpage/static/public/jsoneditor/jsoneditor.min.css" rel="stylesheet">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #root{
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+</body>
+</html>
+
+<script type="module">
+       import '../../public/js/config.js';
+
+
+       async function main(){
+           var jsonEditor1 = document.getElementById('root');;
+           var jsonOptions = {
+               mode: 'code',
+               modes: ['code', 'form', 'text', 'tree', 'view'],
+               onError: function(err) {
+
+               }
+           };
+          let jsonFileUrl=  window.location.search.split("?fileUrl=")[1]
+           jsonFileUrl= decodeURIComponent(jsonFileUrl)
+           let jsonContent= await  M.request.get(jsonFileUrl)
+           M.jsonEditor = new JSONEditor(jsonEditor1, jsonOptions, [] );
+           M.jsonEditor.set(jsonContent);
+       }
+
+
+       main();
+
+</script>

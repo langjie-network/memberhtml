@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../../public/js/ming_mock/ming_mock_vue.js"></script>
+    <script src="../../../public/js/ming_mock/ming_router.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+        <div style="width: 90vw;margin: 0 auto">
+                <ming-swiper ></ming-swiper>
+        </div>
+</body>
+</html>
+
+
+
+<script type="module">
+
+    import MingSwiper from "./ming-swiper.js";
+
+    app.get("/mingSwiPerGetImgList",(req,res)=>{
+        let imgList=[
+            "https://www.langjie.com/img//gallery/DynaTest.jpg",
+            "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/products/D901.jpg",
+            "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/products/D921.jpg"
+        ]
+        res.send(imgList);
+    });
+
+    MingRouter.registWebComponent(MingSwiper);
+
+
+
+
+</script>

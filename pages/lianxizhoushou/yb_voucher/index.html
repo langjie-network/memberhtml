@@ -1,0 +1,18 @@
+<div>
+    <div>
+        <header style="text-align: center;font-size: 10vw">{{getHeaderTitle()}}</header>
+        <div>
+            <div v-if="ybVouchert.state=='unclaimed'">
+                <div>
+                    <div>
+                        <a @click="vipRegistYbVoucherClaimed" href="javascript:"
+                           class="weui-btn weui-btn_large weui-btn_primary">领取</a>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生成二维码</title>
+    <script src="https://minglie.gitee.io/ming_hyperlink_manage/public/easyui/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+</head>
+<body>
+
+<img id="avatar"></img>
+<div style="display: none" id="qr_container"></div>
+
+<script>
+    drawAndShareImage("avatar","https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/member_sign_group_no_fellow.png",
+        "https://www.baidu.com/")
+
+
+    function drawAndShareImage(imgId,bg,qr){
+        let imgSrc= createQr(qr)
+        var canvas = document.createElement("canvas");
+        canvas.width = 720;
+        canvas.height = 1157;
+        var context = canvas.getContext("2d");
+        context.rect(0 , 0 , canvas.width , canvas.height);
+        context.fillStyle = "#fff";
+        context.fill();
+        var myImage = new Image();
+        myImage.src = bg;
+        myImage.crossOrigin = 'Anonymous';
+        myImage.onload = function(){
+            context.drawImage(myImage , 0 , 0 , 720 , 1157);
+            var myImage2 = new Image();
+            myImage2.src = imgSrc;
+            myImage2.crossOrigin = 'Anonymous';
+            myImage2.onload = function(){
+                context.drawImage(myImage2 , 433 , 870 , 225 , 225);
+                var base64 = canvas.toDataURL("image/png"); //"image/png" 这里注意一下
+                var img = document.getElementById(imgId);
+                img.setAttribute('src' , base64);
+            }
+        }
+    }
+
+    // 生成二维码
+    function createQr(valText){
+        document.createElement('canvas').getContext('2d');
+        // 采用正则表达式判断输入的内容是否是中文
+        var reg=/^[\u0391-\uFFE5]+$/;
+        if(valText!=""&&!reg.test(valText)){
+            // 如果不是中文，直接将输入的内容转换成二维码
+            $('#qr_container').qrcode({render:"canvas",height:180, width:180,correctLevel:0,text:valText});
+        }else{
+            // 如果是中文，直接将输入的内容字符串转换成UTF-8，然后再转换成二维码
+            $('#qr_container').qrcode({render:"canvas",height:180, width:180,correctLevel:0,text:utf16to8(valText)});
+        }
+        //获取网页中的canvas对象
+        var mycanvas1=document.getElementsByTagName('canvas')[0];
+        //将转换后的img标签插入到html中
+        var imgSrc = mycanvas1.toDataURL("image/png")
+        $('canvas').remove();
+        return imgSrc;
+    }
+
+    // 字符编码
+    function utf16to8(str) {
+        var out, i, len, c;
+        out = "";
+        len = str.length;
+        for(i = 0; i < len; i++) {
+            c = str.charCodeAt(i);
+            if ((c >= 0x0001) && (c <= 0x007F)) {
+                out += str.charAt(i);
+            } else if (c > 0x07FF) {
+                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+                out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            } else {
+                out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));
+                out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));
+            }
+        }
+        return out;
+    }
+
+
+</script>
+</body>
+</html>
+
+<script>
+    const source = new EventSource('http://localhost:8888/sseServer?clientId=77');
+    source.addEventListener('slide', e => {
+        location.reload()
+    }, false);
+</script>

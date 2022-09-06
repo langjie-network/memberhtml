@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../ruyunsuixing/public/js/ming_mock/ming_mock_vue.js"></script>
+    <script src="./config.js"></script>
+    <script src="../../ruyunsuixing/public/js/controller/LoginController.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.0-beta.7/vue.global.prod.min.js"></script>
+    <title>login</title>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+<script>
+    let  weui={}
+    weui.toast=(a,v)=> alert(a)
+
+    window.vueApp=Vue.createApp( {
+        methods: {
+
+        },
+        computed: {},
+        async mounted() {
+            let r1= await MIO.member_ajax_memberRedict_getRedictUrl();
+            if(r1.code==200){
+                if(!M.isWeiXin){
+                    r1.data=  r1.data.replaceAll("wx","www");
+                }
+                location.href=r1.data;
+            }
+        }
+    });
+    vueApp.mount("#root");
+    vueApp.config.globalProperties.$gloable_state ={};
+</script>
+</body>
+</html>
+
+

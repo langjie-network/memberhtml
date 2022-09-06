@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: url(<%= ad_img%>) no-repeat top left;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            height: 100vh;
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+
+
+        p {
+            font-size: 20px;
+            right: 3vh;
+            top: 0vh;
+            position: absolute;
+
+        }
+        .nav1{
+            position: relative ;
+        }
+    </style>
+
+</head>
+
+<body onclick="bodyClick()">
+
+
+
+
+</body>
+
+</html>
+
+<script>
+     let adimg= '<%= ad_img%>'
+
+    if(!adimg){
+       window.location.href = `/memberhtml/zhounianli/dxq.html?id=<%= id%>`;
+    }
+    bodyClick=function (){
+        window.location.href = `/memberhtml/zhounianli/dxq.html?id=<%= id%>`;
+    }
+</script>

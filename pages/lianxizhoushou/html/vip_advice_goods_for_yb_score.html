@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>礼品推荐</title>
+    <script src="https://minglie.gitee.io/mingpage/static/public/vue/3.2/vue.global.prod.min.js"></script>
+    <script src="/memberhtml/common/lib/ming_mock/petite_ming_mock.js"></script>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/jquery.min.js"></script>
+    <script type="text/javascript" src="../script/common.js"></script>
+    <style>
+        .btnBar {
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .aui-form-list .onlyService {
+            display: none;
+        }
+        #distpicker .form-group {
+            margin-top: -25px;
+        }
+        .memberListFormWrap{
+            top:50vw;
+            width: 90.46920vw;
+            height: 30.72727vw;
+            transform: translateX(5vw);
+            position: absolute;
+            background-color: rgb(248,248,248);
+            background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_advice_goods_for_yb_score_bg.png");
+            background-repeat: no-repeat;
+            background-position: 45% 40%;/*这个是按从左往右，从上往下的百分比位置进行调整*/
+            background-size: 80%;/*按比例缩放*/
+            border-radius:1.31964vw ;
+            z-index: 1000;
+        }
+
+        .g_coverMaskDiv{
+            position:fixed;
+            left:0px;
+            top:0px;
+            background:rgba(0, 0, 0, 0.8);
+            width:100%;  /*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+            height:100%;
+            filter:alpha(opacity=60);  /*设置透明度为60%*/
+            opacity:0.6;  /*非IE浏览器下设置透明度为60%*/
+            z-Index:1000;
+        }
+
+        input{
+            -webkit-user-select:text !important
+        }
+
+        .lookHistoryStyle{
+            margin: 0 auto;
+            position: absolute;
+            bottom: 10vh;
+        }
+        .lookHistoryStyle a{
+            text-align: center;
+            margin-left: 40vw;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="root">
+
+    <div v-if="memberListFormVisable" :class="maskStyle" @click="closeDialog"> ></div>
+
+    <div v-if="memberListFormVisable" class="memberListFormWrap" >
+          <div style="float: right;margin-top: 1vw;margin-right: 3vw">
+              {{daojishiNum}}s
+          </div>
+    </div>
+
+    <div>
+        <div v-if="isSelImgIng==1">
+            生成中...
+        </div>
+        <div v-if="isSelImgIng==2">
+            上传中...
+        </div>
+        <div  v-show="!isSelImgIng">
+            <div >
+                <div class="aui-content">
+                    <div >
+                        <ul class="aui-list aui-form-list" id="formWrap">
+                            <li class="aui-list-item" style="height: 30vw" >
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-list-item-label">图片</div>
+                                    <div class="aui-list-item-input">
+                                        <div class="weui-uploader__bd" style="margin-top: 0px;">
+                                            <ul class="weui-uploader__files" id="uploaderFiles">
+                                                <template  v-for="(item,i) in albumList">
+                                                    <li @click="showImg(item)" class="weui-uploader__file" :style="{
+                                                backgroundImage: 'url('+item.oss_url+')'
+                                            }">
+                                                    </li>
+                                                </template>
+
+                                            </ul>
+                                            <div class="weui-uploader__input-box" style="width: 20vw; height: 20vw; border-radius: 4px;">
+                                                <input id="uploaderInput" @change="uploadAlbum(this)" class="weui-uploader__input" type="file" accept="image/*">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </li>
+                            <li class="aui-list-item" style="height: 20vw">
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-list-item-label" style="white-space: pre-wrap;">备注</div>
+                                    <div class="aui-list-item-input">
+                                        <input v-model="rem" name="content" placeholder="添加备注"></input>
+                                    </div>
+                                </div>
+                            </li>
+<!--                            <li class="aui-list-item"  style="height: 20vw">-->
+<!--                                <div class="aui-list-item-inner">-->
+<!--                                    <div class="aui-list-item-label" style="white-space: pre-wrap;">淘宝链接</div>-->
+<!--                                    <div class="aui-list-item-input">-->
+<!--                                        <input v-model="goods_link" name="content" placeholder="添加淘宝链接"></input>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </li>-->
+                        </ul>
+                        <div class="btnBar">
+                            <div style="display: flex;width: 100vw;justify-content: space-around;margin-top: 2vw">
+                                <div>
+                                    <a  class="weui-btn weui-btn_primary" @click="sub" href="javascript:">提交</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lookHistoryStyle">
+                            <a @click="lookHistory" href="javascript:">历史推荐>></a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="detailAlbumVisable" @click="clickDetailAlbum" class="weui-gallery"  id="gallery" :style="{
+                    display : 'block',
+                    backgroundImage:'url('+detailAlbum.oss_url+')',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition:'50%,50%'
+                }" >
+                <span class="weui-gallery__img" id="galleryImg"></span>
+                <div class="weui-gallery__opr">
+                    <a href="javascript:" class="weui-gallery__del" >
+                        <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+
+
+<script>
+    app.get("/vipAdviceGoodsForYbScoreGetMyVipAdviceGood",async (req,res)=>{
+        let r=await   M.request.get("/member_ajax/vipAdviceGoodsForYbScore/getMyVipAdviceGood")
+        res.send(r);
+    })
+
+    app.get("/ossFileAdd",async (req,res)=>{
+        let params={
+            "name": req.params.name,
+            "oss_url":  req.params.oss_url,
+            "biz_type": "vip_advice_goods_for_yb_score",
+            "owner_id": req.params.owner_id
+        }
+        let r=await   M.request.post("/member_ajax/ossFile/add",params)
+        res.send(r);
+    });
+
+
+    app.get("/ossFileDel",async (req,res)=>{
+        let params={
+           id:req.params.id
+        }
+        let r=await   M.request.post("/member_ajax/ossFile/del",params)
+        res.send(r);
+    });
+
+    app.get("/vipAdviceGoodsForYbScoreUpdate",async (req,res)=>{
+        let params={
+            "id": req.params.id,
+            "rem":  req.params.rem,
+            "goods_link": req.params.goods_link
+        }
+        if(req.params.id==-1){
+            res.send({});
+            return
+        }
+        let r=await  M.request.post("/member_ajax/vipAdviceGoodsForYbScore/update",params)
+        res.send(r);
+    })
+
+    M.time=null;
+</script>
+
+
+
+<script>
+    var lj_canvas;
+    var lj_base64 = null;
+    var lj_IMG;
+    var lj_step = 0;
+    var lj_CB;
+
+    function ljDealerPhoto(fileObj, cb) {
+        M.Component.vip_advice_goods_for_yb_score.isSelImgIng=1;
+        lj_step = 0;
+        lj_CB = cb;
+        lj_base64 = null;
+        var ele = document.getElementById('uploaderInput');
+        var file = ele.files[0];
+        // alert(file)
+        var oReader = new FileReader();
+        oReader.onload = function (e) {
+            var image = new Image();
+            image.src = e.target.result;
+            image.onload = function () {
+                var expectWidth = this.naturalWidth;
+                var expectHeight = this.naturalHeight;
+
+                if (this.naturalWidth > this.naturalHeight && this.naturalWidth > 800) {
+                    expectWidth = 800;
+                    expectHeight = expectWidth * this.naturalHeight / this.naturalWidth;
+                } else if (this.naturalHeight > this.naturalWidth && this.naturalHeight > 1200) {
+                    expectHeight = 1200;
+                    expectWidth = expectHeight * this.naturalWidth / this.naturalHeight;
+                }
+                var canvas = document.createElement("canvas");
+                lj_canvas = canvas;
+                var ctx = canvas.getContext("2d");
+                canvas.width = expectWidth;
+                canvas.height = expectHeight;
+                lj_IMG = this;
+                ctx.drawImage(this, 0, 0, expectWidth, expectHeight);
+                lj_base64 = canvas.toDataURL("image/jpeg");
+                document.body.addEventListener('touchmove', ljBodyScroll, { passive: false });
+                var h = api.winHeight;
+                var str = '<div id="lj_img_contain" style="overflow: hidden; width: 100%; height: '+h+'px; position: fixed; top: 0px; z-index: 11; background: #000;">'+
+                    '<img id="ljImage" style="width: 100%;" src="'+lj_base64+'"/>'+
+                    '<div style="width: 100%; position: fixed; bottom: 10px; color: black; font-size: 20px; display: flex;">'+
+                    '<div style="flex: 1; text-align: center; color: #0bb20c" onclick="ljSubImg();">确定</div>'+
+                    '<div style="flex: 1; text-align: center; color: #0bb20c" onclick="ljRotateImg();">旋转</div>'+
+                    '<div style="flex: 1; text-align: center; color: #0bb20c" onclick="ljCancelImg();">取消</div>'+
+                    '</div>'+
+                    '</div>';
+                $('body').append(str);
+
+                $("#ljImage").attr("src", lj_base64);
+            };
+        };
+        oReader.readAsDataURL(file);
+    }
+    function ljSubImg() {
+        M.Component.vip_advice_goods_for_yb_score.isSelImgIng=2;
+        document.body.removeEventListener('touchmove', ljBodyScroll, { passive: false });
+        $('#lj_img_contain').remove();
+        lj_CB(lj_base64);
+    }
+    function ljCancelImg() {
+        document.body.removeEventListener('touchmove', ljBodyScroll, { passive: false });
+        $('#lj_img_contain').remove();
+    }
+    function ljRotateImg() {
+        var img = lj_IMG;
+        var min_step = 0;
+        var max_step = 3;
+        if (img == null) return;
+        //img的高度和宽度不能在img元素隐藏后获取，否则会出错
+        var height = img.height;
+        var width = img.width;
+        lj_step++;
+        lj_step > max_step && (lj_step = min_step);
+        //旋转角度以弧度值为参数
+        var degree = lj_step * 90 * Math.PI / 180;
+        var canvas = lj_canvas;
+        var ctx = canvas.getContext('2d');
+        switch (lj_step) {
+            case 0:
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0);
+                break;
+            case 1:
+                canvas.width = height;
+                canvas.height = width;
+                ctx.rotate(degree);
+                ctx.drawImage(img, 0, 0);
+                ctx.drawImage(img, 0, -height);
+                break;
+            case 2:
+                canvas.width = width;
+                canvas.height = height;
+                ctx.rotate(degree);
+                ctx.drawImage(img, -width, -height);
+                break;
+            case 3:
+                canvas.width = height;
+                canvas.height = width;
+                ctx.rotate(degree);
+                ctx.drawImage(img, -width, 0);
+                break;
+        }
+        lj_base64 = canvas.toDataURL("image/jpeg");
+        $("#ljImage").attr("src", lj_base64);
+    }
+
+    function ljBodyScroll(event){
+        event.preventDefault();
+    }
+
+    function dataURLtoBlob(dataurl) {
+
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+
+        while(n--){
+
+            u8arr[n] = bstr.charCodeAt(n);
+
+        }
+
+        return new Blob([u8arr], {type:mime});
+
+    }
+
+</script>
+
+
+
+
+
+
+
+<script>
+
+    /**
+     * 420
+     * 1080
+     *
+     */
+    const {
+        ref,
+        createApp,
+    } = Vue
+    const vueApp = createApp({
+        data(){
+            return {
+                isSelImgIng:0,
+                status:"",
+                detailAlbum:{},
+                detailAlbumVisable:false,
+                albumList:[],
+                id:-1,
+                rem:"",
+                goods_link:"",
+                maskStyle:"g_coverMaskDiv",
+                memberListFormVisable:false,
+                daojishiNum:3
+            }
+        },
+        methods:{
+           async  clickDetailAlbum(e){
+                if(e.target.localName=="i"){
+                     let  r=await  MIO.ossFileDel({
+                          id:this.detailAlbum.id
+                    })
+                    if(r.code==200){
+                        this.albumList=this.albumList.filter(u=>u.id!=this.detailAlbum.id);
+                        this.detailAlbumVisable=false;
+                    }
+                }else {
+                    this.detailAlbumVisable=false;
+                }
+            },
+            showImg(item){
+                this.detailAlbum=item;
+                this.detailAlbumVisable=true;
+            },
+            //上传图片
+            uploadAlbum(fileObj){
+                let that=this;
+                ljDealerPhoto(fileObj, function(dataUrl){
+                    var data = new FormData();
+                    data.append('files', dataURLtoBlob(dataUrl), 'image.jpg');
+                    $.ajax({
+                        url: route('/hybrid/ossUpload?rootPath=vipfile'),
+                        type: 'POST',
+                        data: data,
+                        dataType: "json",
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success:  function (r) {
+                            let ossUrl="https://langjie.oss-cn-hangzhou.aliyuncs.com"+"/" +  r.data.ossResult.name;
+                             MIO.ossFileAdd({
+                                name: r.data.ossResult.name,
+                                oss_url: ossUrl,
+                                owner_id:that.id
+                            }).then(d=>{
+                                 that.isSelImgIng=0;
+                                 that.albumList.push(d.data);
+                             })
+                        },
+                        error: function (err) {
+                            alert(err)
+                        }
+                    });
+                });
+            },
+            goback(){
+                window.history.go(-1);
+            },
+            closeDialog(){
+                clearInterval(M.time);
+                this.daojishiNum=3;
+                this.memberListFormVisable=false;
+            },
+            async sub(){
+                if(this.albumList.length==0){
+                    api.toast({
+                        msg: '请先添加图片!'
+                    });
+                    return
+                }
+               let r=await MIO.vipAdviceGoodsForYbScoreUpdate({
+                    id:this.id,
+                    rem:this.rem,
+                    goods_link:this.goods_link
+                })
+                if(r.code==200){
+                    this.memberListFormVisable=true;
+                    M.time= setInterval(()=>{
+                        this.daojishiNum= this.daojishiNum-1;
+                        if(this.daojishiNum==0){
+                            clearInterval(M.time);
+                            window.history.go(-1);
+                        }
+                    },1000);
+                }
+            },
+            async lookHistory(){
+               window.location.href="./vip_advice_goods_for_yb_score_history.html"
+            }
+        },
+        async mounted() {
+            M.Component.vip_advice_goods_for_yb_score=this;
+           let r= await MIO.vipAdviceGoodsForYbScoreGetMyVipAdviceGood();
+           this.rem=r.data.rem||"";
+           this.albumList=r.data.ossFileList||[];
+           this.goods_link=r.data.goods_link||"";
+           this.id=r.data.id;
+        }
+    })
+
+    vueApp.mount('#root')
+
+    window.vueApp=vueApp;
+</script>
+
+
+
+</html>

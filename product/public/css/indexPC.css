@@ -1,0 +1,21 @@
+.left-nav{
+    background-color: white;
+    position: absolute;
+    z-index: 1000;
+    width: 260px;
+    height: 100vh;
+}
+
+.layout-backhome-btn{
+    width: 200px;
+    height: 50px;
+    background-color: rgb(51,153,102);
+    margin-left: 2.77vw;
+    margin-top: 3.5vw;
+    margin-bottom: 2vw;
+    border-radius: 4vw;
+    color: white;
+    font-size: 16px;
+    line-height:50px;
+    border:none
+}

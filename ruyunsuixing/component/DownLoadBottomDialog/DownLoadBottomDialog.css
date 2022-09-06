@@ -1,0 +1,81 @@
+
+
+.download-type-wrap-div {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 60vw;
+    background-color: white;
+    margin: 0 auto;
+    text-align: center;
+    z-Index:2000;
+}
+
+.download-type-wrap-div header {
+    font-size: 4vw;
+    color: green;
+    margin-top: 8.4vw;
+}
+
+.download-type-content-wrap {
+    /*background-color: pink;*/
+    margin-top: 10.4vw;
+    display: flex;
+    justify-content: space-around;
+}
+
+.download-type-content-item {
+    text-align: center;
+    /*background-color: green;*/
+    width: 20vw;
+    /*background-color: red;*/
+}
+
+.download-type-content-item img {
+    width: 8vw;
+}
+
+.download-type-content-item div {
+    margin-top: 4.3vw;
+}
+
+
+
+
+.mail-input{
+    background: url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/mail_checked.png) no-repeat;
+    background-position:1vw 1.2vw;
+    text-indent: 7vw;
+    background-size: 5vw;
+    margin: auto;
+    display: block;
+    height: 7vw;
+    width: 54.2vw;
+    margin-top: 6vw;
+    border-radius: 5vw;
+    font-size: 3vw;
+    /*font-weight: bold;*/
+    color: rgb(154,150,150);
+}
+
+.mail-input + button {
+    margin-top: 7vw;
+    background: url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/ruyunsuixing/img/send_plan.png) no-repeat;
+    width: 21.6vw;
+    height: 8.3vw;
+    background-size: 5vw;
+    border-radius: 5vw;
+    background-color: #339965;
+    background-position:1vw 1.2vw;
+    color: white;
+    font-size: 4vw;
+    border-color: white;
+}
+.sendSuccess-img{
+    width: 20.1vw;margin-top: 10vw
+}
+.sendSuccess-text{
+    margin-top: 5vw;
+    font-size: 4vw;
+    color: #339965
+}

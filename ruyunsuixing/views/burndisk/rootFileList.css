@@ -1,0 +1,80 @@
+.rootFileListDiv{
+
+}
+
+.rootFileList-search-wrap{
+    /*background-color: pink;*/
+    position: relative;
+}
+.rootFileList-search-wrap input{
+    display: block;
+    margin: 0 auto;
+    margin-top: 6.30498vw;
+    width: 81.23167vw;
+    height: 9.82404vw;
+    border-radius: 4vw;
+    font-size: 3.37243vw;
+    text-indent: 3em;
+    border: rgb(51,153,102) 0.58651vw solid;
+}
+.rootFileList-search-wrap .rightImg{
+    display: block;
+    position: absolute;
+    width: 6.45161vw;
+    top: 2vw;
+    right: 12vw;
+}
+
+.rootFileList-search-wrap .leftImg{
+    display: block;
+    position: absolute;
+    width: 6.45161vw;
+    top: 2vw;
+    left: 12vw;
+}
+
+.rootFileList{
+    margin-top: 6.15835vw;
+}
+
+
+
+.rootFileList >ul>li{
+    margin: -1px auto;
+    display: flex;
+    width: 92.22873vw;
+
+    border-radius: 1.31964vw ;
+
+    border: rgb(145,145,145) 1px solid;
+}
+
+.rootFileListImg{
+    width: 19.94134vw;
+    height: 19.94134vw;
+    margin-left: 1.9vw;
+    margin-top: 2.78592vw;
+}
+.rootFileList .burndiskInfo{
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    font-size: 3.22580vw;
+    margin-top: 1vw;
+    margin-left: 3.51906vw;
+    flex: 1;
+    /*background-color: red;*/
+}
+.rootFileList .burndiskInfo p{
+    margin-top: 1vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.rootFileList .rootFileCollect{
+    width: 4.10557vw;
+    height: 4.10557vw;
+    position: relative;
+    right: 0vw;
+    top: 1.31964vw;
+}
+

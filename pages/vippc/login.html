@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../ruyunsuixing/public/js/ming_mock/ming_mock_vue.js"></script>
+    <script src="./config.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.2.0-beta.7/vue.global.prod.min.js"></script>
+    <title></title>
+</head>
+<body>
+<div id="root">
+    <iframe  style='width: 100%;height: 420px;border: none; marginTop: 112px' :src="iframSrc"></iframe>
+</div>
+
+
+<script>
+
+    let  weui={}
+    weui.toast=(a,v)=> alert(a)
+
+    window.vueApp=Vue.createApp({
+        data(){
+            return {
+                text: "",
+                iframSrc: "https://www.baidu.com/",
+            }
+
+        },
+        mounted() {
+            this.iframSrc='https://open.weixin.qq.com/connect/qrconnect?appid='+M.config.wxLoginAppid+'&redirect_uri=' + encodeURIComponent( M.config.wxCallBackUrl+ '/memberhtml/pages/vippc/loginCheck.html') + '&response_type=code&scope=snsapi_login#wechat_redirect'
+        }
+    });
+
+    vueApp.mount("#root");
+    vueApp.config.globalProperties.$gloable_state ={};
+</script>
+</body>
+</html>

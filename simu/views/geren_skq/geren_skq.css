@@ -1,0 +1,207 @@
+/*高子手机*/
+@media screen and (min-height: 700px) and (max-height: 1000px) {
+    #shoukongqi{
+        background: url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/shoukongqi/static/bg.png) no-repeat;
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size:96vw;
+        width: 100vw;
+        height: 100vh;
+        padding: 0px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+    }
+}
+
+/*矮子手机*/
+@media screen and (min-height: 320px) and (max-height: 700px) {
+    #shoukongqi{
+        background: url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/shoukongqi/static/bg.png) no-repeat;
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size:96vw;
+        width: 100vw;
+        height: 120vh;
+        padding: 0px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+    }
+}
+
+
+
+
+
+.monitor_wrap{
+    user-select: none;
+    top:11.12820vw;
+    left: 17.12820vw;
+    height: 51.79487vw;
+    width: 66.92307vw;
+    position: absolute;
+    margin: 0 auto;
+    background-color: black;
+}
+.monitor_title{
+    display: flex;
+    background-color: rgb(65,0,128);
+    height: 8vw;
+}
+
+.monitor_title>div{
+    flex: 1;
+    text-align: center;
+    color: white;
+    font-size: 4.2vw;
+}
+.monitor_title>div:nth-child(1){
+    border-right: 1px solid black;
+}
+
+.monitor_title1{
+    display: flex;
+    height: 10.6vw;
+}
+
+.monitor_title1>div{
+    text-align: center;
+    color: white;
+    line-height: 9.224vw;
+    border-bottom: 1px solid rgb(65,0,128);
+}
+.monitor_title1_lifeng ,.monitor_title1_speed{
+    width: 24vw;
+}
+
+.monitor_title1_icon_div{
+    width: 8vw;
+    border-right: 1px solid rgb(65,0,128);
+    border-left: 1px solid rgb(65,0,128);
+    flex: 1;
+}
+
+.monitor_title1_icon_img{
+    margin-top: 2vw;
+    width:   6.65vw;
+    height:  6.65vw;
+}
+
+.monitor_title1>div:nth-child(1){
+    border-right: 1px solid black;
+}
+
+
+
+.monitor_title2{
+    height: 36vw;
+    color: white;
+    background-color: black;
+}
+.monitor_title2_line_li,.monitor_title2_line_weiyi{
+    display: flex;
+    height: 17.295vw;
+    line-height: 17.295vw;
+    justify-content: flex-start;
+
+}
+.monitor_title2_line_li{
+    color: rgb(239,228,176);
+
+}
+.monitor_title2_line_weiyi{
+    color: rgb(0,162,232);
+}
+.monitor_title2_li{
+    margin-left: 5vw;
+    font-size: 4.2vw;
+    width: 25vw;
+    text-align: left;
+
+}
+
+.monitor_title2_li_val{
+    font-size: 8vw;
+}
+.monitor_title2_weiyi{
+    text-align: left;
+    font-size: 4.2vw;
+    margin-left: 5vw;
+    width: 25vw;
+}
+
+.monitor_title2_weiyi_val{
+    font-size: 8vw;
+
+}
+.main_contol_wrap{
+    top: 95vw;
+    height: 49.8vw;
+    width: 49.8vw;
+    position: relative;
+    background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/shoukongqi/static/anniu_huan.png");
+    background-size:cover;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: top;
+    background-color: #e4393c;
+}
+
+.main_contol_wrap > .move_upImg{
+    top: -5vw;
+    position:absolute;
+    left:calc(50% - 9vw);
+}
+
+.main_contol_wrap > .stopImg{
+    top: 18vw;
+    position:absolute;
+    left:calc(50% - 9vw);
+}
+
+.main_contol_wrap > .move_downImg{
+    top: calc(100% - 9vw);
+    position:absolute;
+    left:calc(50% - 9vw);
+}
+
+.main_contol_wrap >  .minusImg{
+    top: 18vw;
+    position:absolute;
+    left:calc(50% - 31vw);
+}
+
+.main_contol_wrap >  .plusImg{
+    top: 18vw;
+    position:absolute;
+    left:calc(50% + 12vw);
+}
+
+.tail_contol_wrap{
+    top: 115vw;
+    height: 20vw;
+    width: 49.8vw;
+    position: relative;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.tail_contol_wrap > .positionImg{
+
+    position:absolute;
+    left:calc(50% - 31vw);
+}
+
+.tail_contol_wrap > .zeroImg{
+
+    position:absolute;
+    left:calc(50% - 9vw);
+}
+
+.tail_contol_wrap > .startImg{
+
+    position:absolute;
+    left:calc(50% + 12vw);
+}

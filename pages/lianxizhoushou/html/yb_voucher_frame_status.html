@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://minglie.gitee.io/mingpage/static/public/vue/3.2/vue.global.prod.min.js"></script>
+    <title></title>
+    <style>
+        .iconDiv{
+            margin-top: 17.22222vw;
+            display: flex;
+        }
+        #root img{
+            height:  38.88888vw;
+            margin: 0 auto;
+        }
+        .warnContent{
+            margin-top: 9.25925vw;
+            font-size: 4.62962vw;
+            text-align: center;
+            color: #908e8e;
+        }
+
+        .gotoHomeStyle{
+            margin-top: 30vw;
+            font-size: 4.62962vw;
+            text-align: center;
+            color: #908e8e;
+        }
+
+        .gotoHomeStyle a{
+            text-decoration:none;
+        }
+
+        .p10img{
+            margin-top: 10vw;
+            font-size: 4.62962vw;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="root">
+    <div v-if="status">
+        <div  class="iconDiv">
+            <img :src="getIconImg(status)">
+        </div>
+        <div>
+            <div v-if="status=='p1'" class="warnContent">
+                <p>元宝券离家出走了,</p>
+                <p>请与业务员核实之后再来哦~</p>
+            </div>
+            <div v-if="status=='p2'" class="warnContent">
+                <p>券还没有领取哦</p>
+                <p>请让业务员先去认领一下~</p>
+            </div>
+            <div v-if="status=='p3'" class="warnContent">
+                <p>晚来一步,</p>
+                <p>券已被领取,请让业务员核实一下哦~</p>
+            </div>
+            <div v-if="status=='p4'" class="warnContent">
+                <p>信息匹配不上哇,</p>
+                <p>请让业务员核实一下信息~</p>
+            </div>
+            <div v-if="status=='p5'" class="warnContent">
+                <p>元宝分领取成功啦! 请前往钱包中查看~</p>
+            </div>
+            <div v-if="status=='p10'" class="warnContent">
+                <p>想要了解更多精彩活动</p>
+                <p>请关注杭州朗杰测控公众号</p>
+            </div>
+        </div>
+        <div  v-if="status=='p5'" class="gotoHomeStyle">
+            <a href="/member/index">前往主页>></a>
+        </div>
+        <div  v-if="status=='p10'" class="p10img">
+            <img src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_regist_yb_voucher/member_index.png"></img>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+<script>
+
+
+
+
+
+    /**
+     * 420
+     * 1080
+     *
+     */
+    const {
+        ref,
+        createApp,
+    } = Vue
+
+    const vueApp = createApp({
+        data(){
+            return {
+                status:""
+            }
+        },
+        methods:{
+            getIconImg(imgName){
+                return "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_regist_yb_voucher/"+imgName+".png";
+            }
+        },
+        async mounted() {
+            let status=location.href.split("status=")[1];
+            this.status=status;
+            if(this.status=="p3"){
+                location.href="/member/index"
+            }
+        }
+    })
+
+    vueApp.mount('#root')
+</script>
