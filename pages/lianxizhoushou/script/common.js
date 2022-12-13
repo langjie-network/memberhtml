@@ -84,9 +84,10 @@ api.openPicker =({
                },callback)=>{
 
        var _this = this;
+        let curFullYear= new Date().getFullYear();
         weui.datePicker({
-            start: new Date(),
-            end: 2030,
+            start: curFullYear-5,
+            end: curFullYear+2,
             defaultValue: [new Date().getFullYear(), new Date().getMonth()+1, new Date().getDate()],
             onConfirm: function(result){
                // console.log("000",result)

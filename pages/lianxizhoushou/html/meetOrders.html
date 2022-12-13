@@ -90,14 +90,16 @@ var keywords = '',filter = '',page = 1,num = 10;
  */
 apiReady(function(){
     popup = new auiPopup();
-    window.addEventListener({
-        name:'scrolltobottom',
-        extra:{
-            threshold: 10    //设置距离底部多少距离时触发，默认值为0，数字类型
+
+    $(window).scroll(function() {
+        var mayLoadContent = $(window).scrollTop() >= $(document).height() - $(window).height();
+        var docHeight = $(document).height();
+        if (mayLoadContent) {
+            getList();
         }
-    }, function(ret, err){
-        getList();
     });
+
+
     triggerCheckLogin();
 
     window.addEventListener({

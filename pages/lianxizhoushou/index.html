@@ -296,8 +296,8 @@
 
 <script>
 
-    async function getMeetOrder() {
-        const r = await M.request.get("member_ajax/meetOrder?user_id=2101&page=1&pageSize=10&keywords=");
+    async function getMeetOrder(page) {
+        const r = await M.request.get(`member_ajax/meetOrder?user_id=2101&page=${page}&pageSize=10&keywords=`);
         return r;
     }
 
@@ -354,7 +354,7 @@
                 }]
             },
             mounted: function () {
-                getMeetOrder().then(d=>{
+                getMeetOrder(1).then(d=>{
                     this.meetOrderList=d.data;
                 })
             },
