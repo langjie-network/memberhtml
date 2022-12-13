@@ -88,9 +88,10 @@ apiReady(function(){
     popup = new auiPopup();
 
     $(window).scroll(function() {
-        var mayLoadContent = $(window).scrollTop() >= $(document).height() - $(window).height();
-        var docHeight = $(document).height();
+        var mayLoadContent = $(window).scrollTop() >= $(document).height() - $(window).height()-2;
+       // alert( mayLoadContent)
         if (mayLoadContent) {
+
             getList();
         }
     });
