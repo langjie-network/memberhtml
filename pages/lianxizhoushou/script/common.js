@@ -401,7 +401,7 @@ function openOrderFrame(num, obj) {
 }
 
 function getLevel() {
-    var user_id = sessionStorage.getItem('user_id');
+    const user_id = sessionStorage.getItem('user_id');
     if (user_id == 1302) {
         return 4;
     }
