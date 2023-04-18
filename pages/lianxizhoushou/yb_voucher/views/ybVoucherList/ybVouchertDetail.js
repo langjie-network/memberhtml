@@ -3,10 +3,11 @@
 const template = `
 <div>
     <div>
-        <header style="text-align: center;font-size: 6vw">{{getHeaderTitle()}}</header>
+        <header v-if="isclickQrCodeImg==false" style="text-align: center;font-size: 6vw">{{getHeaderTitle()}}</header>
         <div>
              <div style="text-align: center;margin-top: 1vw">
-                    <img style="height: 40vw;margin: auto"
+                    <img :style="{height:isclickQrCodeImg?'150vw':'40vw',margin: 'auto'}"
+                         @click="clickQrCodeImg"
                          :src="qrCodeImg">
                 </div>
                 <div id="form">
@@ -145,6 +146,7 @@ export default {
     name: "ybVouchertQrCode",
     data() {
         return {
+            isclickQrCodeImg:false,
             qrCodeImg:"https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/qrcode/yb_voucher/mobile-preview1.png",
             ybVouchert: {},
             formDisable:false,
@@ -183,6 +185,9 @@ export default {
                             that.ybVouchert.member_addr= cardInfo.addresses.length? cardInfo.addresses[0]:"";
                             that.ybVouchert.company=cardInfo.companies.length? cardInfo.companies[0]:"";
                             that.ybVouchert.member_phone=cardInfo.cellPhoneNumbers.length?cardInfo.cellPhoneNumbers[0]:""
+                            if(that.ybVouchert.member_phone==""){
+                                that.ybVouchert.member_phone=cardInfo.officePhoneNumbers.length?cardInfo.officePhoneNumbers[0]:""
+                            }
                             that.setFormData( that.ybVouchert) ;
                             that.recognizeBusinessCard_btn_loading=false;
                         }
@@ -370,6 +375,13 @@ export default {
                 formInputOk=true;
             }
             return formInputOk;
+        },
+        clickQrCodeImg(){
+            if(this.isclickQrCodeImg){
+                this.isclickQrCodeImg=false;
+            }else {
+                this.isclickQrCodeImg=true;
+            }
         }
     },
 
