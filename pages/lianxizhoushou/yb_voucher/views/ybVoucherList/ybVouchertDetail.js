@@ -3,7 +3,7 @@
 const template = `
 <div>
     <div>
-        <header style="text-align: center;font-size: 8vw">{{getHeaderTitle()}}</header>
+        <header style="text-align: center;font-size: 6vw">{{getHeaderTitle()}}</header>
         <div>
              <div style="text-align: center;margin-top: 1vw">
                     <img style="height: 40vw;margin: auto"
@@ -89,7 +89,16 @@ const template = `
                                                           type="text"></div>
                     </div>
                     
-                
+                     <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">地址</label></div>
+                            <div class="weui-cell__bd"><input class="weui-input" maxlength="18"
+                                                              pattern="REG_IDNUM"
+                                                              :disabled="formDisable"                         
+                                                              placeholder="请输入地址"
+                                                              name="member_addr"
+                                                              required=""
+                                                              type="text"></div>
+                        </div>
                     
                     
                     <div class="weui-cell">
@@ -104,10 +113,20 @@ const template = `
                     </div>
                     <div style="display: flex;width: 100vw;justify-content: space-around;margin-top: 2vw">
                          <div>
-                            <a  :class="generateQrcodeBtnClass" @click="generateQrcode" href="javascript:"><i v-if="btn_loading==true" class="weui-loading"></i>生成二维码</a>
+                            <a  :class="generateQrcodeBtnClass" style="width: 30vw" href="javascript:"><i v-if="recognizeBusinessCard_btn_loading==true" class="weui-loading"></i>
+                                <span v-if="recognizeBusinessCard_btn_loading!=true">选名片</span> 
+                                <input id="uploaderInput" @change="selectCard"  class="weui-uploader__input" type="file" accept="image/*">
+                            </a>
+                        </div>
+                        
+                         <div>
+                            <a  :class="generateQrcodeBtnClass" style="width: 30vw" @click="generateQrcode" href="javascript:">
+                            <i v-if="btn_loading==true" class="weui-loading"></i>
+                                <span v-if="btn_loading!=true">生成卡</span> 
+                            </a>
                         </div>
                         <div>
-                            <a :class="submitBtnClass"    @click="formSubmit"  href="javascript:">领取</a>
+                            <a :class="submitBtnClass"  style="width: 30vw"  @click="formSubmit"  href="javascript:">领取</a>
                         </div>
                     </div>
                 </div>
@@ -121,9 +140,6 @@ const template = `
 
 var timer;
 
-
-
-
 export default {
     template,
     name: "ybVouchertQrCode",
@@ -133,6 +149,7 @@ export default {
             ybVouchert: {},
             formDisable:false,
             btn_loading:false,
+            recognizeBusinessCard_btn_loading:false,
             companyNameList:[],
             companyNameListVisable:false,
             memberSearchMemberByCompanyMap:{},
@@ -142,6 +159,39 @@ export default {
         }
     },
     methods: {
+        async selectCard(event){
+            let that=this;
+            this.recognizeBusinessCard_btn_loading=true;
+            var formdata = new FormData();
+            formdata.append("file", event.target.files[0], "d2.jpg");
+            var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+            fetch( M.config.baseUrlCrmHelp("/open/crmhelp/aliocr/recognizeBusinessCardRequest"), requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                        if(result.code!=0){
+                            api.toast({msg:result.msg})
+                            console.log('error', result)
+                            this.recognizeBusinessCard_btn_loading=false;
+                            return;
+                        }else{
+                            let cardInfo= result.data.data;
+                            that.ybVouchert.member_name=cardInfo.name;
+                            that.ybVouchert.member_addr= cardInfo.addresses.length? cardInfo.addresses[0]:"";
+                            that.ybVouchert.company=cardInfo.companies.length? cardInfo.companies[0]:"";
+                            that.ybVouchert.member_phone=cardInfo.cellPhoneNumbers.length?cardInfo.cellPhoneNumbers[0]:""
+                            that.setFormData( that.ybVouchert) ;
+                            that.recognizeBusinessCard_btn_loading=false;
+                        }
+              }).catch(e=>{
+                api.toast({msg:e.toString()})
+                this.recognizeBusinessCard_btn_loading=false;
+            })
+
+        },
         cleanMemberNameVisable(){
             this.memberSearchMemberByCompanyMapKeysVisable=false;
             this.companyNameListVisable=false;
@@ -201,6 +251,7 @@ export default {
             let yb_score=   $('input[name=yb_score]').val();
             let member_name=  $("input[name='member_name']").val();
             let member_phone=  $("input[name='member_phone']").val();
+            let member_addr=  $("input[name='member_addr']").val();
             let yb_voucher_tag=  $("select[name='yb_voucher_tag']").val();
              return {
                  name,
@@ -208,14 +259,16 @@ export default {
                  yb_score,
                  member_phone,
                  member_name,
-                 yb_voucher_tag
+                 yb_voucher_tag,
+                 member_addr
              }
         },
         setFormData(formData){
-            const {yb_score,name,company,member_name,member_phone,yb_voucher_tag}=formData;
-            $('input[name=yb_score]').val(yb_score);
+            const {yb_score,member_addr, name,company,member_name,member_phone,yb_voucher_tag}=formData;
+             $('input[name=yb_score]').val(yb_score);
             $('input[name=name]').val(name);
             $('input[name=company]').val(company);
+            $('input[name=member_addr]').val(member_addr);
             $('input[name=member_name]').val(member_name);
             $('input[name=member_phone]').val(member_phone);
             $('select[name=yb_voucher_tag]').val(yb_voucher_tag);
@@ -261,24 +314,46 @@ export default {
                 yb_score,
                 member_phone,
                 member_name,
+                member_addr,
                 yb_voucher_tag
             }=  this.getFormData();
             if(!/^1\d{10}( 1\d{10})*$/.test( member_phone)) {
                 api.toast({msg:"手机号格式错误"});
                 return
             }
-           let r=await  await MIO.vipRegistYbVoucherUpdate( {
+            if(company==null || company.trim()=="") {
+                api.toast({msg:"公司为空"});
+                return
+            }
+            if(member_name==null || member_name.trim()=="") {
+                api.toast({msg:"名字为空"});
+                return
+            }
+           let r=  await MIO.vipRegistYbVoucheCheckAndAddCompany({company:company});
+            if(r==null){
+                api.toast({msg:"未知错误"});
+                return
+            }
+            if(r.code!=200){
+                api.toast({msg:r.msg});
+                return
+            }
+            r=await  await MIO.vipRegistYbVoucherUpdate( {
                 name,
                 yb_score,
                 company,
                 member_name,
                 member_phone,
+                member_addr,
                 id:this.ybVouchert.id,
                 yb_voucher_img_url:this.qrCodeImg,
                 yb_voucher_tag
             });
             if(r.code==200){
-                this.$router.back();
+                api.toast({msg:"领取成功"});
+                setTimeout(()=>{
+                    this.$router.back();
+                },500)
             }else {
                 api.toast({msg:r.msg});
             }
@@ -319,6 +394,12 @@ export default {
         if(!this.ybVouchert.yb_voucher_tag){
             this.ybVouchert.yb_voucher_tag="会员注册券";
         }
+        if(item.addr){
+            this.ybVouchert.member_addr=item.addr;
+        }
+        if(item.yb_score){
+            this.ybVouchert.yb_score=item.yb_score;
+        }
         this.setFormData(this.ybVouchert);
     },
 
@@ -339,6 +420,15 @@ export default {
                 return "weui-btn weui-btn_primary weui-btn_disabled";
             }else {
                     return "weui-btn weui-btn_primary";
+            }
+        },
+        //选名片按钮
+        selectCardBtnClass(){
+            // let formatDataOk=this.isFormInputOk();
+            if(this.formDisable){
+                return "weui-btn weui-btn_primary weui-btn_disabled";
+            }else {
+                return "weui-btn weui-btn_primary";
             }
         }
     }

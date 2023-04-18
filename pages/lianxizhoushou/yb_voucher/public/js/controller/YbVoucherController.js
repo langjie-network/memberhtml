@@ -21,6 +21,14 @@ app.get("/vipRegistYbVoucherClaimed",async (req,res)=>{
 })
 
 
+app.get("/vipRegistYbVoucheCheckAndAddCompany",async (req,res)=>{
+    const {company}=req.params;
+    let r=  await  window.M.request.post("/member_ajax/vipRegistYbVoucher/checkAndAddCompany",
+        {company}
+    );
+    res.send(r);
+})
+
 app.get("/vipRegistYbVoucherUpdate",async (req,res)=>{
     const {
         name,
@@ -28,6 +36,7 @@ app.get("/vipRegistYbVoucherUpdate",async (req,res)=>{
         company,
         member_name,
         member_phone,
+        member_addr,
         id,
         yb_voucher_img_url,
         yb_voucher_tag
@@ -37,6 +46,7 @@ app.get("/vipRegistYbVoucherUpdate",async (req,res)=>{
             yb_voucher_tag,
             name,
             yb_score,
+            member_addr,
             company,
             member_name,
             member_phone,
@@ -76,3 +86,5 @@ app.get("/crmhelp_dictionary_list",async (req,res)=>{
     let r = await window.M.request.get(apiPath,{queryCode:queryCode});
     res.send(r.data);
 });
+
+

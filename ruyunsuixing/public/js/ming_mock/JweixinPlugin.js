@@ -8,6 +8,7 @@ class JweixinPlugin{
         app.get("wxConfig",async (req,res)=>{
             let {readyCallBack} =req.params;
             //已经wx.config过
+
             if(that.isConfig){
                 readyCallBack();
                 return;

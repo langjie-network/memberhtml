@@ -7,7 +7,6 @@ import common from "./common.js";
 import  setupCustomComponents  from './customComponents.js';
 
 
-
 const {createApp}=Vue;
 const vueApp= createApp(layout);
 vueApp.use(router);
@@ -24,4 +23,3 @@ M.gloable_state=gloable_state;
 M.common=common;
 vueApp.config.isCustomElement = tag => tag.startsWith('ming-input');
 window.vueApp=vueApp;
-
