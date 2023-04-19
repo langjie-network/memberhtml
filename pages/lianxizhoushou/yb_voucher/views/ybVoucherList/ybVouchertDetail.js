@@ -420,7 +420,7 @@ export default {
         submitBtnClass(){
             //let formatDataOk=this.isFormInputOk();
             if(this.formDisable){
-                return "weui-btn weui-btn_primary weui-btn_disabled";
+                return "weui-btn weui-btn_primary weui-btn_disabled ming_disabled";
             }else {
                 return "weui-btn weui-btn_primary";
             }
@@ -429,7 +429,7 @@ export default {
         generateQrcodeBtnClass(){
            // let formatDataOk=this.isFormInputOk();
             if(this.formDisable){
-                return "weui-btn weui-btn_primary weui-btn_disabled";
+                return "weui-btn weui-btn_primary weui-btn_disabled ming_disabled";
             }else {
                     return "weui-btn weui-btn_primary";
             }
@@ -438,7 +438,7 @@ export default {
         selectCardBtnClass(){
             // let formatDataOk=this.isFormInputOk();
             if(this.formDisable){
-                return "weui-btn weui-btn_primary weui-btn_disabled";
+                return "weui-btn weui-btn_primary weui-btn_disabled ming_disabled";
             }else {
                 return "weui-btn weui-btn_primary";
             }
