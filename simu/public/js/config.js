@@ -33,7 +33,8 @@ const prodConfig={
     plcmcontrollerHost: api=> "https://plcmcontroller.langjie.com"+api,
     wxLoginAppid: 'wx1dbbbe221c943cd9',
     wxCallBackUrl:'https://www.langjie.com',
-    trial_version_dickCode:"D00001C"
+    trial_version_dickCode:"D00001C",
+    s2scloudHost:"https://s2s.langjie.com"
 }
 
 const commonConFig={

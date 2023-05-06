@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+[v-cloak]{
+    display: none;
+}
+.headerDiv{
+    background-color: white;
+    height: 15vw;
+
+}
+.headerDiv img{
+    width: 8vw;
+    vertical-align: middle;
+    margin-left:  3.27715vw;
+    transform: translateY(3vw);
+}
+.headerDiv span{
+    display: block;
+    margin-left:  12vw;
+    transform: translateY(-3.5vw);
+}
+.imgWrap {
+    border: rgb(223, 223, 223) 1px solid;
+    border-radius: 1vw;
+    height: 25.83404vw;
+    width: 26.00513vw;
+}
+.imgWrap img{
+    border-radius: 1vw;
+    width: 100%;
+    height: 100%;
+}
+
+
+.sn_name_div{
+
+    margin-left: 4.27715vw;
+    font-size: 4.79041vw;
+    height: 15vw;
+}
+.gmt_create_div{
+    margin-left: 4.27715vw;
+    color: rgb(149,148,148);
+    font-size: 2.73738vw;
+}
+.machine_statue_online{
+    margin-left: 4.27715vw;
+    font-size: 4vw;
+    color: green ;
+}
+.machine_statue_offline{
+    margin-left: 4.27715vw;
+    font-size: 4vw;
+    color: red;
+}
+.state_wrap{
+    display: flex;
+    justify-content: flex-end;
+}
+.status01{
+    margin-right: 8vw;
+    font-size: 3.73738vw;
+    font-weight: bold;
+}

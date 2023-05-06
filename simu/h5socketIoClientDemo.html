@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>h5 Socket.IO demo</title>
+    <script src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/socketio/socket.io.js" ></script>
+</head>
+<body>
+<div id="messages"></div>
+<form id="message-form">
+    <input type="text" id="message-input" placeholder="Enter your message here">
+    <button type="submit">Send</button>
+</form>
+<script>
+    var socket = window.io( 'https://s2sio.langjie.com?clientId=system.c1');
+
+   //var socket = window.io( 'http://localhost:16003?clientId=system.c1&checkCode=123456&uid=2654786');
+    socket.on('call', function(data) {
+        var message = document.createElement('div');
+        message.innerHTML = JSON.stringify(data);
+        document.getElementById('messages').appendChild(message);
+    });
+
+    socket.on("system",async function (data) {
+        var message = document.createElement('div');
+        message.innerHTML = JSON.stringify(data);
+        document.getElementById('messages').appendChild(message);
+    });
+
+    document.getElementById('message-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var input = document.getElementById('message-input');
+        socket.emit('call', {
+            "method":"call.test041",
+            "params": input.value
+        });
+        input.value = '';
+    });
+</script>
+</body>
+</html>
