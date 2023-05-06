@@ -7,11 +7,11 @@ app.get("/s2sCloudIsOnlineByUid",async (req,res)=>{
         return;
     }
     if(r.code==0){
-        if(r.data.dataList.length==0){
+        if(r.data.dataList==null || r.data.dataList.length==0){
             res.send(0);
             return;
         }else{
-            if(r.data.dataList[0].clientIds.length){
+            if(r.data.dataList[0].clientIds &&  r.data.dataList[0].clientIds.length){
                 res.send(1);
                 return;
             }else {

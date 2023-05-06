@@ -218,7 +218,9 @@ export default {
             console.log(msg)
         },
         async dealSystemMsg(msg){
-            this.onlineCheck();
+            setTimeout(()=>{
+                this.onlineCheck();
+            },1000)
         },
         async AtsPushButton(btnName){
             if (navigator.vibrate) {
