@@ -1,10 +1,6 @@
 M.loadCss("/memberhtml/simu/views/s2s_skq/s2s_skq.css")
-
 const template = `
-<div v-cloak id="shoukongqi"
-    @touchcancel="main_contol_wrap_touchend"
-    @touchend="main_contol_wrap_touchend">
-    
+<div v-cloak >
      <div class="online_div"  >
         <div class="online_div_zaixian">
              <div :style="{color: machineStatue=='在线'? 'green':'red'}"  class="mid">{{machineStatue}}</div> 
@@ -59,7 +55,6 @@ const template = `
 export default {
     template,
     name: "s2s_skq",
-
     data() {
         return {
             machineStatue: "离线",
@@ -76,13 +71,6 @@ export default {
                 this.machineStatue = "在线"
             } else {
                 this.machineStatue = "离线"
-            }
-        },
-        online_msg_dbclick() {
-            if (this.isShowMsgList) {
-                this.isShowMsgList = false
-            } else {
-                this.isShowMsgList = true
             }
         },
         async appendMsg(msg) {
@@ -113,25 +101,12 @@ export default {
             }, 1000)
         },
         async AtsPushButton(btnName) {
-            if (navigator.vibrate) {
-                navigator.vibrate(100);
-            } else if (navigator.webkitVibrate) {
-                navigator.webkitVibrate(100);
-            }
-            $(".activeImg").hide();
-            $(`.${btnName}Img + svg`).show();
             MIO.s2sSocketEmitCall("pushBtn", btnName, 0);
-        },
-        main_contol_wrap_touchend() {
-            $(".activeImg").hide();
-            $(".defaultImg").show();
         }
     },
     async mounted() {
         document.title = M.userInfo.router_param;
         document.documentElement.style.overflow = 'auto';
-        $(".activeImg").hide()
-        $(".defaultImg").show()
         M.Component.simu_s2s_skq = this;
         if (M.userInfo != null) {
             this.onlineCheck();
