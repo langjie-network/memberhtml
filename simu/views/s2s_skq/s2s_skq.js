@@ -3,8 +3,9 @@ const template = `
 <div v-cloak >
      <div class="online_div"  >
         <div class="online_div_zaixian">
-             <div :style="{color: machineStatue=='在线'? 'green':'red'}"  class="mid">{{machineStatue}}</div> 
-              <div @click="cleanMsg" class="mid">消息数{{msgList.length}}</div> 
+              <div :style="{color:black}">序列号:{{snValue}}</div>
+              <div :style="{color: machineStatue=='在线'? 'green':'red'}"  class="mid">状态:{{machineStatue}}</div> 
+              <div @click="cleanMsg" class="mid">消息数:{{msgList.length}}</div> 
         </div> 
     </div>
     <hr/>
@@ -57,6 +58,7 @@ export default {
     name: "s2s_skq",
     data() {
         return {
+            snValue:0,
             machineStatue: "离线",
             dispValue: 0.000,
             elongValue: 0.000,
@@ -108,6 +110,7 @@ export default {
         document.title = M.userInfo.router_param;
         document.documentElement.style.overflow = 'auto';
         M.Component.simu_s2s_skq = this;
+        this.snValue=M.userInfo.router_param;
         if (M.userInfo != null) {
             this.onlineCheck();
             let clientId = M.userInfo.router_param + "." + M.userInfo.uid;
