@@ -1,225 +1,10 @@
-body {
-    overflow: hidden;
-    position: fixed;
-}
-
-
-/*高子手机*/
-@media screen and (min-height: 700px) and (max-height: 1000px) {
-    #shoukongqi{
-        background: url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/shoukongqi/static/bg1.png) no-repeat;
-        background-repeat: no-repeat;
-        background-position: top;
-        background-size:96vw;
-        width: 100vw;
-        height: 100vh;
-        padding: 0px;
-        margin: 0 auto;
-        overflow: hidden;
-        position: relative;
-    }
-}
-
-/*矮子手机*/
-@media screen and (min-height: 320px) and (max-height: 700px) {
-    #shoukongqi{
-        background: url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/shoukongqi/static/bg.png) no-repeat;
-        background-repeat: no-repeat;
-        background-position: top;
-        background-size:96vw;
-        width: 100vw;
-        height: 120vh;
-        padding: 0px;
-        margin: 0 auto;
-        overflow: hidden;
-        position: relative;
-    }
-}
-
-
-
-
-
-.monitor_wrap{
-    user-select: none;
-    top:15.2482vw;
-    left: 17.12820vw;
-    height: 51.79487vw;
-    width: 66.92307vw;
-    position: absolute;
-    margin: 0 auto;
-    background-color: black;
-}
-.monitor_title{
-    display: flex;
-    background-color: rgb(65,0,128);
-    height: 8vw;
-}
-
-.monitor_title>div{
-    flex: 1;
-    text-align: center;
-    color: white;
-    font-size: 4.2vw;
-}
-.monitor_title>div:nth-child(1){
-    border-right: 1px solid black;
-}
-
-.monitor_title1{
-    display: flex;
-    height: 10.6vw;
-}
-
-.monitor_title1>div{
-    text-align: center;
-    color: white;
-    line-height: 9.224vw;
-    border-bottom: 1px solid rgb(65,0,128);
-}
-.monitor_title1_lifeng ,.monitor_title1_speed{
-    width: 24vw;
-}
-
-.monitor_title1_icon_div{
-    width: 8vw;
-    border-right: 1px solid rgb(65,0,128);
-    border-left: 1px solid rgb(65,0,128);
-    flex: 1;
-}
-
-.monitor_title1_icon_img{
-    margin-top: 2vw;
-    width:   6.65vw;
-    height:  6.65vw;
-}
-
-.monitor_title1>div:nth-child(1){
-    border-right: 1px solid black;
-}
-
-
-
-.monitor_title2{
-    height: 36vw;
-    color: white;
-    background-color: black;
-}
-.monitor_title2_line_li,.monitor_title2_line_weiyi{
-    display: flex;
-    height: 17.295vw;
-    line-height: 17.295vw;
-    justify-content: flex-start;
-
-}
-.monitor_title2_line_li{
-    color: rgb(239,228,176);
-
-}
-.monitor_title2_line_weiyi{
-    color: rgb(0,162,232);
-}
-.monitor_title2_li{
-    margin-left: 5vw;
-    font-size: 4.2vw;
-    width: 25vw;
-    text-align: left;
-
-}
-
-.monitor_title2_li_val{
-    font-size: 8vw;
-}
-.monitor_title2_weiyi{
-    text-align: left;
-    font-size: 4.2vw;
-    margin-left: 5vw;
-    width: 25vw;
-}
-
-.monitor_title2_weiyi_val{
-    font-size: 8vw;
-
-}
-.main_contol_wrap{
-    top: 99.12vw;
-    height: 49.8vw;
-    width: 49.8vw;
-    position: relative;
-    background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/shoukongqi/static/anniu_huan.png");
-    background-size:cover;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-position: top;
-    background-color: #e4393c;
-}
-
-.main_contol_wrap > .move_upImg{
-    top: -5vw;
-    position:absolute;
-    left:calc(50% - 9vw);
-}
-
-.main_contol_wrap > .stopImg{
-    top: 18vw;
-    position:absolute;
-    left:calc(50% - 9vw);
-}
-
-.main_contol_wrap > .move_downImg{
-    top: calc(100% - 9vw);
-    position:absolute;
-    left:calc(50% - 9vw);
-}
-
-.main_contol_wrap >  .minusImg{
-    top: 18vw;
-    position:absolute;
-    left:calc(50% - 31vw);
-}
-
-.main_contol_wrap >  .plusImg{
-    top: 18vw;
-    position:absolute;
-    left:calc(50% + 12vw);
-}
-
-.tail_contol_wrap{
-    top: 115vw;
-    height: 20vw;
-    width: 49.8vw;
-    position: relative;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-position: top;
-}
-
-.tail_contol_wrap > .positionImg{
-
-    position:absolute;
-    left:calc(50% - 9vw);
-}
-
-.tail_contol_wrap > .zeroImg{
-
-    position:absolute;
-    left:calc(50% - 9vw);
-}
-
-.tail_contol_wrap > .startImg{
-
-    position:absolute;
-    left:calc(50% + 12vw);
-}
 
 
 
 .online_div {
-    position: fixed;
     /* display: inline; */
     top: 0vw;
     left: 0px;
-    background: rgba(234,243,240,0.8);
     width: 43.58974vw;
     line-height: 4vw;
     font-size: 4vw;
@@ -249,7 +34,7 @@ body {
     width: 30vw;
 }
 .online_div .left_icon{
-     width: 4.87179vw;
+    width: 4.87179vw;
     height: 4.87179vw;
 }
 .online_div .right_icon{
@@ -258,72 +43,72 @@ body {
     margin-left: 2vw;
 }
 
-.clientListWrap{
-    margin-top: 0vw;
-    width: 43.58974vw;
 
 
-}
-.online_div_clientListWrap_head{
-    height: 4.9vw;
-    text-align: center;
-    vertical-align: center;
-    line-height: 4.9vw;
 
-    font-size: 3.81025vw;
-}
-.online_div_clientListWrap_ul li{
+.disTitle{
     display: flex;
-    text-align:center;
-    vertical-align:middle;
-    font-size: 4.28653vw;
     justify-content: space-around;
-    -webkit-align-items:center;
-    align-items:center;
-    height: 10.19230vw;
-
 }
 
-.online_div_clientListWrap_ul li .clientListIndex{
-    width: 8vw;
+.disTitle div{
+    width: 25vw;
+    margin: 2vw;
 }
 
-.online_div_clientListWrap_ul li .clientListName{
-
-    width: 20vw;
+.input_wrap{
+    width: 25vw;
+    margin: 5vw;
+}
+.input_wrap input{
+    width: 25vw;
+}
+.firstbtn{
+    bottom: 0;
+    background-color: pink;
+    height: 10vw;
+    text-align: center;
+}
+.btnZone{
+    display: flex;
+    justify-content: space-evenly;
+}
+.btnZone a{
+    display: block;
 }
 
-.online_div_clientListWrap_ul li .tail{
-
-    width: 20vw;
-}
-
-
-.online_msg_off{
-    position: fixed;
-    /* display: inline; */
-    top: 10vw;
-    left: 0px;
-    width: 100vw;
-    height: 45vh;
-}
 
 .online_msg {
-    position: fixed;
-    /* display: inline; */
-    top: 10vw;
-    left: 0px;
+    margin-top: 5vw;
     background: rgba(234,243,240,0.1);
     width: 100vw;
-    height: 45vh;
+    height: 70vh;
     line-height: 4vw;
     overflow: auto;
     font-size: 2vw;
     font-weight: normal;
     vertical-align: bottom;
-    color: red;
     white-space:nowrap;
+    background-color: gainsboro;
 }
 .online_msg .msg-item{
-    border-bottom: pink 1px solid;
+    border-bottom: white 1px solid;
+}
+
+.btn1{
+    background-color: rgb(196,214,160);
+}
+
+
+.btn2{
+    background-color: rgb(217,149,143);
+}
+
+
+.btn3{
+    background-color: rgb(245,229,153);
+}
+
+input{
+    text-align: center;
 }
