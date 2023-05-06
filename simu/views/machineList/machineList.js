@@ -4,7 +4,7 @@ const template=`
   <div>
         <div>
             <div>
-                <div >
+                 <div v-if="dataList.length>0">
                     <ul>
                         <li v-for="(item,i) in dataList" @click="clickItem(item)"  class="aui-list-item aui-list-item-middle">
                             <div class="aui-list-item-inner" style="display: flex;margin: 5px">
@@ -26,6 +26,9 @@ const template=`
 
                         </li>
                     </ul>
+                </div>
+                 <div v-else class="weui-loadmore weui-loadmore_line">
+                     <span class="weui-loadmore__tips">暂无数据</span>
                 </div>
             </div>
         </div>

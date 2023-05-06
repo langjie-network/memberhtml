@@ -7,15 +7,21 @@ class S2sSocketIoWebPlugin {
         this.path=M.config.baseUrl("");
         this.host=socketIoConfig.socketIoHost;
         this.callback=socketIoConfig.callback;
+        this.JsonRpcReplayMap={}
     }
-    async connect(){
+    async connect(url,clientId){
         let that=this;
+        that.clientId=clientId;
+        let connectUrl=that.host+ `/?clientId=${this.clientId}&uid=${this.uid}&checkCode=1682239794589`;
+        if(url){
+            connectUrl=url;
+        }
         if(that.socket!=null){
             that.socket.connect();
             return;
         }
         var socket = window.io(
-            that.host+ `/?clientId=${this.clientId}&uid=${this.uid}&checkCode=1682239794589`
+            connectUrl
             ,{path:``});
         this.socket=socket;
         window.Msocket=socket;
@@ -63,7 +69,22 @@ class S2sSocketIoWebPlugin {
     }
 
     async install(app,args){
+        let that=this;
         MIO.s2ssocketConnect=this.connect.bind(this);
+        MIO.s2sSocketEmitCall=async (method,params,id,callback)=>{
+            let reqBody={
+                "method": "call"+"."+ method,
+                "params": params
+            };
+            if(id){
+                reqBody.id=id;
+                that.JsonRpcReplayMap["reply."+ method]={
+                    id: id,
+                    callback:callback
+                };
+            }
+            M.request.post(M.config.s2scloudHost+ `/s2scloud/socketio/call?event=call&clientId=`+that.clientId,reqBody)
+        }
     }
 
 }

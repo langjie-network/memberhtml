@@ -99,7 +99,7 @@ const template=`
 
               </svg>
            <svg 
-             @touchstart="AtsPushButton('minus')" 
+             @touchstart="AtsPushButton('pause')" 
              class="minusImg defaultImg"    
              viewBox="0 0 145 145"
              xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@ const template=`
               <image  x="0px" y="0px" width="101px" height="101px"  xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGUAAABlCAMAAABjot39AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAB6VBMVEUGBgZmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pmu2pluWlOjVE0XTYhOCISHRMMEQwGBgZeq2EQGBBkt2g4ZTsKDQpYoVsYKBlPkFIMEg0YKRljtmderGIKDgoPGBBOjlEhOSILEAsICAgKCgoLCwsHBwcJCQkSEhIbGxshISEjIyMYGBgREREyMjJBQUFISEhJSUlHR0c/Pz8zMzMeHh5RUVFmZmZubm5vb29tbW1kZGRUVFQ4ODhCQkKEhISUlJSWlpaTk5OHh4dsbGwMDAwnJydOTk5ycnKXl5fC88TC8cW/8cKz5bV4eHgrKysNDQ0ODg4tLS16enqfn5+q6K2L4I+18bh8fHxXV1cwMDAqKip2dnacnJy08bcPDw9GRkZra2uLi4u287mq3KxwcHBLS0smJiYWFhZaWlpxcXF7e3teXl4cHBwkJCQ9PT0oKCguLi44ZDpYoFtPj1I0XDVNjFAgOCH///+vhhi5AAAANHRSTlMAKmuexuTwIILdJKD7CIH3+CXPQ/FT+VJCJs6mIv0jh4jg4Stsn8Xn8uUBp4NVSEmi3sfm9kHJ+AAAAAFiS0dEorDd34wAAAAHdElNRQfmBgkLDR0kfBVgAAADD0lEQVRo3u2a6VMTMQDFAxRYTgtU5FA82ioeKPd2CdByi4VCoVBEEfAo3oC3UEQOlXoBXvUAhf9UkrSllIK7O8nqjHlfsrM7834z2SQ7s+8BEKGY2DhdfEK5WiXE6+JiY8CuShSSVPuHK0lI3JGRnJJKhYGUmpIclZGWvocaA0mfnrYdkpFJlYGUmREJyTIEHlVUihapCqpVlWQRKysCXoasrZC92eR+tVijGrCpGrGa2GXvC4fkEEit1UaBgWSz1hJMTtg7Ifujrp4SA6m+Dnsm5IZWVx6+0dBIEQJhYwN2zQuutHQCoTVboVkjGCGwGfV4utSvq51UhSdNT7ZnPn7xTdQhEDY1I+t8BNmPjxUrAwiEVmR9oGCDchBdtZxlQrG1IPNDG5TD6EJkAoFQROZHADDiY6WVEaUVHzZGEIuGc4wgEFYiexMws5ywwJSZwVE02JlR7MheB46hQWJGkZB9PMCncRszShv+zgB81jCDQIj9OYVTOIVTOIVTNKa0Ozrky9GpiuLs6nb1yJer1+1QTnF2953vvyBfFwcuDToUU7r6hoYvX5Gvq9c8I71KKc7B68M3bt6Sr9t37vb3tCukjI6N37v/4KF8PXr8ZOjphELKpNcz9Wz6uQLNzM7NuzmFU/5LysSLoZevFFEWpjxen0KKw/X6zdt3M/K18H5xadmpkNL5YeTjp8+z8jW1+GXADxVS4OjXb+OeOfnyLA189ymmwEn/2I95+fIu+6NC/vhF7vC55cvnhFAVhY44hVM4hVM4hVM45d+haPFvvFCT//zHgQ4NdmYUC7LXaZS/mNDAPEvSJhfTIuM7EcwraYfIRJt5ZQHD7HUFWePsleTIzexy5JNhmfgqg0x8FRnrAx0PAZ819PP9n9j3VLCrQEoqbLoKmaFWTK4WvYvNDskKtQ7JyvYOCQBFdPswv4J9mKKttZvTBnK/vGJNXJfUf2/apHVxLdjtKTzzV3pKGytN0FNlZAtROldoexZT7I8VR++PkS5cCRVGyS5dOCyjyVxaZlDtbygrNZuMkaa/ATvtjuWpqdg5AAAAAElFTkSuQmCC" />
           </svg>
            <svg 
-                 @touchstart="AtsPushButton('plus')" 
+                 @touchstart="AtsPushButton('start')" 
                  class="plusImg defaultImg"    
                  viewBox="0 0 145 145"
                  xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,7 @@ const template=`
     </div>
     <div class="online_div"  >
         <div class="online_div_zaixian">
-             <div class="mid">在线</div> 
+             <div :style="{color: machineStatue=='在线'? 'green':'red'}"  class="mid">{{machineStatue}}</div> 
               <div class="mid">消息数{{msgList.length}}</div> 
         </div> 
     </div>
@@ -174,9 +174,8 @@ export default {
 
     data(){
         return {
+            machineStatue:"离线",
             isShowMsgList:false,
-            occupyClient:{createUser:"空闲"},
-            clientList:[],
             dispValue:0.000,
             skqStatus:"stop",
             skqStatusImg:"https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/shoukongqi/static/stop-1.png",
@@ -185,6 +184,14 @@ export default {
         }
     },
     methods:{
+        async onlineCheck(){
+           let r= await MIO.s2sCloudIsOnlineByUid({uid:M.userInfo.router_param});
+           if(r){
+               this.machineStatue="在线"
+           }else {
+               this.machineStatue="离线"
+           }
+        },
         online_msg_dbclick(){
             if(this.isShowMsgList){
                 this.isShowMsgList=false
@@ -210,6 +217,9 @@ export default {
             }
             console.log(msg)
         },
+        async dealSystemMsg(msg){
+            this.onlineCheck();
+        },
         async AtsPushButton(btnName){
             if (navigator.vibrate) {
                 navigator.vibrate(100);
@@ -218,7 +228,7 @@ export default {
             }
             $(".activeImg").hide();
             $(`.${btnName}Img +svg`).show();
-            MIO.socketEmitCall(btnName,{connectGroup:"pub_skq01"});
+            MIO.s2sSocketEmitCall("pushBtn",btnName,0);
         },
         main_contol_wrap_touchend(){
             $(".activeImg").hide();
@@ -279,16 +289,19 @@ export default {
 
     },
     async mounted() {
-        document.title="s2s";
+        document.title=M.userInfo.router_param;
         document.documentElement.style.overflow = 'auto';
         $(".activeImg").hide()
         $(".defaultImg").show()
         M.Component.simu_s2s_skq=this;
         if(M.userInfo!=null){
-            await MIO.s2ssocketConnect();
+            this.onlineCheck();
+            let clientId=M.userInfo.router_param+"."+M.userInfo.uid;
+            let r=  await M.request.post(M.config.s2scloudHost+"/api/s2scloud/applySocketio",{
+                "clientId":clientId
+            })
+            await MIO.s2ssocketConnect(r.data,clientId);
         }
-
-
     },
     watch:{
 
@@ -301,7 +314,6 @@ export default {
             }
             let absValue=Math.abs(this.dispValue);
             let absValueStr="";
-
             absValue=absValue+"";
              let split=  absValue.split(".")
             if(split.length==1){
@@ -316,7 +328,6 @@ export default {
             return  absValueStr;
         }
     }
-
 }
 
 
