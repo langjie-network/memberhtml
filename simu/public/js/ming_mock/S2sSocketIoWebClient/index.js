@@ -15,8 +15,16 @@ let s2sSocketIoWebPlugin= new S2sSocketIoWebPlugin({
                 M.Component.simu_s2s_skq.dealEventMsg(msg.body);
                 break;
             }
+            case "datagram":{
+                M.Component.simu_s2s_skq.dealDataGramMsg(msg.body);
+                break;
+            }
             case "system":{
                 M.Component.simu_s2s_skq.dealSystemMsg(msg.body);
+                break;
+            }
+            case "reply":{
+                //console.log(evt,msg)
                 break;
             }
         }

@@ -73,7 +73,8 @@ class S2sSocketIoWebPlugin {
         MIO.s2ssocketConnect=this.connect.bind(this);
         MIO.s2sSocketEmitCall=async (method,params,id,callback)=>{
             let reqBody={
-                "method": "call"+"."+ method,
+                "jsonrpc":"2.0",
+                "method": method,
                 "params": params
             };
             if(id){
@@ -83,7 +84,7 @@ class S2sSocketIoWebPlugin {
                     callback:callback
                 };
             }
-            M.request.post(M.config.s2scloudHost+ `/s2scloud/socketio/call?event=call&clientId=`+that.clientId,reqBody)
+            M.request.post(M.config.s2scloudHost+ `/s2scloud/socketio/call?clientId=`+that.clientId,reqBody)
         }
     }
 

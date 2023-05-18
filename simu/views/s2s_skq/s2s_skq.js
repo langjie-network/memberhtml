@@ -78,7 +78,7 @@ export default {
         async appendMsg(msg) {
             let itemMsg = {
                 t: new Date().format("mm:ss:S"),
-                d: msg
+                d: msg.body
             }
             if (this.msgList.length > 50) {
                 this.msgList.length = 49;
@@ -90,12 +90,18 @@ export default {
             this.msgList=[]
         },
         async dealEventMsg(msg) {
-            if (msg.method == "event.deviceState") {
+            if (msg.method == "deviceState") {
                 let deviceState = msg.params.device[0];
                 this.dispValue = deviceState.disp;
                 this.loadValue = deviceState.load?deviceState.load:0;
                 this.elongValue = deviceState.elong?deviceState.elong:0;
             }
+        },
+        async dealDataGramMsg(msg){
+            let lastInx=msg.points.length-1;
+            this.dispValue = msg.points[lastInx].disp;
+            this.loadValue = msg.points[lastInx].load;
+            this.elongValue = msg.points[lastInx].elong;
         },
         async dealSystemMsg(msg) {
             setTimeout(() => {
@@ -103,7 +109,7 @@ export default {
             }, 1000)
         },
         async AtsPushButton(btnName) {
-            MIO.s2sSocketEmitCall("pushBtn", btnName, 0);
+            MIO.s2sSocketEmitCall("PushAtsButton", btnName, 0);
         }
     },
     async mounted() {
