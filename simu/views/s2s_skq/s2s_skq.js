@@ -97,7 +97,7 @@ export default {
                 this.elongValue = deviceState.elong?deviceState.elong:0;
             }
         },
-        async dealDataGramMsg(msg){
+        async dealGramMsg(msg){
             let lastInx=msg.points.length-1;
             this.dispValue = msg.points[lastInx].disp;
             this.loadValue = msg.points[lastInx].load;

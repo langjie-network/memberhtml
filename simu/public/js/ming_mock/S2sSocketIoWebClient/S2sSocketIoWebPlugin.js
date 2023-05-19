@@ -34,8 +34,8 @@ class S2sSocketIoWebPlugin {
         socket.on("reply",async function (msg) {
             that.callback("reply",msg)
         });
-        socket.on("datagram",async function (msg) {
-            that.callback("datagram",msg)
+        socket.on("gram",async function (msg) {
+            that.callback("gram",msg)
         });
         socket.on("system",async function (msg) {
             that.callback("system",msg)
