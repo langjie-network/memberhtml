@@ -76,6 +76,9 @@ export default {
             }
         },
         async appendMsg(msg) {
+            if(!msg.body){
+                return
+            }
             let itemMsg = {
                 t: new Date().format("mm:ss:S"),
                 d: msg.body
