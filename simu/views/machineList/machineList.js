@@ -70,10 +70,10 @@ export default  {
         let r= await M.request.get(M.config.s2scloudHost+"/api/s2scloud/machine");
         let dataList=[];
         if (r.code==0){
-            for (let i=0;i<r.data.length;i++){
+            for (let i=0;i<r.data.dataList.length;i++){
                 let obj={};
-                obj.sn=r.data[i].sn;
-                obj.online=r.data[i].clientIds?true:false;
+                obj.sn=r.data.dataList[i].sn;
+                obj.online=r.data.dataList[i].clientIds?true:false;
                 dataList.push(obj);
             }
             this.dataList=dataList;
