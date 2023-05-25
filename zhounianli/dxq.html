@@ -14,261 +14,6 @@
 	<script src="../../js/ejs.min.js"></script>
 	<script src="../../js/common.js" type="text/javascript"></script>
 	<script src="../../js/request.js" type="text/javascript"></script>
-	<!--引入pageSlider.js文件-->
-	<script>
-		(function ($, window, document, undefined) {
-			'use strict';
-
-			/**
-			 * Instantiate parameters
-			 *
-			 * @constructor
-			 */
-			function PageSlider(optOrIndex) {
-				this.inited = false,
-						this.startY = 0,
-						this.distance = 0,
-						this.timer = null,
-						this.nextPageTop = 0,
-						this.prevPageTop = 0,
-						this.index = 0,
-						this.curPagePos = 0,
-						this.nextPagePos = 0,
-						this.pageHeight = 0,
-						this.prevPagePos = 0;
-
-				this.opt = {
-					startPage: 1,
-					range: 70,
-					duration: 200,
-					loop: false,
-					elastic: true,
-					translate3d: true,
-					callback: {}
-				};
-
-				this.init(optOrIndex);
-			};
-
-			/**
-			 * Set translate/translate3d according to the option
-			 *
-			 * @param {Number|String} offsetY  Vertical Offset
-			 * @returns {String}  translate/translate3d
-			 */
-			PageSlider.prototype.motion = function (offsetY) {
-				if (this.opt.translate3d) {
-					return 'translate3d(0,' + offsetY + 'px,0)';
-				} else {
-					return 'translate(0,' + offsetY + 'px)';
-				}
-			};
-
-			/**
-			 * Show the specified page
-			 *
-			 * @param {Number} index  The target page number
-			 * @param {string} direction  The direction of the sliding,'next' or 'prev'
-			 */
-			PageSlider.prototype.showSec = function (index, direction) {
-				if ($('.current').length) $('.current,.next,.prev').css({
-					'-webkit-transition': null,
-					'-webkit-transform': null
-				}).removeClass('current prev next');
-				var cur, next, prev;
-				var totalSec = $('.section').length;
-				if (direction == 'next') {
-					cur = index == totalSec ? 1 : (index + 1);
-					next = cur == totalSec ? (this.opt.loop ? 1 : 0) : (cur + 1);
-					prev = index;
-				} else if (direction == 'prev') {
-					cur = index == 1 ? totalSec : (index - 1);
-					next = index;
-					prev = cur == 1 ? (this.opt.loop ? totalSec : 0) : (cur - 1);
-				} else {
-					cur = index;
-					next = index == totalSec ? (this.opt.loop ? 1 : 0) : (index + 1);
-					prev = index == 1 ? (this.opt.loop ? totalSec : 0) : (index - 1);
-				}
-				var $curSec = $('.sec' + cur);
-				var $nextSec = $('.sec' + next);
-				var $prevSec = $('.sec' + prev);
-
-				$curSec.addClass('current');
-				this.pageHeight = $('.current').height();
-
-				$nextSec.addClass('next').css('-webkit-transform', this.motion(this.pageHeight));
-				$prevSec.addClass('prev').css('-webkit-transform', this.motion(-this.pageHeight));
-
-				$curSec.addClass('ani').siblings('.section').removeClass('ani');
-				//执行回调
-				typeof (this.opt.callback[cur]) == 'function' && this.opt.callback[cur]();
-			};
-
-			/**
-			 * Touch start event handler
-			 */
-			PageSlider.prototype.touchStartHandler = function (event) {
-				let tagId= event.target.getAttribute("id")
-				let target = event.target.getAttribute("data-id")
-				if (target) {
-					console.log("a",event.target)
-					let goodsName = event.target.getAttribute("data-goodsName")
-					selectGift({ id: target, goodsName: goodsName,selectIndex: event.target.getAttribute("data-selectIndex")})
-					return
-				}
-				if(tagId=="ok_buttok"){
-					cd_submit()
-					return;
-				}
-				var that = event.data.that;
-				if (that.timer) {
-					event.preventDefault();
-					return;
-				}
-
-				that.index = $('.section').index($(this)) + 1;
-				var touch = event.touches[0];
-				that.distance = 0;
-				that.startY = touch.clientY;
-				that.curPagePos = $(this).offset().top;
-				that.nextPagePos = $('.next').length && $('.next').offset().top;
-				that.prevPagePos = $('.prev').length && $('.prev').offset().top;
-				$(this).off('touchmove').on('touchmove', {
-					'that': that
-				}, that.touchMoveHandler);
-				$(this).off('touchend').on('touchend', {
-					'that': that
-				}, that.touchEndHandler);
-				event.preventDefault();
-			};
-
-			/**
-			 * Touch move event handler
-			 */
-			PageSlider.prototype.touchMoveHandler = function (event) {
-				var that = event.data.that;
-				if (that.timer) {
-					event.preventDefault();
-					return;
-				}
-				var touch = event.touches[0];
-				that.distance = touch.clientY - that.startY;
-				if (Math.abs(that.distance) < 5) {
-					event.preventDefault();
-					return;
-				};
-				if (!that.opt.elastic && ((that.index === 1 && that.distance > 0) || (that.index === $('.section').length && that.distance < 0))) {
-					event.preventDefault();
-					return;
-				}
-				that.curPageTop = that.curPagePos + that.distance;
-				that.nextPageTop = that.nextPagePos + that.distance;
-				that.prevPageTop = that.prevPagePos + that.distance;
-
-				$(this).css('-webkit-transform', that.motion(that.curPageTop));
-				$('.next').css('-webkit-transform', that.motion(that.nextPageTop));
-				$('.prev').css('-webkit-transform', that.motion(that.prevPageTop));
-				event.preventDefault();
-			};
-
-			/**
-			 * Touch end event handler
-			 */
-			PageSlider.prototype.touchEndHandler = function (event) {
-				var that = event.data.that;
-				if (that.timer) {
-					event.preventDefault();
-					return;
-				}
-				$('.current,.next,.prev').css('-webkit-transition', '-webkit-transform ' + that.opt.duration + 'ms linear');
-				if ((that.distance < -that.opt.range && $('.next').length) || (that.distance > that.opt.range && $('.prev').length)) {
-					var next = !!(that.distance < -that.opt.range);
-					$(this).css('-webkit-transform', that.motion((next ? (-$(this).height()) : $(this).height())));
-					$(next ? '.next' : '.prev').css('-webkit-transform', that.motion(0));
-					that.timer = setTimeout(function () {
-						that.showSec(that.index, next ? 'next' : 'prev');
-						clearTimeout(that.timer);
-						that.timer = null;
-					}, that.opt.duration + 5);
-				} else {
-					$(this).css('-webkit-transform', that.motion(0));
-					$('.prev').css('-webkit-transform', that.motion(-that.pageHeight));
-					$('.next').css('-webkit-transform', that.motion(that.pageHeight));
-					that.timer = setTimeout(function () {
-						$('.current,.next,.prev').css({
-							'-webkit-transition': null
-						});
-						clearTimeout(that.timer);
-						that.timer = null;
-					}, that.opt.duration + 5);
-				}
-				event.preventDefault();
-			};
-
-			/**
-			 * Sliding to the target page
-			 *
-			 * @param {Number} index  The target page number
-			 */
-			PageSlider.prototype.go = function (index) {
-				this.init(index);
-			};
-
-			/**
-			 * PageSlider initializer
-			 *
-			 * @param {Object|Number} optOrIndex  Settings or page number
-			 */
-			PageSlider.prototype.init = function (optOrIndex) {
-				var that = this;
-				if (typeof (optOrIndex) == 'object') {
-					$.extend(true, that.opt, optOrIndex);
-					that.inited = false;
-				} else {
-					optOrIndex && (that.opt.startPage = optOrIndex);
-				}
-
-				if (!that.inited) {
-					$('.section').off('touchstart').on('touchstart', {
-						'that': that
-					}, that.touchStartHandler);
-					that.showSec(that.opt.startPage);
-					that.inited = true;
-				} else {
-					that.showSec(that.opt.startPage)
-				}
-
-				$(window).on('onorientationchange' in window ? 'orientationchange' : 'resize', function () {
-					that.go(that.index + 1);
-				});
-			};
-
-			/**
-			 * To generate an instance of object
-			 *
-			 * @param {Object|Number} optOrIndex  Settings or page number
-			 */
-			PageSlider.case = function (optOrIndex) {
-				return new PageSlider(optOrIndex);
-			};
-
-
-			if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
-				define(function () {
-					return PageSlider;
-				});
-			} else if (typeof module !== 'undefined' && module.exports) {
-				module.exports = PageSlider.case;
-				module.exports.PageSlider = PageSlider;
-			} else {
-				window.PageSlider = PageSlider;
-			}
-
-		})(window.Zepto, window, document);
-	</script>
-
-
 
 	<style>
 		html,
@@ -277,29 +22,6 @@
 			overflow: hidden;
 		}
 
-		.section {
-			display: none;
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: #FCC;
-		}
-
-		.section.current {
-			display: inline-block;
-		}
-
-		.section.next {
-			display: inline-block;
-			z-index: 2;
-		}
-
-		.section.prev {
-			display: inline-block;
-			z-index: 2;
-		}
 	</style>
 
 
@@ -308,65 +30,17 @@
 		*{
 			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 		}
-		#img1Id {
-			width: 100%;
-			height: 100%;
-		}
 
-		#img2Id {
-			width: 100%;
-			height: 100%;
-		}
 
 		#img3Id {
 			width: 100%;
 			height: 100%;
 		}
 
-
-
-		#memberNameId2 {
-			position: absolute;
-			top: 2.5%;
-			left: 30%;
-			font-size: 500%;
-			letter-spacing: 10px;
-			color: white;
-			font-weight: bolder;
-			font-style: oblique;
-			text-shadow: 1px 1px 4px white;
-		}
-
-		#memberNameId2_1 {
-			position: absolute;
-			top: 16%;
-			left: 17%;
-			font-size: 300%;
-			letter-spacing: 5px;
-			color: white;
-		}
-
-		#memberNameId2_2 {
-			border-radius: 15px;
-			box-sizing: border-box;
-			position: absolute;
-			top: 28%;
-			left: 9%;
-			letter-spacing: 2px;
-			border: 1px solid white;
-			width: 82%;
-			height: 58%;
-			padding: 10px;
-			background-color: white;
-			text-indent: 0em;
-			font-size: 15px;
-		}
-
-
 		#memberNameId3 {
 			position: absolute;
-			top:23%;
-
+			top:128vw;
+			margin: 0 auto;
 		}
 	</style>
 
@@ -391,66 +65,38 @@
 			letter-spacing: 3px;
 			background-color: white
 		}
+		.lingquBtnWrap{
+			color: rgb(56,111,35);
+			font-weight: bold;
+			line-height: 10vw;
+			height: 10vw;
+			margin: 0 auto;
+			border-radius: 1vw;
+			width: 20vw;
+			text-align: center;
+			background-color: rgb(195,213,187);
+		}
 
-		.goodsImg {
-			width: 100%;
-			height: 75%;
-			cursor: pointer;
-		}
-		.select{
-			width: 20%;
-			position: absolute;
-			bottom:0;
-			right: 0;
-		}
 		#ok_buttok{
-			width: 80%;
+			font-size: 5vw;
 		}
 	</style>
 
 
 <body>
-<!--DOM结构-->
-<div class="section sec1" style="background-color:#FFCCCC;">
-	<img id="img1Id" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/znl/nn1.png"></img>
 
-</div>
-<div class="section sec2" style="background-color:#4ACBF7;">
-	<img id="img2Id" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/znl/nn2.png"></img>
 
-	<div id="memberNameId2">
-		<script id="memberNameId2_template" type="text/template">
-			<%=hisRev.meeting_age%>
-		</script>
-	</div>
-	<div id="memberNameId2_1">
-	</div>
-	<div id="memberNameId2_2">
-		<script id="memberNameId2_2_template1" type="text/template">
-			<p><%=hisRev.submit_year%>年的<%=hisRev.submit_month%>月，你开始关注朗杰公众号，朗杰俱乐部等来了你的加入，从此开启了新的篇章~</p>
-			<p>过去<%=hisRev.meeting_age%>年里，你参与了<%=hisRev.ea_answer_count%>次问答，你坚持了<%=hisRev.sign_count%>天的签到，你兑换了<%=hisRev.exchange_gift_count%>份礼品……春去秋来，我们的互动越来越频繁。你在朗杰留下的每一个足迹都还保留着。</p>
-			<p>感谢每一次的成长都有你的陪伴。在此，朗杰给你准备了一份小小的礼物，请笑纳。
-				道阻且长，望携手共进!</p>
-		</script>
-
-	</div>
-</div>
-<div class="section sec3" style="background-color:#63E339;">
-	<img id="img3Id" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/znl/nn3.png"></img>
+<div>
+	<img id="img3Id" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/greetingcard/zzlq02.jpg"></img>
 	<div id="memberNameId3">
 		<script id="memberNameId3_template" type="text/template">
-			<article>
-				<% for(var i = 0; i < list.length; i++) { %>
-				<div>
-					<img class="select" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/znl/select.png"></img>
-					<img class="goodsImg"  data-selectIndex="<%=i%>" data-goodsName="<%=list[i].goodsName%>" data-id="<%=list[i].id%>" src="../../img/notiClient/<%=list[i].st_album%>"></img>
-					<span><%=list[i].goodsName%></span>
+			<div style="width: 100vw">
+				<div class="lingquBtnWrap" >
+					<a id="ok_buttok" onclick="cd_submit(<%=list[0].id%>)" >领 取</a>
 				</div>
-				<% } %>
-			</article>
-			<div>
-				<a class="weui-btn weui-btn_primary" id="ok_buttok" >确认</a>
+
 			</div>
+
 		</script>
 
 	</div>
@@ -462,9 +108,6 @@
 
 	window.onpageshow = function(event){
 		myload()
-		// if (event.persisted) {
-		//    window.location.reload();
-		// }
 	}
 
 	//a标签无法触发跳转的问题用以下代码
@@ -474,7 +117,6 @@
 
 
 	let free_exchange_gift_id = window.location.href.split("id=")[1]
-	let hisRev = {}
 
 	//选择的礼品
 	let selectGiftId=0;
@@ -515,44 +157,19 @@
 	}
 
 	function myload(){
-		//alert(2)
 		free_exchange_gift_id = window.location.href.split("id=")[1]
 		window.M.request.get("member/freeExchangeList", { id: free_exchange_gift_id,t:new Date().getTime() }).then(
 				async res => {
 
 					if (res.code != 200) {
 						console.log(res)
-						window.location.href="/member/personalWallet/#2"
+						//window.location.href="/member/personalWallet/#2"
 						return;
 					}
 					let list = res.data;
 					window.list = list
 					let html = ejs.render($("#memberNameId3_template").html(), { list: list });
-					//console.log(html)
 					$("#memberNameId3").html(html)
-
-					let freeExchangeData=  await M.request.get("member/listFreeExchange",{id:free_exchange_gift_id||0})
-					let templateTitle=freeExchangeData.data.data[0].text_template||"模板1"
-					//console.log("AA",templateTitle)
-					let memberNameId2_2_template1_yuque=await M.request.get("tools/dictionary/getUseCode",
-							{
-								queryCode:"YuqueReviewDoc",
-								childName:templateTitle,
-								t:new Date().getTime()
-							})
-					memberNameId2_2_template1_yuque=memberNameId2_2_template1_yuque.data;
-					// console.log(memberNameId2_2_template1_yuque)
-					M.request.get("member/memberHistoricalReview").then(res => {
-						console.log(res)
-						hisRev = res.data
-						let html = ejs.render($("#memberNameId2_template").html(), { hisRev: hisRev });
-						$("#memberNameId2").html(html)
-						let html1 = ejs.render(memberNameId2_2_template1_yuque, { hisRev: hisRev });
-						$("#memberNameId2_2").html(html1)
-						var pageSlider = PageSlider.case();
-						$(".select").css("display","none")
-						$("#ok_buttok").css("display","none")
-					})
 				}
 		)
 	}
@@ -565,7 +182,7 @@
 
 	});
 
-	function cd_submit(){
+	function cd_submit(selectGiftId){
 		$.ajax({
 			url: route('member/freeExchange'),
 			type: 'post',
@@ -585,7 +202,6 @@
 				}
 			}
 		});
-
 		return;
 	}
 
