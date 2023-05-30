@@ -161,10 +161,25 @@
 		free_exchange_gift_id = window.location.href.split("id=")[1]
 		window.M.request.get("member/freeExchangeList", { id: free_exchange_gift_id,t:new Date().getTime() }).then(
 				async res => {
-
 					if (res.code != 200) {
-						console.log(res)
-						//window.location.href="/member/personalWallet/#2"
+						if(res.data && res.data.rem){
+						 	let d={};
+						 	d.id= res.data.id;
+						 	d.exchangeGoodsId=res.data.score_goods_id;
+						 	d.stage=res.data.rem;
+							if(d.stage=="待选取"){
+								window.location.href = route(`memberhtml/zhounianli/dxq.html?id=${d.id}`);
+							}
+							if(d.stage=="已选取"){
+								window.location.href = route(`memberhtml/zhounianli/dfh.html?id=${d.id}&exchangeGoodsId=${d.exchangeGoodsId}`);
+							}
+							if(d.stage=="已发货"){
+								window.location.href = route(`memberhtml/zhounianli/yfh.html?id=${d.id}&exchangeGoodsId=${d.exchangeGoodsId}`);
+							}
+							if(d.stage=="已收货"){
+								window.location.href = route(`memberhtml/zhounianli/ysh.html?id=${d.id}`);
+							}
+						}
 						return;
 					}
 					let list = res.data;
