@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+
+}
+li{list-style-type:none;}
+
+body{
+    background-color: rgb(247,247,247);
+}
+#main{
+
+}
+
+.msg-header{
+    width: 100vw;
+    height: 27.7777vw;
+    background-color: white;
+    margin-top: 0vw;
+    overflow: hidden;
+}
+
+.msg-header div{
+    font-size: 8.3333vw;
+    font-weight: bold;
+    margin-top: 13.0556vw;
+    margin-left: 8.0556vw;
+}
+
+.msgitem-head-wrap{
+    margin: 0 auto;
+    width: 90vw;
+}
+
+.msgitem-head-time{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+
+    border-radius: 10vw;
+}
+.msgitem-head-time span{
+    display: inline-block;
+    height: 4vw;
+    line-height: 5vw;
+    padding: 1vw 2vw 1vw 2vw;
+    margin: 5.55vw;
+    font-size: 3.3333vw;
+    border-radius: 4vw;
+    color: white;
+    background-color: rgb(210,210,210);
+}
+
+
+
+.msgitem-body{
+    width: 90vw;
+    margin: 0 auto;
+    padding: 3.33vw ;
+    background-color: white;
+    box-shadow: 0px 5px 5px #888888;
+}
+
+.laba-img{
+    width: 6.1111vw;
+    vertical-align:middle;
+}
+.msgitem-body-header{
+    font-size: 5vw;
+    font-weight: bold;
+}
+
+.btn-before{
+    height: 3vw;
+}
+.yiyue-btn{
+    outline:none;
+    border: none;
+    width: 13.3333vw;
+    height: 7.1111vw;
+    margin-right: 1vw;
+    border-radius: 3vw;
+    color: white;
+    background-color: rgb(91,175,114);
+}
+
+.btn-end{
+    clear:both;
+    height: 1vw;
+}
+
+.msg-foot{
+
+    height: 20vw;
+}
+
+.weui-navbar{
+    /*height: 10vh;*/
+    position: sticky;
+}
+
+.weui-tab__content{
+
+}
+
+
+
+
+
+
+
+
