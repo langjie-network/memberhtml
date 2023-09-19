@@ -1,0 +1,94 @@
+<html><head lang="en">
+    <meta charset="UTF-8">
+    <title>提货券</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script type="text/javascript" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue@2.js"></script>
+    <script src="/js/kendo/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script src="/js/request.js" type="text/javascript"></script>
+    <link href="/styles/weui.min.css" rel="stylesheet">
+
+    <style>
+        .description {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.5rem;
+        }
+        .btn {
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+   <div id="main">
+       <header style="display: flex;justify-content: center">{{voucherName}}</header>
+       <img id="imgId" style="width: 100%;" :src="imgSrc">
+       <p class="description" v-html="descriptionStr">
+       </p>
+       <div class="btn">
+           <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="showExchangeDialog();">领取</a>
+       </div>
+   </div>
+</body>
+</html>
+
+
+<script>
+
+    const M_p={
+        "id": <%= result.id %>,
+        "takegood_voucher_target_url":"https://weidian.com/item.html?itemID=6631562921"
+    }
+
+    async  function showExchangeDialog() {
+        var r = window.confirm('确定领取' + '？');
+        if (!r) {
+            return false;
+        }
+        let receiveResult=await M.request.post("member/lq_activity_voucher_record_receive",{
+            id:M_p.id,
+            lq_voucher_category:"takegood"
+        });
+
+        window.location.href=M_p.takegood_voucher_target_url;
+
+    }
+
+    window.onload = function () {
+        M.vueApp = new Vue({
+            el: "#main",
+            data: {
+                imgSrc:"",
+                descriptionStr:"",
+                voucherName:""
+            },
+            async mounted() {
+                let lq_activity_voucher_record_detailResult=await  M.request.get("member/lq_activity_voucher_record_detail",{
+                    id:M_p.id
+                })
+                if(lq_activity_voucher_record_detailResult.code!=200){
+                    wxToast("不存在");
+                    return
+                }
+                let lq_activity_voucher_record=lq_activity_voucher_record_detailResult.data;
+                let lq_activityInfo=lq_activity_voucher_record.lq_activityInfo;
+                this.imgSrc=lq_activityInfo.takegood_voucher_pic
+                this.voucherName =lq_activityInfo.takegood_voucher_name;
+                M_p.takegood_voucher_target_url=lq_activityInfo.takegood_voucher_target_url;
+                let descriptionList=lq_activityInfo.takegood_voucher_description.split("\n");
+                let descriptionStr=descriptionList[0];
+                for (let i=1;i<descriptionList.length;i++){
+                    descriptionStr=descriptionStr+`<p>`+descriptionList[i]+`</p>`
+                }
+                this.descriptionStr=descriptionStr;
+            },
+
+            methods: {
+
+            }
+        });
+    }
+
+
+</script>

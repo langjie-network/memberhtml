@@ -31,12 +31,6 @@
                             <em class="weui-form-preview__value total_amount ticketScore">{{ticketScore}}</em>
                         </div>
                     </div>
-                    <div class="weui-panel__ft">
-                        <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link" onclick="exchangeGoods();">
-                            <div class="weui-cell__bd" style="font-size: 1.2rem;">兑换礼品</div>
-                            <span class="weui-cell__ft"></span>
-                        </a>
-                    </div>
                 </div>
                 <div class="weui-cells__title">积分明细</div><div class="weui-cells"></div>
                 <div v-if="ticketList.length>0">
@@ -66,12 +60,12 @@
                     </div>
                 </div>
                 <div class="weui-cells__title">参与券明细</div><div class="weui-cells"></div>
-                <div v-if="ticketList.length>0">
-                    <a v-for="item in participate_voucher_recordList"  class="weui-cell" href="javascript:;">
+                <div v-if="participate_voucher_recordList.length>0">
+                    <a   v-for="item in participate_voucher_recordList"  @click="gotoLingQuParticipate_voucher(item)"  class="weui-cell" href="javascript:;">
                         <div class="weui-cell__bd">
                             <p>
-                            <p style="color: #000;">{{item.voucher_name}}</p>
-                            <p style="color: #999;">{{item.gmt_create}}</p>
+                                <p style="color: #000;">{{item.voucher_name}}</p>
+                                <p style="color: #999;">{{item.gmt_create}}</p>
                             </p>
                         </div>
                         <div class="weui-cell__ft">
@@ -87,22 +81,22 @@
                 <div class="weui-form-preview">
                     <div class="weui-form-preview__hd">
                         <div class="weui-form-preview__item">
-                            <label class="weui-form-preview__label">待使用/总数</label>
-                            <em class="weui-form-preview__value total_amount ticketScore">5/{{8}}</em>
+                            <label class="weui-form-preview__label">待领取/总数</label>
+                            <em class="weui-form-preview__value total_amount ticketScore">{{take_voucher_dailingquCount}}/{{participate_voucher_recordList.length}}</em>
                         </div>
                     </div>
                 </div>
-                <div class="weui-cells__title">提货券明细</div><div class="weui-cells ticketList"></div>
-                <div v-if="ticketList.length>0">
-                    <a v-for="item in ticketList"  class="weui-cell" href="javascript:;">
+                <div class="weui-cells__title">提货券明细</div><div class="weui-cells"></div>
+                <div v-if="takegood_voucher_recordList.length>0">
+                    <a v-for="item in takegood_voucher_recordList"  @click="gotoLingQuTakegood_voucher(item)"   class="weui-cell" href="javascript:;">
                         <div class="weui-cell__bd">
                             <p>
-                            <p style="color: #000;">{{item.rem}}</p>
-                            <p style="color: #999;">{{item.create_time}}</p>
+                            <p style="color: #000;">{{item.voucher_name}}</p>
+                            <p style="color: #999;">{{item.gmt_create}}</p>
                             </p>
                         </div>
                         <div class="weui-cell__ft">
-                            <p>{{item.score}}分</p>
+                            <p>{{item.state}}</p>
                         </div>
                     </a>
                 </div>
@@ -120,15 +114,10 @@
 
 </html>
 
-<template id="msgItemTemplateId">
-    <div class="msgItemWrap">
-        A
-    </div>
-</template>
 
 
 <script>
-    var g_ticketList_page = 0, g_ticketList_pageSize = 10;
+    var g_ticketList_page = 0, g_ticketList_pageSize = 20;
     var g_ticketList_isLoading = false, g_ticketList_hasMore = true;
     app.get("/lq_activity_ybscore_list_getScoreTicketByUid",async (req,res)=>{
         g_ticketList_isLoading = true;
@@ -184,6 +173,7 @@
                 ticketList: [],
                 ticketScore:0,
                 participate_voucher_recordList:[],
+                takegood_voucher_recordList:[],
 
             },
             async mounted() {
@@ -192,15 +182,30 @@
                     defaultIndex: 0,
                     onChange: async function(index){
                         that.tab=index;
+                        if(index==1){
+                            that.fetchParticipateVoucherRecordList();
+                        }
+                        if(index==2){
+                            that.fetchTakegoodVoucherRecordList();
+                        }
                     }
                 });
                 this.fetchTicket();
-                that.fetchParticipateVoucherRecordList();
-
-
             },
 
             methods: {
+                //领取参与券
+                gotoLingQuParticipate_voucher(item){
+                   if(item.state=="待领取"){
+                       window.location.href = route('member/receiveLq_activity_voucher_record/participate_lingqu/'+item.id);
+                   }
+                },
+                //领取提货券
+                gotoLingQuTakegood_voucher(item){
+                    if(item.state=="待领取"){
+                        window.location.href = route('member/receiveLq_activity_voucher_record/takegood_lingqu/'+item.id);
+                    }
+                },
                 async fetchTicket(){
                     let ticketListResult=await MIO.lq_activity_ybscore_list_getScoreTicketByUid();
                     this.ticketScore=ticketListResult.ticketScore;
@@ -213,7 +218,17 @@
                 },
                 async fetchParticipateVoucherRecordList(){
                     let list=  await MIO.lq_activity_ybscore_list_getLqActivityVoucherRecordList({lq_voucher_category:'participate'})
+                    list.forEach(u=>{
+                        u.gmt_create=new Date(u.gmt_create).format("yyyy:MM:dd hh:mm:ss")
+                    })
                     this.participate_voucher_recordList=list;
+                },
+                async fetchTakegoodVoucherRecordList(){
+                    let list=  await MIO.lq_activity_ybscore_list_getLqActivityVoucherRecordList({lq_voucher_category:'takegood'})
+                    list.forEach(u=>{
+                        u.gmt_create=new Date(u.gmt_create).format("yyyy:MM:dd hh:mm:ss")
+                    })
+                    this.takegood_voucher_recordList=list;
                 },
                 getItemState(state) {
 
@@ -224,7 +239,11 @@
             },
             computed: {
                 participate_voucher_dailingquCount() {
-                    let list=  this.participate_voucher_recordList.filter(u=>u.state=="待兑换")
+                    let list=  this.participate_voucher_recordList.filter(u=>u.state=="待领取")
+                    return list.length;
+                },
+                take_voucher_dailingquCount() {
+                    let list=  this.takegood_voucher_recordList.filter(u=>u.state=="待领取")
                     return list.length;
                 }
             },
