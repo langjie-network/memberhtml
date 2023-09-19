@@ -12,7 +12,7 @@
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/request.js" type="text/javascript"></script>
     <link rel="stylesheet" href="/memberhtml/pages/lq_activity_ybscore/index.css">
-    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
+    <link href="/styles/weui.min.css" rel="stylesheet">
 </head>
 <body>
 <div id="main">
@@ -196,13 +196,13 @@
             methods: {
                 //领取参与券
                 gotoLingQuParticipate_voucher(item){
-                   if(item.state=="待领取"){
+                   if(1){
                        window.location.href = route('member/receiveLq_activity_voucher_record/participate_lingqu/'+item.id);
                    }
                 },
                 //领取提货券
                 gotoLingQuTakegood_voucher(item){
-                    if(item.state=="待领取"){
+                    if(1){
                         window.location.href = route('member/receiveLq_activity_voucher_record/takegood_lingqu/'+item.id);
                     }
                 },

@@ -27,7 +27,7 @@
        <p class="description" v-html="descriptionStr">
        </p>
        <div class="btn">
-           <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="showExchangeDialog();">领取</a>
+           <a href="javascript:;" :class="'weui-btn weui-btn_primary '+  (isCanReceive?'':'weui-btn_disabled')" @click="showExchangeDialog();">领取</a>
        </div>
    </div>
 </body>
@@ -38,24 +38,7 @@
 
     const M_p={
         "id": <%= result.id %>,
-        "takegood_voucher_target_url":"https://weidian.com/item.html?itemID=6631562921"
-    }
-
-    async  function showExchangeDialog() {
-        var r = window.confirm('确定领取' + '？');
-        if (!r) {
-            return false;
-        }
-        let receiveResult=await M.request.post("member/lq_activity_voucher_record_receive",{
-            id:M_p.id,
-            lq_voucher_category:"takegood"
-        });
-
-        wxToast(receiveResult.msg);
-
-
-        window.location.href=M_p.takegood_voucher_target_url;
-
+        "takegood_voucher_target_url":""
     }
 
     window.onload = function () {
@@ -64,7 +47,8 @@
             data: {
                 imgSrc:"",
                 descriptionStr:"",
-                voucherName:""
+                voucherName:"",
+                isCanReceive:false,
             },
             async mounted() {
                 let lq_activity_voucher_record_detailResult=await  M.request.get("member/lq_activity_voucher_record_detail",{
@@ -85,10 +69,31 @@
                     descriptionStr=descriptionStr+`<p>`+descriptionList[i]+`</p>`
                 }
                 this.descriptionStr=descriptionStr;
+                if(lq_activity_voucher_record.state=='待领取' && new Date().getTime()< new Date(lq_activityInfo.takegood_voucher_end_date).getTime()){
+                    this.isCanReceive=true
+                }
             },
 
             methods: {
-
+                async showExchangeDialog() {
+                    if(this.isCanReceive==false){
+                        return ;
+                    }
+                    var r = window.confirm('确定领取' + '？');
+                    if (!r) {
+                        return false;
+                    }
+                    let receiveResult=await M.request.post("member/lq_activity_voucher_record_receive",{
+                        id:M_p.id,
+                        lq_voucher_category:"takegood"
+                    });
+                    wxToast(receiveResult.msg);
+                    if( M_p.takegood_voucher_target_url){
+                        window.location.href=M_p.takegood_voucher_target_url;
+                    }else {
+                        window.history.go(-1)
+                    }
+                }
             }
         });
     }
