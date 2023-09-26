@@ -42,64 +42,64 @@
     }
 
 
-
-    window.onload = function () {
-        M.vueApp = new Vue({
-            el: "#main",
-            data: {
-                imgSrc:"",
-                descriptionStr:"",
-                voucherName:"",
-                isCanReceive:false,
-            },
-            async mounted() {
-                let lq_activity_voucher_record_detailResult=await  M.request.get("member/lq_activity_voucher_record_detail",{
-                    id:M_p.id
-                })
-                if(lq_activity_voucher_record_detailResult.code!=200){
-                    wxToast("不存在");
-                    return
-                }
-                let lq_activity_voucher_record=lq_activity_voucher_record_detailResult.data;
-                let lq_activityInfo=lq_activity_voucher_record.lq_activityInfo;
-                this.imgSrc=lq_activityInfo.participate_voucher_pic
-                this.voucherName =lq_activityInfo.participate_voucher_name;
-                M_p.takegood_voucher_target_url=lq_activityInfo.participate_voucher_target_url;
-                let descriptionList=lq_activityInfo.participate_voucher_description.split("\n");
-                let descriptionStr=descriptionList[0];
-                for (let i=1;i<descriptionList.length;i++){
-                    descriptionStr=descriptionStr+`<p>`+descriptionList[i]+`</p>`
-                }
-                this.descriptionStr=descriptionStr;
-                if(lq_activity_voucher_record.state=='待领取' && new Date().getTime()< new Date(lq_activityInfo.participate_voucher_end_date).getTime()){
-                    this.isCanReceive=true
-                }
-            },
-            methods: {
-                async showExchangeDialog() {
-                    if(this.isCanReceive==false){
-                        return ;
-                    }
-                    var r = window.confirm('确定领取' + '？');
-                    if (!r) {
-                        return false;
-                    }
-                    let receiveResult=await M.request.post("member/lq_activity_voucher_record_receive",{
-                        id:M_p.id,
-                        lq_voucher_category:"participate"
-                    });
-                    wxToast(receiveResult.msg);
-                    if( M_p.takegood_voucher_target_url){
-                        window.location.href=M_p.takegood_voucher_target_url;
-                    }else {
-                        window.history.go(-1)
-                    }
-
-
-                }
+    M.vueApp = new Vue({
+        el: "#main",
+        data: {
+            imgSrc:"",
+            descriptionStr:"",
+            voucherName:"",
+            isCanReceive:false,
+        },
+        async mounted() {
+            let lq_activity_voucher_record_detailResult=await  M.request.get("member/lq_activity_voucher_record_detail",{
+                id:M_p.id
+            })
+            if(lq_activity_voucher_record_detailResult.code!=200){
+                wxToast("不存在");
+                return
             }
-        });
-    }
+            let lq_activity_voucher_record=lq_activity_voucher_record_detailResult.data;
+            let lq_activityInfo=lq_activity_voucher_record.lq_activityInfo;
+            this.imgSrc=lq_activityInfo.participate_voucher_pic
+            this.voucherName =lq_activityInfo.participate_voucher_name;
+            M_p.takegood_voucher_target_url=lq_activityInfo.participate_voucher_target_url;
+            let descriptionList=[""];
+            if(lq_activityInfo.participate_voucher_description){
+                descriptionList= lq_activityInfo.participate_voucher_description?.split("\n");
+            }
+            let descriptionStr=descriptionList[0];
+            for (let i=1;i<descriptionList.length;i++){
+                descriptionStr=descriptionStr+`<p>`+descriptionList[i]+`</p>`
+            }
+            this.descriptionStr=descriptionStr;
+            if(lq_activity_voucher_record.state=='待领取' && new Date().getTime()< new Date(lq_activityInfo.participate_voucher_end_date).getTime()){
+                this.isCanReceive=true
+            }
+        },
+        methods: {
+            async showExchangeDialog() {
+                if(this.isCanReceive==false){
+                    return ;
+                }
+                var r = window.confirm('确定领取' + '？');
+                if (!r) {
+                    return false;
+                }
+                let receiveResult=await M.request.post("member/lq_activity_voucher_record_receive",{
+                    id:M_p.id,
+                    lq_voucher_category:"participate"
+                });
+                wxToast(receiveResult.msg);
+                if( M_p.takegood_voucher_target_url){
+                    window.location.href=M_p.takegood_voucher_target_url;
+                }else {
+                    window.history.go(-1)
+                }
+
+
+            }
+        }
+    });
 
 
 </script>

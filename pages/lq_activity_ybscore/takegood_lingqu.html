@@ -63,7 +63,10 @@
                 this.imgSrc=lq_activityInfo.takegood_voucher_pic
                 this.voucherName =lq_activityInfo.takegood_voucher_name;
                 M_p.takegood_voucher_target_url=lq_activityInfo.takegood_voucher_target_url;
-                let descriptionList=lq_activityInfo.takegood_voucher_description.split("\n");
+                let descriptionList=[""];
+                if(lq_activityInfo.participate_voucher_description){
+                    descriptionList= lq_activityInfo.takegood_voucher_description?.split("\n");
+                }
                 let descriptionStr=descriptionList[0];
                 for (let i=1;i<descriptionList.length;i++){
                     descriptionStr=descriptionStr+`<p>`+descriptionList[i]+`</p>`
