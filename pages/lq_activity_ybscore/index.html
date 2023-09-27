@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
 </head>
 <body>
-<div id="main">
+<div v-cloak id="main">
     <div v-if="disAdTitleEnable"  class="shiwupaimai" :style="[titleAdStyle]">
         <img src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/crm-help/config_position_img/ming.png" />
         <span class="benqipaipin">本期拍品</span>
@@ -120,6 +120,7 @@
 
 
 <script>
+    /////////////api接口//////////////////
     var g_ticketList_page = 0, g_ticketList_pageSize = 20;
     var g_ticketList_isLoading = false, g_ticketList_hasMore = true;
     app.get("/lq_activity_ybscore_list_getScoreTicketByUid",async (req,res)=>{
@@ -144,118 +145,104 @@
         })
         res.send(res1.data);
     })
+    ///////////////////////////////
+    M.vueApp = new Vue({
+        el: "#main",
+        data: {
+            tab:0,
+            //元宝分消费列表
+            ticketList: [],
+            ticketScore:0,
+            participate_voucher_recordList:[],
+            takegood_voucher_recordList:[],
+            disAdTitleEnable:false,
+            titleAdTargetUrl:"",
+            //广告AD左侧图
+            titleAdLeftImgUrl:"",
+            titleAdStyle:{
+                color:"black",
+                backgroundImage:"url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/auction/paimaiad03.png)"
+            }
 
-
-    function exchangeGoods() {
-        window.location.href = route('member/exchangeGoodsList');
-    }
-
-
-
-    window.onload = function () {
-        M.vueApp = new Vue({
-            el: "#main",
-            data: {
-                tab:0,
-                //元宝分消费列表
-                ticketList: [],
-                ticketScore:0,
-                participate_voucher_recordList:[],
-                takegood_voucher_recordList:[],
-                disAdTitleEnable:false,
-                titleAdTargetUrl:"",
-                titleAdStyle:{
+        },
+        async mounted() {
+            let that=this;
+            weui.tab('#tab',{
+                defaultIndex: 0,
+                onChange: async function(index){
+                    that.tab=index;
+                    if(index==1){
+                        that.fetchParticipateVoucherRecordList();
+                    }
+                    if(index==2){
+                        that.fetchTakegoodVoucherRecordList();
+                    }
+                }
+            });
+            let appConfigResult= await M.request.get("appopen/getAppCoonfigByKey?key=lqActivity.titleAdConfig")
+            let appConfigResultJson=  JSON.parse(appConfigResult.data.value)
+            let disAdTitleEnable=appConfigResultJson["enable"];
+            if(disAdTitleEnable){
+                this.titleAdStyle={
                     color:"black",
-                    backgroundImage:"url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/auction/paimaiad03.png)"
+                    backgroundImage:`url(${appConfigResultJson['背景图']})`
                 }
+                console.log("QQWE",this.titleAdStyle)
+                this.titleAdTargetUrl=appConfigResultJson['跳转地址'];
+                this.disAdTitleEnable=disAdTitleEnable;
+            }
+            this.fetchTicket();
+        },
 
-            },
-            async mounted() {
-                let that=this;
-                weui.tab('#tab',{
-                    defaultIndex: 0,
-                    onChange: async function(index){
-                        that.tab=index;
-                        if(index==1){
-                            that.fetchParticipateVoucherRecordList();
-                        }
-                        if(index==2){
-                            that.fetchTakegoodVoucherRecordList();
-                        }
-                    }
-                });
-                 let appConfigResult= await M.request.get("appopen/getAppCoonfigByKey?key=lqActivity.titleAdConfig")
-                 let appConfigResultJson=  JSON.parse(appConfigResult.data.value)
-                 let disAdTitleEnable=appConfigResultJson["enable"];
-                 if(disAdTitleEnable){
-                   this.titleAdStyle={
-                       color:"black",
-                       backgroundImage:`url(${appConfigResultJson['背景图']})`
-                   }
-                   console.log("QQWE",this.titleAdStyle)
-                   this.titleAdTargetUrl=appConfigResultJson['跳转地址'];
-                   this.disAdTitleEnable=disAdTitleEnable;
-                 }
-                 this.fetchTicket();
-            },
-
-            methods: {
-                //领取参与券
-                gotoLingQuParticipate_voucher(item){
-                   if(1){
-                       window.location.href = route('member/receiveLq_activity_voucher_record/participate_lingqu/'+item.id);
-                   }
-                },
-                //领取提货券
-                gotoLingQuTakegood_voucher(item){
-                    if(1){
-                        window.location.href = route('member/receiveLq_activity_voucher_record/takegood_lingqu/'+item.id);
-                    }
-                },
-                async fetchTicket(){
-                    let ticketListResult=await MIO.lq_activity_ybscore_list_getScoreTicketByUid();
-                    this.ticketScore=ticketListResult.ticketScore;
-                    let newticketList=ticketListResult.ticketList;
-                    if(g_ticketList_page>0){
-                        this.ticketList=[...this.ticketList,...newticketList]
-                    }else {
-                        this.ticketList=newticketList
-                    }
-                },
-                async fetchParticipateVoucherRecordList(){
-                    let list=  await MIO.lq_activity_ybscore_list_getLqActivityVoucherRecordList({lq_voucher_category:'participate'})
-                    list.forEach(u=>{
-                        u.gmt_create=new Date(u.gmt_create).format("yyyy:MM:dd hh:mm:ss")
-                    })
-                    this.participate_voucher_recordList=list;
-                },
-                async fetchTakegoodVoucherRecordList(){
-                    let list=  await MIO.lq_activity_ybscore_list_getLqActivityVoucherRecordList({lq_voucher_category:'takegood'})
-                    list.forEach(u=>{
-                        u.gmt_create=new Date(u.gmt_create).format("yyyy:MM:dd hh:mm:ss")
-                    })
-                    this.takegood_voucher_recordList=list;
-                },
-                getItemState(state) {
-
+        methods: {
+            //领取参与券
+            gotoLingQuParticipate_voucher(item){
+                if(1){
+                    window.location.href = route('member/receiveLq_activity_voucher_record/participate_lingqu/'+item.id);
                 }
             },
-            updated(){
-
-            },
-            computed: {
-                participate_voucher_dailingquCount() {
-                    let list=  this.participate_voucher_recordList.filter(u=>u.state=="待领取")
-                    return list.length;
-                },
-                take_voucher_dailingquCount() {
-                    let list=  this.takegood_voucher_recordList.filter(u=>u.state=="待领取")
-                    return list.length;
+            //领取提货券
+            gotoLingQuTakegood_voucher(item){
+                if(1){
+                    window.location.href = route('member/receiveLq_activity_voucher_record/takegood_lingqu/'+item.id);
                 }
             },
-        });
-    }
-
+            async fetchTicket(){
+                let ticketListResult=await MIO.lq_activity_ybscore_list_getScoreTicketByUid();
+                this.ticketScore=ticketListResult.ticketScore;
+                let newticketList=ticketListResult.ticketList;
+                if(g_ticketList_page>0){
+                    this.ticketList=[...this.ticketList,...newticketList]
+                }else {
+                    this.ticketList=newticketList
+                }
+            },
+            async fetchParticipateVoucherRecordList(){
+                let list=  await MIO.lq_activity_ybscore_list_getLqActivityVoucherRecordList({lq_voucher_category:'participate'})
+                list.forEach(u=>{
+                    u.gmt_create=new Date(u.gmt_create).format("yyyy:MM:dd hh:mm:ss")
+                })
+                this.participate_voucher_recordList=list;
+            },
+            async fetchTakegoodVoucherRecordList(){
+                let list=  await MIO.lq_activity_ybscore_list_getLqActivityVoucherRecordList({lq_voucher_category:'takegood'})
+                list.forEach(u=>{
+                    u.gmt_create=new Date(u.gmt_create).format("yyyy:MM:dd hh:mm:ss")
+                })
+                this.takegood_voucher_recordList=list;
+            }
+        },
+        computed: {
+            participate_voucher_dailingquCount() {
+                let list=  this.participate_voucher_recordList.filter(u=>u.state=="待领取")
+                return list.length;
+            },
+            take_voucher_dailingquCount() {
+                let list=  this.takegood_voucher_recordList.filter(u=>u.state=="待领取")
+                return list.length;
+            }
+        },
+    });
 
     window.onscroll = function() {
         var s_height = document.documentElement.scrollTop || $('body').scrollTop();
@@ -287,7 +274,6 @@
         position: relative;
     }
 
-
     .shiwupaimai img{
         width: 25.64vw;
         height: 25.64vw;
@@ -318,4 +304,8 @@
         font-size: 2.2vw;
     }
 
+
+    [v-cloak]{
+       display: none;
+    }
 </style>
