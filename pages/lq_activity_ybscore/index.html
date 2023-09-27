@@ -10,14 +10,14 @@
     <script src="/js/kendo/jquery.min.js" type="text/javascript"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/request.js" type="text/javascript"></script>
-    <link href="/styles/weui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
 </head>
 <body>
 <div id="main">
-    <div  class="shiwupaimai">
+    <div v-if="disAdTitleEnable"  class="shiwupaimai" :style="[titleAdStyle]">
         <img src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/crm-help/config_position_img/ming.png" />
-        <span class="benqipaipin">本期拍品:sdfsdfdsf</span>
-        <span class="paimaishijian">活动时间: sdfsdfsdf</span>
+        <span class="benqipaipin">本期拍品</span>
+        <span class="paimaishijian">活动时间:10.10~10.11</span>
     </div>
     <div class="weui-tab" id="tab">
         <div class="weui-navbar">
@@ -85,7 +85,7 @@
                     <div class="weui-form-preview__hd">
                         <div class="weui-form-preview__item">
                             <label class="weui-form-preview__label">待领取/总数</label>
-                            <em class="weui-form-preview__value total_amount ticketScore">{{take_voucher_dailingquCount}}/{{participate_voucher_recordList.length}}</em>
+                            <em class="weui-form-preview__value total_amount ticketScore">{{take_voucher_dailingquCount}}/{{takegood_voucher_recordList.length}}</em>
                         </div>
                     </div>
                 </div>
@@ -125,40 +125,25 @@
     app.get("/lq_activity_ybscore_list_getScoreTicketByUid",async (req,res)=>{
         g_ticketList_isLoading = true;
         g_ticketList_page++;
-        $.ajax({
-            url: route('member/getScoreTicketByUid'),
-            type: 'get',
-            data: {
-                page: g_ticketList_page,
-                pageSize: g_ticketList_pageSize,
-            },
-            success: function (res1) {
-                g_ticketList_isLoading = false;
-                if (res1.data.ticketList.length === 0) {
-                    g_ticketList_hasMore = false;
-                }
-                res.send(res1.data);
-            }
-        });
+        let res1=await  M.request.get('member/getScoreTicketByUid',{
+            page: g_ticketList_page,
+            pageSize: g_ticketList_pageSize
+        })
+        g_ticketList_isLoading = false;
+        if (res1.data.ticketList.length === 0) {
+            g_ticketList_hasMore = false;
+        }
+        res.send(res1.data);
     })
-
-
     app.get("/lq_activity_ybscore_list_getLqActivityVoucherRecordList",async (req,res)=>{
         let {lq_voucher_category}=req.params;
-        $.ajax({
-            url: route('member/getLqActivityVoucherRecordList'),
-            type: 'get',
-            data: {
-                page: 1,
-                pageSize: 20,
-                lq_voucher_category
-            },
-            success: function (res1) {
-                res.send(res1.data);
-            }
-        });
+        let res1=await  M.request.get('member/getLqActivityVoucherRecordList',{
+            page: 1,
+            pageSize: 100,
+            lq_voucher_category
+        })
+        res.send(res1.data);
     })
-
 
 
     function exchangeGoods() {
@@ -177,10 +162,16 @@
                 ticketScore:0,
                 participate_voucher_recordList:[],
                 takegood_voucher_recordList:[],
+                disAdTitleEnable:false,
+                titleAdStyle:{
+                    color:"black",
+                    backgroundImage:"url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/auction/paimaiad03.png)"
+                }
 
             },
             async mounted() {
                 let that=this;
+
                 weui.tab('#tab',{
                     defaultIndex: 0,
                     onChange: async function(index){
@@ -193,6 +184,11 @@
                         }
                     }
                 });
+                let appConfigResult= await M.request.get("appopen/getAppCoonfigByKey?key=lqActivity.titleAdConfig")
+                console.log(appConfigResult)
+
+                that.disAdTitleEnable=1;
+
                 this.fetchTicket();
             },
 
@@ -273,11 +269,11 @@
     }
 
     .shiwupaimai{
-        margin-top: 0.5vw;
+        margin-top: 0vw;
         padding: 2vw;
         display: flex;
         border: 1px rgb(240,240,240) solid;
-        background: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/auction/paimaiad03.png");
+
         background-size: 100% auto;
         background-repeat:no-repeat;
         height: 36.59vw;
