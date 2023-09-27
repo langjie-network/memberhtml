@@ -163,6 +163,7 @@
                 participate_voucher_recordList:[],
                 takegood_voucher_recordList:[],
                 disAdTitleEnable:false,
+                titleAdTargetUrl:"",
                 titleAdStyle:{
                     color:"black",
                     backgroundImage:"url(https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/auction/paimaiad03.png)"
@@ -171,7 +172,6 @@
             },
             async mounted() {
                 let that=this;
-
                 weui.tab('#tab',{
                     defaultIndex: 0,
                     onChange: async function(index){
@@ -184,12 +184,19 @@
                         }
                     }
                 });
-                let appConfigResult= await M.request.get("appopen/getAppCoonfigByKey?key=lqActivity.titleAdConfig")
-                console.log(appConfigResult)
-
-                that.disAdTitleEnable=1;
-
-                this.fetchTicket();
+                 let appConfigResult= await M.request.get("appopen/getAppCoonfigByKey?key=lqActivity.titleAdConfig")
+                 let appConfigResultJson=  JSON.parse(appConfigResult.data.value)
+                 let disAdTitleEnable=appConfigResultJson["enable"];
+                 if(disAdTitleEnable){
+                   this.titleAdStyle={
+                       color:"black",
+                       backgroundImage:`url(${appConfigResultJson['背景图']})`
+                   }
+                   console.log("QQWE",this.titleAdStyle)
+                   this.titleAdTargetUrl=appConfigResultJson['跳转地址'];
+                   this.disAdTitleEnable=disAdTitleEnable;
+                 }
+                 this.fetchTicket();
             },
 
             methods: {
