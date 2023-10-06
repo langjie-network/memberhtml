@@ -15,7 +15,9 @@
 <body>
 <div v-cloak id="main">
     <div v-if="disAdTitleEnable"  class="titleAd_wrap" :style="[titleAdStyle]" @click="titleAdClick">
-
+        <img  src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/crm-help/config_position_img/ming.png" />
+        <span class="leftBottonText">本期拍品</span>
+        <span class="rightTopText">活动时间:10.10~10.11</span>
     </div>
     <div class="weui-tab" id="tab">
         <div class="weui-navbar">
@@ -264,6 +266,21 @@
         margin-left: 2vw;
         margin-top: 4vw;
         display: inline-block;
+    }
+    .titleAd_wrap .leftBottonText{
+        position: absolute;
+        left: 2vw;
+        top: 32vw;
+        font-size: 3vw;
+        font-family: 华文楷体;
+    }
+
+    .titleAd_wrap .rightTopText{
+        position: absolute;
+        right: 2vw;
+        top: 0vw;
+        font-size: 3vw;
+        color: white;
     }
 
     [v-cloak]{
