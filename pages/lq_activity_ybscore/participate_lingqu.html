@@ -7,7 +7,6 @@
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/request.js" type="text/javascript"></script>
     <link href="/styles/weui.min.css" rel="stylesheet">
-
     <style>
         .description {
             padding-left: 1rem;
@@ -27,7 +26,9 @@
     <p class="description" v-html="descriptionStr">
     </p>
     <div class="btn">
-        <a href="javascript:;" :class="'weui-btn weui-btn_primary '+  (isCanReceive?'':'weui-btn_disabled')" @click="showExchangeDialog();">领取</a>
+        <a href="javascript:;" class="weui-btn weui-btn_primary" @click="showExchangeDialogOrGotoGame">
+            {{isCanReceive?'领取':'前往活动'}}
+        </a>
     </div>
 </div>
 </body>
@@ -77,8 +78,13 @@
             }
         },
         methods: {
-            async showExchangeDialog() {
+            async showExchangeDialogOrGotoGame() {
                 if(this.isCanReceive==false){
+                    if(M_p.takegood_voucher_target_url.startsWith("https")) {
+                        location.href=M_p.takegood_voucher_target_url;
+                    }else {
+                        wxToast("不存在");
+                    }
                     return ;
                 }
                 var r = window.confirm('确定领取' + '？');

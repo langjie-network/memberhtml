@@ -22,8 +22,8 @@
     <div class="weui-tab" id="tab">
         <div class="weui-navbar">
             <div class="weui-navbar__item">元宝分</div>
-            <div class="weui-navbar__item">参与券</div>
-            <div class="weui-navbar__item">提货券</div>
+            <div class="weui-navbar__item">邀请券</div>
+            <div class="weui-navbar__item">礼品券</div>
         </div>
         <div class="weui-tab__panel">
             <div class="weui-tab__content">
@@ -54,15 +54,7 @@
                 </div>
             </div>
             <div class="weui-tab__content">
-                <div class="weui-form-preview">
-                    <div class="weui-form-preview__hd">
-                        <div class="weui-form-preview__item">
-                            <label class="weui-form-preview__label">待领取/总数</label>
-                            <em class="weui-form-preview__value total_amount ticketScore">{{participate_voucher_dailingquCount}}/{{participate_voucher_recordList.length}}</em>
-                        </div>
-                    </div>
-                </div>
-                <div class="weui-cells__title">参与券明细</div><div class="weui-cells"></div>
+                <div class="weui-cells__title">邀请券明细</div><div class="weui-cells"></div>
                 <div v-if="participate_voucher_recordList.length>0">
                     <a   v-for="item in participate_voucher_recordList"  @click="gotoLingQuParticipate_voucher(item)"  class="weui-cell" href="javascript:;">
                         <div class="weui-cell__bd">
@@ -81,15 +73,7 @@
                 </div>
             </div>
             <div class="weui-tab__content">
-                <div class="weui-form-preview">
-                    <div class="weui-form-preview__hd">
-                        <div class="weui-form-preview__item">
-                            <label class="weui-form-preview__label">待领取/总数</label>
-                            <em class="weui-form-preview__value total_amount ticketScore">{{take_voucher_dailingquCount}}/{{takegood_voucher_recordList.length}}</em>
-                        </div>
-                    </div>
-                </div>
-                <div class="weui-cells__title">提货券明细</div><div class="weui-cells"></div>
+                <div class="weui-cells__title">礼品券明细</div><div class="weui-cells"></div>
                 <div v-if="takegood_voucher_recordList.length>0">
                     <a v-for="item in takegood_voucher_recordList"  @click="gotoLingQuTakegood_voucher(item)"   class="weui-cell" href="javascript:;">
                         <div class="weui-cell__bd">
