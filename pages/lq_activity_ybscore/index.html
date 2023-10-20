@@ -62,7 +62,7 @@
                             </p>
                         </div>
                         <div class="weui-cell__ft">
-                            <p>{{item.state}}</p>
+                            <p :style="{color:getColorByStatus(item.state)}">{{item.state}}</p>
                         </div>
                     </a>
                 </div>
@@ -81,7 +81,7 @@
                             </p>
                         </div>
                         <div class="weui-cell__ft">
-                            <p>{{item.state}}</p>
+                            <p :style="{color:getColorByStatus(item.state)}">{{item.state}}</p>
                         </div>
                     </a>
                 </div>
@@ -176,6 +176,17 @@
         },
 
         methods: {
+            getColorByStatus(sta){
+                if(sta=="待领取"){
+                    return "green";
+                }else if(sta=="已领取"){
+                    return "blue";
+                }else if(sta=="已使用"){
+                    return "red";
+                }else if(sta=="待领取"){
+                    return "#cccccc";
+                }
+            },
             titleAdClick(){
                 window.location.href =this.titleAdTargetUrl;
             },
@@ -216,6 +227,7 @@
                 this.takegood_voucher_recordList=list;
             }
         },
+
         computed: {
             participate_voucher_dailingquCount() {
                 let list=  this.participate_voucher_recordList.filter(u=>u.state=="待领取")
