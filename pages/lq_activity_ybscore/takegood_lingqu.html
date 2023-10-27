@@ -7,7 +7,6 @@
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/js/request.js" type="text/javascript"></script>
     <link href="/styles/weui.min.css" rel="stylesheet">
-
     <style>
         .description {
             padding-left: 1rem;
@@ -62,7 +61,7 @@
                 let lq_activity_voucher_record=lq_activity_voucher_record_detailResult.data;
                 let lq_activityInfo=lq_activity_voucher_record.lq_activityInfo;
                 this.imgSrc=lq_activityInfo.takegood_voucher_pic
-                this.voucherName =lq_activityInfo.takegood_voucher_name;
+                this.voucherName =lq_activity_voucher_record.name;
                 M_p.takegood_voucher_target_url=lq_activityInfo.takegood_voucher_target_url;
                 let descriptionList=[""];
                 if(lq_activityInfo.takegood_voucher_description){

@@ -57,7 +57,7 @@
                     <a   v-for="item in participate_voucher_recordList"  @click="gotoLingQuParticipate_voucher(item)"  class="weui-cell" href="javascript:;">
                         <div class="weui-cell__bd">
                             <p>
-                                <p style="color: #000;">{{item.voucher_name}}</p>
+                                <p style="color: #000;">{{item.name}}</p>
                                 <p style="color: #999;">{{item.gmt_create}}</p>
                             </p>
                         </div>
@@ -76,7 +76,7 @@
                     <a v-for="item in takegood_voucher_recordList"  @click="gotoLingQuTakegood_voucher(item)"   class="weui-cell" href="javascript:;">
                         <div class="weui-cell__bd">
                             <p>
-                            <p style="color: #000;">{{item.voucher_name}}</p>
+                            <p style="color: #000;">{{item.name}}</p>
                             <p style="color: #999;">{{item.gmt_create}}</p>
                             </p>
                         </div>

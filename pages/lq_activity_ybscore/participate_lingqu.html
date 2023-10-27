@@ -63,7 +63,7 @@
             let lq_activity_voucher_record=lq_activity_voucher_record_detailResult.data;
             let lq_activityInfo=lq_activity_voucher_record.lq_activityInfo;
             this.imgSrc=lq_activityInfo.participate_voucher_pic
-            this.voucherName =lq_activityInfo.participate_voucher_name;
+            this.voucherName =lq_activity_voucher_record.name;
             M_p.takegood_voucher_target_url=lq_activityInfo.participate_voucher_target_url;
             let descriptionList=[""];
             if(lq_activityInfo.participate_voucher_description){
