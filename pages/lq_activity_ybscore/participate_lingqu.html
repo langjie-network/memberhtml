@@ -98,7 +98,7 @@
                 });
                 wxToast(receiveResult.msg);
                 if( M_p.participate_voucher_target_url){
-                    window.location.href=M_p.participate_voucher_target_url+"&t="+new Date().getTime();
+                    window.location.href=M_p.participate_voucher_target_url;
                 }else {
                     window.history.go(-1)
                 }
