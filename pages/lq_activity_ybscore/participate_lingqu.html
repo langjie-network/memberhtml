@@ -39,7 +39,7 @@
 
     const M_p={
         "id": <%= result.id %>,
-        "takegood_voucher_target_url":""
+        "participate_voucher_target_url":""
     }
 
 
@@ -64,7 +64,7 @@
             let lq_activityInfo=lq_activity_voucher_record.lq_activityInfo;
             this.imgSrc=lq_activityInfo.participate_voucher_pic
             this.voucherName =lq_activity_voucher_record.name;
-            M_p.takegood_voucher_target_url=lq_activityInfo.participate_voucher_target_url;
+            M_p.participate_voucher_target_url=lq_activityInfo.participate_voucher_target_url;
             let descriptionList=[""];
             if(lq_activityInfo.participate_voucher_description){
                 descriptionList= lq_activityInfo.participate_voucher_description?.split("\n");
@@ -81,8 +81,8 @@
         methods: {
             async showExchangeDialogOrGotoGame() {
                 if(this.isCanReceive==false){
-                    if(M_p.takegood_voucher_target_url.startsWith("https")) {
-                        location.href=M_p.takegood_voucher_target_url;
+                    if(M_p.participate_voucher_target_url.startsWith("https")) {
+                        location.href=M_p.participate_voucher_target_url;
                     }else {
                         wxToast("不存在");
                     }
@@ -97,8 +97,8 @@
                     lq_voucher_category:"participate"
                 });
                 wxToast(receiveResult.msg);
-                if( M_p.takegood_voucher_target_url){
-                    window.location.href=M_p.takegood_voucher_target_url;
+                if( M_p.participate_voucher_target_url){
+                    window.location.href=M_p.participate_voucher_target_url+"&t="+new Date().getTime();
                 }else {
                     window.history.go(-1)
                 }
