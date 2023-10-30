@@ -150,7 +150,7 @@
         async mounted() {
            let that=this;
            let defaultIndex=  M.getParameter("tab");
-           if(defaultIndex==null){
+           if(defaultIndex==null || defaultIndex>2){
                defaultIndex=0;
            }
             weui.tab('#tab',{
@@ -176,7 +176,14 @@
                 this.titleAdTargetUrl=appConfigResultJson['跳转地址'];
                 this.disAdTitleEnable=disAdTitleEnable;
             }
+
             this.fetchTicket();
+            if(defaultIndex==1){
+                that.fetchParticipateVoucherRecordList();
+            }
+            if(defaultIndex==2){
+                that.fetchTakegoodVoucherRecordList();
+            }
         },
 
         methods: {
