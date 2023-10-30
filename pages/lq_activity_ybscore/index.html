@@ -148,9 +148,13 @@
 
         },
         async mounted() {
-            let that=this;
+           let that=this;
+           let defaultIndex=  M.getParameter("tab");
+           if(defaultIndex==null){
+               defaultIndex=0;
+           }
             weui.tab('#tab',{
-                defaultIndex: 0,
+                defaultIndex: defaultIndex,
                 onChange: async function(index){
                     that.tab=index;
                     if(index==1){
