@@ -63,6 +63,11 @@
                 this.imgSrc=lq_activityInfo.takegood_voucher_pic
                 this.voucherName =lq_activity_voucher_record.name;
                 M_p.takegood_voucher_target_url=lq_activityInfo.takegood_voucher_target_url;
+                if(M_p.takegood_voucher_target_url && M_p.takegood_voucher_target_url.startsWith("https://weidian.com")){
+                    if(/miniprogram/.test(navigator.userAgent.toLowerCase()) || window.__wxjs_environment === 'miniprogram') {
+                        M_p.takegood_voucher_target_url="https://wx.langjie.com/memberhtml/pages/lq_activity_ybscore/goweidianApp.html";
+                    }
+                }
                 let descriptionList=[""];
                 if(lq_activityInfo.takegood_voucher_description){
                     descriptionList= lq_activityInfo.takegood_voucher_description?.split("\n");
