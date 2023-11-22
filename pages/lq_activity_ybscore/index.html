@@ -199,7 +199,14 @@
                 }
             },
             titleAdClick(){
-                window.location.href =this.titleAdTargetUrl;
+                //小程序中跳微店
+                if(this.titleAdTargetUrl=="https://weidian.com/?userid=1846128800&tabType=homepage" &&  /miniprogram/.test(navigator.userAgent.toLowerCase()) || window.__wxjs_environment === 'miniprogram') {
+                    window.location.href="https://wx.langjie.com/memberhtml/pages/lq_activity_ybscore/goweidianApp.html"
+                }else{
+                    window.location.href =this.titleAdTargetUrl;
+                }
+
+
             },
             //领取参与券
             gotoLingQuParticipate_voucher(item){
