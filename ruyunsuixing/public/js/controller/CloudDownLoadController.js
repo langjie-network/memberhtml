@@ -32,7 +32,7 @@ app.get("/targetBurnDiskByDiskCode",async (req,res)=>{
 
 
 app.get("/cardInstallSendMail",async (req,res)=>{
-    const {sn,to,softId,_id}=req.params;
+    const {sn,to,softId,_id,ossUrl}=req.params;
     //alert(77)
     let unionid=vueApp.config.globalProperties.$gloable_state.userInfo.unionid;
     let r= await M.request.post(`/cardopen/sendMailForCloudDisk`,{
@@ -40,7 +40,8 @@ app.get("/cardInstallSendMail",async (req,res)=>{
         sn:sn,
         to:to,
         _id:_id,
-        softId:softId
+        softId:softId,
+        ossUrl:ossUrl
     });
     res.send(r)
 })
