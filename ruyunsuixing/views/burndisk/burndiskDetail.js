@@ -178,7 +178,6 @@ export default  {
                        }else {
                            weui.toast(e.msg)
                        }
-
                     }
                 }else {
                     weui.toast(r.msg+"_"+r2.msg)
@@ -197,7 +196,7 @@ export default  {
                 weui.toast(r.msg)
             }
         },
-        downLoadCallBack(downloadType,memberMail){
+        async downLoadCallBack(downloadType,memberMail){
             //console.log(downloadType,memberMail)
             if(downloadType!=1){
                 this.showCoverMask=1;
@@ -210,7 +209,33 @@ export default  {
                  }
             }
             if(downloadType==1){
-                MIO.cardInstallSendMail({sn:this.sn,softId:this.softId,to:memberMail,_id:this._id})
+                let r=await  MIO.cloudDiskDownLoad({_id:this._id});
+                let r2= await MIO.rootfile_sync2oss({_id:this._id,check:true});
+                if(r2.code!=200 ){
+                    weui.toast(r2.msg);
+                    return;
+                }
+                let ossUrl=null;
+                if(r.code==200){
+                    let ossCacheFile=r.data.split("downloads/temp/")[1];
+                    let fileCacheFile=r2.data.split("downloads/temp/")[1];
+                    if(ossCacheFile ==fileCacheFile){
+                        MIO.cloudDiskDownLoadAddEvent({_id:this._id});
+                        ossUrl=r.data;
+                    }else {
+                        let r2= await MIO.rootfile_sync2oss({_id:this._id,check:false});
+                        if(M.checkR(r2)){
+                            weui.toast("正在打包中...")
+                        }else {
+                            weui.toast(e.msg)
+                        }
+                    }
+                }else {
+                    weui.toast(r.msg+"_"+r2.msg)
+                }
+                if(ossUrl!=null){
+                    MIO.cardInstallSendMail({sn:this.sn,softId:this.softId,to:memberMail,_id:this._id,ossUrl:ossUrl})
+                }
             }
         },
         changeVisableBudingList(){
