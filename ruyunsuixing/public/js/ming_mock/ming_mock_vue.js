@@ -331,6 +331,10 @@
         return null;
     };
 
+    M.checkR=function (r){
+        return r.code==200 || r.code==0;
+    }
+
     M.urlStringify = function (obj) {
         if (obj !== null && typeof obj === 'object') {
             var keys = Object.keys(obj);
