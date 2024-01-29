@@ -200,6 +200,7 @@ function openPicker(type, date, title, cb) {
 function dateFormat(ret) {
     if(ret.month==0){
         ret.month=12;
+        ret.year=ret.year-1;
     }
     var year = ret.year;
     var month = Number(ret.month) < 10 ? '0' + ret.month : ret.month;
