@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script src="/js/request.js"></script>
+    <script src="/js/kendo/jquery.min.js"></script>
+
+</head>
+<body>
+AAAAAAAAA
+
+
+</body>
+</html>
+
+
+<script>
+    let isConfig=false;
+    function getWxConfig(){
+        const page = window.location.href.split("#")[0];
+        let timestamp = Date.now();
+        $.ajax({
+            url: this.wxConfigUrl,
+            type: 'get',
+            data: {
+                page: page,
+                timestamp: timestamp
+            },
+            dataType: "json",
+            success: function (res) {
+                let config={};
+                config.appId = res.data.appId;
+                config.signature = res.data.signature;
+                config.nonceStr = res.data.nonceStr;
+                config.timestamp = timestamp;
+                config.jsApiList = ['scanQRCode','previewImage'];
+                //只执行一次
+                wx.config(config);
+                wx.ready(function () {
+                    console.log("11111111")
+                    isConfig=true;
+                });
+            },
+            error:function (e){
+                console.log("0000000000")
+                console.error(e)
+            }
+        });
+
+    }
+
+
+</script>
