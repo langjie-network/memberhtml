@@ -34,17 +34,35 @@ AAAAAAAAA
             dataType: "json",
             success: function (res) {
                 let config={};
+                config.debug= true;
                 config.appId = res.data.appId;
                 config.signature = res.data.signature;
                 config.nonceStr = res.data.nonceStr;
                 config.timestamp = timestamp;
-                config.jsApiList = ['scanQRCode','previewImage'];
+                config.jsApiList = [
+                    'onMenuShareTimeline', 'onMenuShareAppMessage'
+                ];
                 //只执行一次
                 wx.config(config);
                 wx.ready(function () {
                     console.log("11111111")
-                    isConfig=true;
-                });
+                    isConfig = true;
+
+                    wx.onMenuShareTimeline({
+                        title: '元宝红包', // 分享标题
+                        link: 'https://wx.langjie.com/member/oncegame/envelop?game_id=51&code=011HYgll2m6mSc47szll2aSboF1HYgle', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                        imgUrl: 'https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/yb_qianbao.png', // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                            console.log('分享成功');
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                            console.log('分享取消');
+                        }
+                    });
+
+                })
             },
             error:function (e){
                 console.log("0000000000")
