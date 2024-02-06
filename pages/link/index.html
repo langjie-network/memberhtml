@@ -25,7 +25,7 @@ AAAAAAAAA
         const page = window.location.href.split("#")[0];
         let timestamp = Date.now();
         $.ajax({
-            url: this.wxConfigUrl,
+            url: "/common/proxyScan",
             type: 'get',
             data: {
                 page: page,
