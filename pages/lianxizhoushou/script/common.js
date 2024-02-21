@@ -42,7 +42,7 @@ api.toast=function ({msg}){
             this.newDiv.className += newclass || "";
             //自定义样式 可以注释掉行间样式
             this.newDiv.style =
-                'position:absolute;left: 50%;top: 20%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);background-color: rgba(0, 0, 0, 0.8);color: #fff;padding: .6rem;font-size: 1rem;border-radius: .4rem;text-align: center;zIndex:2250';
+                'position:fixed;left: 50%;top: 20%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);background-color: rgba(0, 0, 0, 0.8);color: #fff;padding: .6rem;font-size: 1rem;border-radius: .4rem;text-align: center;zIndex:2250';
 
             document.body.appendChild(this.newDiv);
             this.newDiv.innerHTML = this.message;
@@ -74,6 +74,23 @@ api.confirm=async (p1,callback)=>{
 api.closeWin=()=>{
     sessionStorage.setItem('refresh', 'true');
     history.go(-1)
+}
+api.copy =function (text) {
+    let textarea = document.createElement("textarea"); //创建临时的textarea元素
+    textarea.value = text; //将要复制的内容赋值给textarea
+    document.body.appendChild(textarea); //添加到页面上
+    textarea.select(); //选中textarea中的内容
+    let r=false;
+    try {
+        let successful = document.execCommand('copy'); //执行复制操作
+        let msg = successful ? '成功' : '失败';
+        r=true;
+    } catch (err) {
+        r=false;
+    } finally {
+        document.body.removeChild(textarea); //移除临时的textarea元素
+    }
+    return r;
 }
 
 

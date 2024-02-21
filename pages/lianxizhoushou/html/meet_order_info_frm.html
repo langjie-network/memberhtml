@@ -404,6 +404,16 @@
                     '</li>';
             }
         }
+
+        str += `<li class="aui-list-item onlyService">
+                    <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">评价地址</div>
+                    <div class="aui-list-item-input" onclick="copyService_evaluationAddr();" >
+                     <a>拷贝</a>
+                    </div></div>
+                </li>`;
+
+
         $('.aui-form-list').append(str);
         if (data.state != 0) {
             // 表单拒绝点击修改
@@ -535,6 +545,17 @@
                 });
             });
         }, 500);
+    }
+
+
+    function copyService_evaluationAddr(){
+         let url="https://wx.langjie.com/member/html/pages/view/service_evaluation/"+api.pageParam.id;
+         if(api.copy(url)) {
+             api.toast({msg:"拷贝成功"})
+         }else {
+             api.toast({msg:"拷贝失败"})
+         }
+
     }
 
     function isContractChange() {
