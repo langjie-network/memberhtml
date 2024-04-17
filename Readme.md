@@ -1,5 +1,5 @@
 #pin 登陆
-https://actiondev.langjie.com/member/html/pages/pinLogin/index
+https://plcmcontrollerdev.langjie.com/memberhtml/pages/qrcode/magazine_ad/index.html
 转memberhtml/pages/pinLogin/index.ejs
 
 
