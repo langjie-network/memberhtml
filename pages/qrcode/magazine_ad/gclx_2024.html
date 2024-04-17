@@ -13,7 +13,7 @@
 
 <body >
     <div class="container" v-cloak id="main" @vue:mounted="mounted()">
-        <video autoplay controls>
+        <video id="myVideo" autoplay controls>
             <source src="https://langjie.oss-cn-hangzhou.aliyuncs.com/root/qrcode/magazine_ad/gclx_2024.mp4" type="video/mp4">
         </video>
     </div>
@@ -27,7 +27,18 @@
     const initData={
         Mp:M.p,
         async mounted() {
-
+            document.addEventListener('DOMContentLoaded', function() {
+                var video = document.getElementById('myVideo');
+                video.addEventListener('canplay', function() {
+                    if (document.documentElement.requestFullscreen ) {
+                        video.requestFullscreen();
+                    } else if (video.mozRequestFullScreen ) {
+                        video.mozRequestFullScreen();
+                    } else if (video.webkitRequestFullscreen ) {
+                        video.webkitRequestFullscreen();
+                    }
+                });
+            });
         }
     }
     window.onload = function () {
@@ -44,7 +55,9 @@
         background-repeat: no-repeat;
     }
 
-    video{
-        width: 100vw;
+    #myVideo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 </style>
