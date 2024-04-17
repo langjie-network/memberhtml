@@ -1,1 +1,1 @@
-https://plcmcontrollerdev.langjie.com/memberhtml/pages/qrcode/magazine_ad/index.html
+https://plcmcontrollerdev.langjie.com/memberhtml/pages/qrcode/magazine_ad.html
