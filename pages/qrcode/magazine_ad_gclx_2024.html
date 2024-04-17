@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/memberhtml/common/css/index.css" />
+    <script src="/memberhtml/common/lib/ming_mock/ming_mock_vue.js"></script>
+    <script src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/petite-vue.iife.js"></script>
+    <title>工程力学2024</title>
+</head>
+
+<body >
+    <div class="container" v-cloak id="main" @vue:mounted="mounted()">
+        <div>
+
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    M.p={
+
+    }
+    const initData={
+        Mp:M.p,
+        async mounted() {
+
+        }
+    }
+    window.onload = function () {
+        PetiteVue.createApp(initData).mount("#main");
+    }
+</script>
+
+<style>
+    .container{
+        width: 100vw;
+        height: 100vh;
+        background-image: url("https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/gameh5/mpgift/mg_gift_page03v1.jpg");
+        background-position: 50%;
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+</style>
