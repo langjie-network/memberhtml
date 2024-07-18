@@ -39,12 +39,9 @@
 
 </div>
 
-
 </body>
 
 </html>
-
-
 
 <script>
 
@@ -52,23 +49,26 @@
         el: "#main",
         data: {
             goodsList:[
-                {name:"333333"},
-                {name:"s22s"}]
+
+            ]
         },
         async mounted() {
-
-            let that=this;
-
+            let goodsListResult=  await M.request.get("/mapi/goodsForYBScore/mlist");
+            this.goodsList=goodsListResult.data.rows;
         },
         methods: {
             getColorByStatus(){
                 return "red"
             },
+            /**
+             * 兑换
+             * @param item
+             * @return {Promise<void>}
+             */
             async exchange(item){
                let r= await M.request.post("/mapi/goodsForYBScore/exchange",{
                     "id":128
                 });
-
             }
         },
 
