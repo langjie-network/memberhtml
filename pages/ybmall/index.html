@@ -1,39 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script src="<%=BASE_URL%>/index.js" />
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>元宝商城</title>
+    <script type="text/javascript" src="https://res.wx.qq.com/t/wx_fed/cdn_libs/res/weui/1.2.3/weui.min.js"></script>
+    <script type="text/javascript" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue@2.js"></script>
+    <script type="text/javascript" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/jquery/zepto.min.js" ></script>
+    <script src="<%=BASE_URL%>/ming_mock.js" ></script>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
     <script>
-        const TOKEN= "<%=TOKEN %>";
-        const BASE_URL="<%= BASE_URL %>";
-        const userInfo={
-                 name:  "<%=USER_INFO.name %>",
-                 company: "<%=USER_INFO.company %>",
-                 avatar: "<%=USER_INFO.avatar %>",
-                 userId: <%=USER_INFO.userId %>
+        M.config={
+            baseUrl:api=> "https://actiondev.langjie.com"+api,
+            token:"<%=TOKEN %>"
         }
     </script>
 </head>
 <body>
 
-<div>
-    BASE_URL:  <%= BASE_URL %>
-    <br/>
-    name: <%=USER_INFO.name %>
-    <br/>
-    TOKEN: <%=TOKEN %>
+<div v-cloak id="main">
+    <div v-if="goodsList.length>0">
+        <a   v-for="item in goodsList"  @click="exchange(item)"  class="weui-cell" href="javascript:;">
+            <div class="weui-cell__bd">
+                <p>
+                <p style="color: #000;">{{item.name}}</p>
+                <p style="color: #999;">{{item.gmt_create}}</p>
+                </p>
+            </div>
+            <div class="weui-cell__ft">
+                <p :style="{color:getColorByStatus(item.state)}">{{item.state}}</p>
+            </div>
+        </a>
+    </div>
+    <div v-else class="weui-loadmore weui-loadmore_line">
+        <span class="weui-loadmore__tips">暂无数据</span>
+    </div>
+
 </div>
 
 
-<script type="module">
-    import Config from "<%= BASE_URL %>/config.js"
-    console.log(Config)
+</body>
+
+</html>
+
+
+
+<script>
+
+    M.vueApp = new Vue({
+        el: "#main",
+        data: {
+            goodsList:[
+                {name:"333333"},
+                {name:"s22s"}]
+        },
+        async mounted() {
+
+            let that=this;
+
+        },
+        methods: {
+            getColorByStatus(){
+                return "red"
+            },
+            async exchange(item){
+               let r= await M.request.post("/mapi/goodsForYBScore/exchange",{
+                    "id":128
+                });
+
+            }
+        },
+
+        computed: {
+
+        },
+    });
+
 </script>
 
 
-</body>
-</html>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    [v-cloak]{
+        display: none;
+    }
+</style>
