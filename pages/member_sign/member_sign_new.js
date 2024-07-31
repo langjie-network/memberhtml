@@ -444,7 +444,7 @@ window.onload = function () {
                 MIO.member_ajax_vipSignGroup_selectColleague({
                     participant:item.unionid
                 }).then(d=>{
-                    if(d.code==200){
+                    if(d.code==0){
                         M.vueApp.colleagueSelectedName=item.name;
                     }else {
                         myAlertToast("已拼团");

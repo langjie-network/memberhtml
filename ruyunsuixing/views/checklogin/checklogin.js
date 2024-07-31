@@ -22,7 +22,7 @@ export default {
                 M.setUserInfo({unionid:data.unionid});
                 MIO.fetchMemberInfo({unionid:data.unionid}).then(d=>{
                    // console.log("redirectUrl",redirectUrl,d)
-                    if(d.code==200){
+                    if(d.code==200||d.code==0){
                         window.location.href=`/ruyunsuixing/index.html#${redirectUrl}?${queryUrl}`
                         return;
                     }

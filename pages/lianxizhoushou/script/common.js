@@ -295,7 +295,7 @@ function login(cb){
             api.toast({
                 msg: res.msg
             });
-            if(res.code==200){
+            if(res.code==200||res.code==0){
                 // alert(JSON.stringify(res))
                 sessionStorage.setItem('username', res.data[0].user_name);
                 sessionStorage.setItem('phone', res.data[0].phone);

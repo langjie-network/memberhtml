@@ -30,9 +30,9 @@
                localStorage.setItem('lj_token', JSON.stringify(data));
                M.setUserInfo({unionid:data.unionid});
                MIO.fetchMemberInfo({unionid:data.unionid}).then(async d=>{
-                   if(d.code==200){
+                   if(d.code==200||d.code==0){
                         let r1= await MIO.member_ajax_memberRedict_getRedictUrl();
-                        if(r1.code==200){
+                        if(r1.code==200||d.code==0){
                             if(!M.isWeiXin){
                                 r1.data=  r1.data.replaceAll("wx","www");
                             }
