@@ -8,7 +8,7 @@ app.get("/checkWxCode",async (req,res)=>{
         reloadUrl: true,
         code: code
     });
-    if(r.code!=200){
+    if(r.code!=200&&r.code!=0){
         weui.toast(JSON.stringify(r), 200)
     }
     res.send(r);
@@ -16,17 +16,6 @@ app.get("/checkWxCode",async (req,res)=>{
 })
 
 
-// app.get("/memberInfoByUnionId",async (req,res)=>{
-//     let r= await M.request.get(`/tools/memberInfoByUnionId`,{
-//         unionid:req.params.unionid
-//     });
-//     if(r.code==200){
-//         console.log(r)
-//         M.setUserInfo(r.data);
-//         vueApp.config.globalProperties.$gloable_state.userInfo=r.data;
-//     }
-//     res.send(r.data)
-// })
 
 app.get("/fetchMemberInfo",async (req,res)=>{
     const { unionid } = req.params;

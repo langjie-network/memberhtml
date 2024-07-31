@@ -86,7 +86,7 @@ export default  {
                 content:this.inputValue,
                 root_file_id:this.root_file_id
             });
-           if(r.code==200){
+           if(r.code==200||r.code==0){
                this.fetchFlush();
                this.inputValue="";
                this.sendBtnVisable=false;

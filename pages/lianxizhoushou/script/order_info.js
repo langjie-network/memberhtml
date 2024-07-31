@@ -384,7 +384,7 @@ function sub(){
             format_data: JSON.stringify(form_data)
         }
     },function(res){
-        if(res.data==200){
+        if(res.data==200||r.code==0){
             api.toast({
                 msg: '提交成功'
             });

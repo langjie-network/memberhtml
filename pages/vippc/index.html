@@ -27,7 +27,7 @@
         computed: {},
         async mounted() {
             let r1= await MIO.member_ajax_memberRedict_getRedictUrl();
-            if(r1.code==200){
+            if(r1.code==200||r.code==0){
                 if(!M.isWeiXin){
                     r1.data=  r1.data.replaceAll("wx","www");
                 }

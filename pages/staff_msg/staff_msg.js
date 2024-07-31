@@ -18,7 +18,7 @@ function login(cb){
         },
         headers: {'Content-Type':'application/json;charset=utf8'},
         success:function(res){
-            if(res.code==200){
+            if(res.code==200||r.code==0){
                 // alert(JSON.stringify(res))
                 localStorage.setItem('username', res.data[0].user_name);
                 localStorage.setItem('phone', res.data[0].phone);

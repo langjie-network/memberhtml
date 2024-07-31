@@ -90,7 +90,7 @@ export default  {
                     "root_file_id": item.id,
                     "collect": 1
                 });
-                if(r.code==200){
+                if(r.code==200||r.code==0){
                     item.collect=1;
                 }
             }else {
@@ -98,7 +98,7 @@ export default  {
                     "root_file_id": item.id,
                     "collect": 0
                 });
-                if(r.code==200){
+                if(r.code==200||r.code==0){
                     item.collect=0;
                 }
             }

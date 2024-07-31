@@ -82,7 +82,7 @@ app.get("/rootFilePersonalitySettings",async (req,res)=>{
 app.get("/knowlibGetGalleryGroupItem",async (req,res)=>{
     const id=req.params;
     let r= await M.request.get("/member_ajax/knowlib/getGalleryGroupItem?id="+id);
-    if(r.code==200){
+    if(r.code==200 || r.code==0){
         let imgList= r.data.GallerySubs.map(u=>M.config.baseUrl("/img/gallery/"+u.album))
         res.send(imgList)
     }else {
@@ -95,7 +95,7 @@ app.get("/knowlibGetGalleryGroupItem",async (req,res)=>{
 app.get("/getNotiClientItemImgs",async (req,res)=>{
     const id=req.params;
     let r= await M.request.get("/member_ajax/getNotiClientItem?file_id="+id)
-    if(r.code==200){
+    if(r.code==200||r.code==0){
         let fileArr=[];
         let albumArr=[];
         let notiClientObj=r.data;

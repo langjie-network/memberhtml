@@ -339,7 +339,7 @@ export default {
                 api.toast({msg:"未知错误"});
                 return
             }
-            if(r.code!=200){
+            if(r.code!=0){
                 api.toast({msg:r.msg});
                 return
             }
@@ -354,7 +354,7 @@ export default {
                 yb_voucher_img_url:this.qrCodeImg,
                 yb_voucher_tag
             });
-            if(r.code==200){
+            if(r.code==0){
                 api.toast({msg:"领取成功"});
                 setTimeout(()=>{
                     this.$router.back();

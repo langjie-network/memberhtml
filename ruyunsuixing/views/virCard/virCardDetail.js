@@ -92,7 +92,7 @@ export default  {
                 this.showCoverMask=true;
             }else {
                 let r=await  MIO.cloudDiskDownLoad({sn:this.sn});
-                if(r.code==200){
+                if(r.code==200||r.code==0){
                     window.open(r.data)
                 }
             }
@@ -105,7 +105,7 @@ export default  {
                 this.showCoverMask=true;
             }else {
                 let r=await  MIO.cloudDiskDownLoad({sn:this.sn,softId:this.softId});
-                if(r.code==200){
+                if(r.code==200||r.code==0){
                     window.open(r.data)
                 }
             }

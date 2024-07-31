@@ -383,7 +383,7 @@
                      let  r=await  MIO.ossFileDel({
                           id:this.detailAlbum.id
                     })
-                    if(r.code==200){
+                    if(r.code==200||r.code==0){
                         this.albumList=this.albumList.filter(u=>u.id!=this.detailAlbum.id);
                         this.detailAlbumVisable=false;
                     }
@@ -446,7 +446,7 @@
                     rem:this.rem,
                     goods_link:this.goods_link
                 })
-                if(r.code==200){
+                if(r.code==200||r.code==0){
                     this.memberListFormVisable=true;
                     M.time= setInterval(()=>{
                         this.daojishiNum= this.daojishiNum-1;

@@ -161,11 +161,11 @@ export default  {
             }else {
                 let r=await  MIO.cloudDiskDownLoad({_id:this._id});
                 let r2= await MIO.rootfile_sync2oss({_id:this._id,check:true});
-                if(r2.code!=200 ){
+                if(r2.code!=200 && r2.code!=0 ){
                     weui.toast(r2.msg);
                     return;
                 }
-                if(r.code==200){
+                if(r.code==200||r.code==0){
                     let ossCacheFile=r.data.split("downloads/temp/")[1];
                     let fileCacheFile=r2.data.split("downloads/temp/")[1];
                     if(ossCacheFile ==fileCacheFile){
@@ -187,7 +187,7 @@ export default  {
         async itemDownLoad(item){
             this.softId=item.id;
             let r=await  MIO.cloudDiskDownLoadSoft({softId:this.softId});
-            if(r.code==200){
+            if(r.code==200||r.code==0){
                 setTimeout(()=>{
                   //  console.log(M.config.wxCallBackUrl+r.data,"AAAAAAA")
                     window.open(M.config.wxCallBackUrl+r.data)
@@ -211,12 +211,12 @@ export default  {
             if(downloadType==1){
                 let r=await  MIO.cloudDiskDownLoad({_id:this._id});
                 let r2= await MIO.rootfile_sync2oss({_id:this._id,check:true});
-                if(r2.code!=200 ){
+                if(r2.code!=200 && r.code==0){
                     weui.toast(r2.msg);
                     return;
                 }
                 let ossUrl=null;
-                if(r.code==200){
+                if(r.code==200 || r.code==0){
                     let ossCacheFile=r.data.split("downloads/temp/")[1];
                     let fileCacheFile=r2.data.split("downloads/temp/")[1];
                     if(ossCacheFile ==fileCacheFile){
@@ -269,7 +269,7 @@ export default  {
                     "root_file_id": item.id,
                     "collect": 1
                 });
-                if(r.code==200){
+                if(r.code==200||r.code==0){
                     item.collect=1;
                 }
             }else {
@@ -277,7 +277,7 @@ export default  {
                     "root_file_id": item.id,
                     "collect": 0
                 });
-                if(r.code==200){
+                if(r.code==200||r.code==0){
                     item.collect=0;
                 }
             }
