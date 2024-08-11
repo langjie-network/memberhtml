@@ -331,7 +331,7 @@ export default  {
             userInfo=  M.getUserInfo();
         }
         let res = await MIO.targetBurnDiskByDiskCode(diskCode);
-        if (res.code != 200) {
+        if (res.code != 200 && res.code != 0) {
             alert(res.msg);
             return;
         }

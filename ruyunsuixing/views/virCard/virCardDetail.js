@@ -163,7 +163,7 @@ export default  {
         }
 
         let res = await MIO.targetBurnDiskBySn(sn);
-        if (res.code != 200) {
+        if (res.code != 200  && res.code != 0) {
             alert(res.msg);
             return;
         }
