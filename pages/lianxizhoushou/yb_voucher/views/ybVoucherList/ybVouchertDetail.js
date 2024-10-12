@@ -182,7 +182,7 @@ export default {
                         }else{
                             let cardInfo= result.data;
                             that.ybVouchert.member_name=cardInfo.name;
-                            that.ybVouchert.member_addr= cardInfo.addresses.length? cardInfo.addresses[0]:"";
+                            that.ybVouchert.member_addr= cardInfo.addr.length? cardInfo.addr[0]:"";
                             that.ybVouchert.company=cardInfo.company.length? cardInfo.company[0]:"";
                             that.ybVouchert.member_phone=cardInfo.tel_cell.length?cardInfo.tel_cell[0]:""
                             if(that.ybVouchert.member_phone==""){
