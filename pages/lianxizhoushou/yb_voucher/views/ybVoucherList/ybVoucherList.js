@@ -1,4 +1,4 @@
-//元宝券列表
+//注册券列表
 
 const template = `
 <div>

@@ -466,7 +466,7 @@ function randomSwitchBtn(tag) {
     if(text=="车辆"){
         location.href="../html/frame3.html"
     }
-    if(text=="元宝券"){
+    if(text=="注册券"){
         location.href="../html/yb_voucher_frame.html"
     }
 

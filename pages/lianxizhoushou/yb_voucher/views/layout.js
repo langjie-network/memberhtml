@@ -18,7 +18,7 @@ export default {
     activated(){
     },
     async mounted() {
-        let vipRegistYbVoucherTagList=await MIO.crmhelp_dictionary_list("vipRegistYbVoucherTag")
+        let vipRegistYbVoucherTagList=[{"name":"会员注册券"}];
         this.$common._globle_cacheMap["vipRegistYbVoucherTagList"]=vipRegistYbVoucherTagList;
     }
 }

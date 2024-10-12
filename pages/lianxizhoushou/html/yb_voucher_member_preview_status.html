@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.4.4/weui.min.css">
+    <script src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue.global.prod.min.js"></script>
+    <title></title>
+    <style>
+        .iconDiv{
+            margin-top: 17.22222vw;
+            display: flex;
+        }
+        #root img{
+            height:  38.88888vw;
+            margin: 0 auto;
+        }
+        .warnContent{
+            margin-top: 9.25925vw;
+            font-size: 4.62962vw;
+            text-align: center;
+            color: #908e8e;
+        }
+
+        .gotoHomeStyle{
+            margin-top: 30vw;
+            font-size: 4.62962vw;
+            text-align: center;
+            color: #908e8e;
+        }
+
+        .gotoHomeStyle a{
+            text-decoration:none;
+        }
+
+        .p10img{
+            margin-top: 10vw;
+            font-size: 4.62962vw;
+            text-align: center;
+        }
+        .weui-form__title {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="root">
+    <div v-if="status!='p0'">
+        <div  class="iconDiv">
+            <img :src="getIconImg(status)">
+        </div>
+        <div>
+            <div v-if="status=='p1'" class="warnContent">
+                <p>注册券离家出走了,</p>
+                <p>请与业务员核实之后再来哦~</p>
+            </div>
+            <div v-if="status=='p2'" class="warnContent">
+                <p>券还没有领取哦</p>
+                <p>请让业务员先去认领一下~</p>
+            </div>
+            <div v-if="status=='p3'" class="warnContent">
+                <p>晚来一步,</p>
+                <p>券已被领取,请让业务员核实一下哦~</p>
+            </div>
+            <div v-if="status=='p4'" class="warnContent">
+                <p>信息匹配不上哇,</p>
+                <p>请让业务员核实一下信息~</p>
+            </div>
+            <div v-if="status=='p5'" class="warnContent">
+                <p>元宝分领取成功啦! 请前往钱包中查看~</p>
+            </div>
+            <div v-if="status=='p10'" class="warnContent">
+                <p>想要了解更多精彩活动</p>
+                <p>请关注杭州朗杰测控公众号</p>
+            </div>
+        </div>
+        <div  v-if="status=='p5'" class="gotoHomeStyle">
+            <a href="/member/index">前往主页>></a>
+        </div>
+        <div  v-if="status=='p10'" class="p10img">
+            <img src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_regist_yb_voucher/member_index.png"></img>
+        </div>
+    </div>
+    <div v-else>
+        <div class="weui-form">
+            <h1 class="weui-form__title">欢迎注册朗杰会员</h1>
+            <div class="weui-form__control-area">
+                <div class="weui-cells__group weui-cells__group_form">
+                    <div class="weui-cells">
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+                            <div class="weui-cell__bd">
+                                <input readonly :value="member_name" class="weui-input" type="text" placeholder="请输入姓名">
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">电话</label></div>
+                            <div class="weui-cell__bd">
+                                <input readonly :value="member_phone" class="weui-input" type="tel" placeholder="请输入电话号码">
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">公司</label></div>
+                            <div class="weui-cell__bd">
+                                <input readonly :value="company" class="weui-input" type="text" placeholder="请输入公司名称">
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">地址</label></div>
+                            <div class="weui-cell__bd">
+                                <input readonly :value="addr" class="weui-input" type="text" placeholder="请输入地址名称">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 新增的按钮区域 -->
+            <div class="weui-form__opr-area">
+                <button v-if="old_status!='p0'" class="weui-btn weui-btn_primary weui-btn_disabled"  disabled>确认</button>
+                <button v-else class="weui-btn weui-btn_primary" @click="cd_submit" >确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+<script>
+
+
+    function getYbVoucherById(id) {
+        var myHeaders = new Headers();
+        myHeaders.append("appcode", "+NwYQwxGMlTE9T3uPX6Wzbste0yJXPTHgyVEN/K1Msg=");
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "method": "ybVoucher.getById",
+            "params": id
+        });
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+       return  fetch("/httprpc/rpc", requestOptions)
+            .then(response => response.json());
+    }
+
+
+    const {
+        ref,
+        createApp,
+    } = Vue
+
+    const vueApp = createApp({
+        data(){
+            return {
+                old_status:"",
+                status:"",
+                member_name:"",
+                member_phone:"",
+                company:"",
+                addr:"",
+                ybId:0,
+            }
+        },
+        methods:{
+            getIconImg(imgName){
+                return "https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/vip_regist_yb_voucher/"+imgName+".png";
+            },
+            cd_submit(){
+               location.href="/member/vipRegistYbVoucher/scanQrCodeSubmit/"+this.ybId;
+            }
+        },
+        async mounted() {
+            let status=location.href.split("status=")[1];
+            this.old_status=status;
+           // this.status="p0";
+            this.status=status;
+             if(this.status==="p0"){
+                let ybId=Number.parseInt(location.href.split("ybId=")[1]);
+                this.ybId=ybId;
+                let ybVoucherInfo= await getYbVoucherById(ybId);
+                this.member_name=ybVoucherInfo.data.member_name;
+                this.member_phone=ybVoucherInfo.data.member_phone;
+                this.company=ybVoucherInfo.data.company;
+                this.addr=ybVoucherInfo.data.addr;
+            }
+        }
+    })
+
+    vueApp.mount('#root')
+</script>
