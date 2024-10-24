@@ -18,7 +18,7 @@ function login(cb){
         },
         headers: {'Content-Type':'application/json;charset=utf8'},
         success:function(res){
-            if(res.code==200||r.code==0){
+            if(res.code==200||res.code==0){
                 // alert(JSON.stringify(res))
                 localStorage.setItem('username', res.data[0].user_name);
                 localStorage.setItem('phone', res.data[0].phone);
@@ -27,6 +27,7 @@ function login(cb){
                 cb(3);
             }else {
                 window.location.href="/m/staff"
+                cb(-2);
             }
         },
         error: function(err){
@@ -47,8 +48,8 @@ M.pageContext={
 
 window.onload = function () {
     checkLogin((r)=>{
-        if(r==-1){
-            weui.toast("不存在用户")
+        if(r<0){
+            weui.toast("不存在用户"+r);
             return
         }
         M.msg_list_vm = new Vue({
