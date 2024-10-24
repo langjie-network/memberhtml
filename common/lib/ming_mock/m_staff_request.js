@@ -42,8 +42,6 @@
     const dealErrRequest=(err)=>{
         //token过期
         if(err.responseJSON.msg==="非法签名"){
-            localStorage.clear();
-            sessionStorage.clear();
             window.location.href="/m/staff"
         } else {
             alert(err.responseJSON.msg)
