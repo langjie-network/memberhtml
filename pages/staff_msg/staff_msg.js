@@ -1,44 +1,3 @@
-function checkLogin(cb){
-
-    if(localStorage.getItem('token')){
-        cb(1);
-    }else{
-        login(function(r){
-            cb(r);
-        });
-    }
-}
-function login(cb){
-    if(localStorage.getItem('token')) return;
-    $.ajax({
-        type:"GET",
-        url:"/member_ajax/userlogin",
-        dataType:"json",
-        data:{},
-        beforeSend: function(xhr) {
-        },
-        headers: {'Content-Type':'application/json;charset=utf8'},
-        success:function(res){
-
-            if(res.code==200||res.code==0){
-                // alert(JSON.stringify(res))
-                localStorage.setItem('username', res.data[0].user_name);
-                localStorage.setItem('phone', res.data[0].phone);
-                localStorage.setItem('user_id', res.data[0].user_id);
-                localStorage.setItem('token', res.data[0].token);
-                cb(3);
-            }else {
-                window.location.href="/m/staff"
-                cb(-2);
-            }
-        },
-        error: function(err){
-            console.error(err)
-            cb(-1);
-        }
-    });
-    return;
-}
 
 
 
@@ -48,68 +7,62 @@ M.pageContext={
 }
 
 
-window.onload = function () {
-    checkLogin((r)=>{
-        if(r<0){
-            weui.toast("不存在用户"+r);
-            return
-        }
-        M.msg_list_vm = new Vue({
-            el: "#main",
-            data: {
-                tab:0,
-                msgWeiDuList: [],
-                msgYiduList:[],
-                yiduPage:1,
-                yiduNum:8
+window.onload =async function () {
+    if((await M.checkLogin())<0){
+        return;
+    }
+    M.msg_list_vm = new Vue({
+        el: "#main",
+        data: {
+            tab:0,
+            msgWeiDuList: [],
+            msgYiduList:[],
+            yiduPage:1,
+            yiduNum:8
 
-            },
-            async mounted() {
-                pullRefresh();
-                let that=this;
-                weui.tab('#tab',{
-                    defaultIndex: 0,
-                    onChange: function(index){
-                        that.tab=index;
-                        that.reRender("bottom");
-                    }
-                });
-                this.reRender("bottom");
-            },
-
-            methods: {
-                getItemState(state) {
-
-                },
-                async reRender(scroll){
-                    if(this.tab==0){
-                        let r1= await MIO.notiPost_fromCenterList();
-                        alert(JSON.stringify(r1))
-                        r1.data=r1.data.reverse();
-                        this.msgWeiDuList=r1.data;
-                    }else {
-                        let r2= await MIO.home_msgBox_list({
-                            page:this.yiduPage,
-                            num:this.yiduNum,
-                        });
-                        r2.data=r2.data.reverse();
-                        this.msgYiduList=[...r2.data,...this.msgYiduList];
-                    }
-                    if(scroll=="top"){
-                        window.scrollTo(0,0)
-                    }
-                    if(scroll=="bottom"){
-                        window.scrollTo(0,document.body.scrollHeight)
-                    }
+        },
+        async mounted() {
+            pullRefresh();
+            let that=this;
+            weui.tab('#tab',{
+                defaultIndex: 0,
+                onChange: function(index){
+                    that.tab=index;
+                    that.reRender("bottom");
                 }
+            });
+            this.reRender("bottom");
+        },
+
+        methods: {
+            getItemState(state) {
+
             },
-            updated(){
-
+            async reRender(scroll){
+                if(this.tab==0){
+                    let r1= await MIO.notiPost_fromCenterList();
+                    r1.data=r1.data.reverse();
+                    this.msgWeiDuList=r1.data;
+                }else {
+                    let r2= await MIO.home_msgBox_list({
+                        page:this.yiduPage,
+                        num:this.yiduNum,
+                    });
+                    r2.data=r2.data.reverse();
+                    this.msgYiduList=[...r2.data,...this.msgYiduList];
+                }
+                if(scroll=="top"){
+                    window.scrollTo(0,0)
+                }
+                if(scroll=="bottom"){
+                    window.scrollTo(0,document.body.scrollHeight)
+                }
             }
-        });
-    })
+        },
+        updated(){
 
-
+        }
+    });
 }
 
 
