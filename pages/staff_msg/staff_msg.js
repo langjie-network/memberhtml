@@ -25,6 +25,8 @@ function login(cb){
                 localStorage.setItem('user_id', res.data[0].user_id);
                 localStorage.setItem('token', res.data[0].token);
                 cb(3);
+            }else {
+                window.location.href="/m/staff"
             }
         },
         error: function(err){
