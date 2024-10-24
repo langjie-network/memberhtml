@@ -1,5 +1,5 @@
 function checkLogin(cb){
-    alert(localStorage.getItem('token'))
+
     if(localStorage.getItem('token')){
         cb(1);
     }else{
@@ -19,6 +19,7 @@ function login(cb){
         },
         headers: {'Content-Type':'application/json;charset=utf8'},
         success:function(res){
+
             if(res.code==200||res.code==0){
                 // alert(JSON.stringify(res))
                 localStorage.setItem('username', res.data[0].user_name);
@@ -83,6 +84,7 @@ window.onload = function () {
                 async reRender(scroll){
                     if(this.tab==0){
                         let r1= await MIO.notiPost_fromCenterList();
+                        alert(JSON.stringify(r1))
                         r1.data=r1.data.reverse();
                         this.msgWeiDuList=r1.data;
                     }else {
