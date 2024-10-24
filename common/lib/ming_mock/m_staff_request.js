@@ -59,7 +59,7 @@
                 contentType: "application/json",
                 data:JSON.stringify(params),
                 beforeSend: function(request) {
-                    request.setRequestHeader('token',localStorage.getItem('token'))
+                    request.setRequestHeader('token',localStorage.getItem('lj_token'))
                 },
                 headers: headers|| {'Content-Type':'application/json;charset=utf8'},
                 success:function(data){
@@ -82,7 +82,7 @@
                 contentType: "application/json",
                 data:JSON.stringify(params),
                 beforeSend: function(request) {
-                    request.setRequestHeader('token',localStorage.getItem('token'))
+                    request.setRequestHeader('token',localStorage.getItem('lj_token'))
                 },
                 headers: headers|| {'Content-Type':'application/json;charset=utf8'},
                 success:function(data){
@@ -105,7 +105,7 @@
                 dataType:"json",
                 data:params,
                 beforeSend: function(request) {
-                    request.setRequestHeader('token',localStorage.getItem('token'))
+                    request.setRequestHeader('token',localStorage.getItem('lj_token'))
                 },
                 headers: headers|| {'Content-Type':'application/json;charset=utf8'},
                 success:function(data){
@@ -124,7 +124,7 @@
     window.M.request.put=put;
     window.M.checkLogin=async ()=>{
         return new Promise((resolve, reject)=>{
-            if(localStorage.getItem('token')){
+            if(localStorage.getItem('lj_token')){
                 resolve(1);
                 return;
             }else{
@@ -141,7 +141,7 @@
                             localStorage.setItem('username', res.data[0].user_name);
                             localStorage.setItem('phone', res.data[0].phone);
                             localStorage.setItem('user_id', res.data[0].user_id);
-                            localStorage.setItem('token', res.data[0].token);
+                            localStorage.setItem('lj_token', res.data[0].token);
                             resolve(3);
                         }else {
                             window.location.href="/m/staff"
