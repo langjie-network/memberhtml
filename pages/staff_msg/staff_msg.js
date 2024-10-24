@@ -1,4 +1,5 @@
 function checkLogin(cb){
+    alert(localStorage.getItem('token'))
     if(localStorage.getItem('token')){
         cb(1);
     }else{
