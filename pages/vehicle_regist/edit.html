@@ -91,13 +91,13 @@
             <div class="weui-cell">
                 <div class="weui-cell__bd">拿车时间</div>
                 <div class="weui-cell__ft">
-                    <input type="datetime-local" v-model="take_time" />
+                    <input style="width: 30vw" type="datetime-local" v-model="take_time" />
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">还车时间</div>
                 <div class="weui-cell__ft">
-                    <input type="datetime-local" v-model="back_time" />
+                    <input style="width: 30vw" type="datetime-local" v-model="back_time" />
                 </div>
             </div>
             <div class="weui-cell">
@@ -252,12 +252,18 @@
             let record = r.data;
             this.user_name = record.user_name;
             this.car_no = record.car_no;
-            this.take_time = new Date(record.take_time).toISOString().slice(0, 16);
-            this.back_time = new Date(record.back_time).toISOString().slice(0, 16);
+            this.take_time = new Date(record.take_time).format("yyyy-MM-ddThh:mm");
+            if(record.back_time){
+                this.back_time = new Date(record.back_time).format("yyyy-MM-ddThh:mm");
+            }else {
+                this.back_time = new Date().format("yyyy-MM-ddThh:mm");
+            }
             this.take_img = BASE_IMG(record.take_img);
             this.back_img = BASE_IMG(record.back_img);
             this.take_img_temp = record.take_img;
-            this.back_img_temp =record.back_img;
+            this.take_img_temp = record.take_img;
+            this.take_gps =record.take_gps;
+            this.back_gps =record.back_gps;
             this.back_mile = record.back_mile;
             this.take_mile = record.take_mile;
             this.reason = record.reason;
