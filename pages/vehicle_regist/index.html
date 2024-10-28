@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>车辆使用登记</title>
+    <script src="../../../js/aui/aui-pull-refresh.js"></script>
+    <script type="text/javascript" src="https://res.wx.qq.com/t/wx_fed/cdn_libs/res/weui/1.2.3/weui.min.js"></script>
+    <script type="text/javascript" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue@2.js"></script>
+    <script src="../../../js/kendo/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../js/common.js" type="text/javascript"></script>
+    <script src="../../common/lib/ming_mock/m_staff_request.js" type="text/javascript"></script>
+    <script src="./staff_msg_server.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+        .weui-search-bar {
+            margin: 10px;
+            display: flex; /* 使用 flexbox 布局 */
+            justify-content: center;
+            align-items: center; /* 垂直居中对齐 */
+        }
+        .weui-cell {
+            background-color: #fff;
+        }
+        .add-button {
+            margin-left: 10px; /* 添加按钮与搜索按钮之间的间距 */
+            background-color: #1aad19; /* 设置按钮背景色 */
+            color: #fff; /* 设置按钮文本颜色 */
+        }
+        .search-container {
+            flex-grow: 1; /* 使搜索框占据剩余空间 */
+            max-width: 160px; /* 设置搜索框的最大宽度 */
+            min-width: 160px; /* 设置搜索框的最小宽度 */
+        }
+    </style>
+
+</head>
+<body>
+<div id="main">
+    <div class="weui-search-bar">
+        <form class="weui-search-bar__form" @submit.prevent="search" >
+            <div class="weui-search-bar__box search-container">
+                <input type="search" class="weui-search-bar__input" placeholder="请输入搜索内容" v-model="searchQuery" required>
+            </div>
+        </form>
+        <div>
+            <button type="submit" class="weui-btn weui-btn_mini add-button" v-if="searchQuery">搜索</button>
+        </div>
+        <duv>
+            <button type="button" class="weui-btn weui-btn_mini add-button" @click="addRecord">添加</button>
+        </duv>
+    </div>
+    <div class="weui-panel">
+        <div class="weui-panel__bd">
+            <div class="weui-cell" v-for="(record, index) in records" :key="index">
+                <div class="weui-cell__bd">{{ record.plate }}</div>
+                <div class="weui-cell__ft">{{ record.date }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+
+
+
+<script>
+    new Vue({
+        el: '#main',
+        data: {
+            searchQuery: '',
+            records: [
+                { plate: '浙A6995B', date: '2024-10-28' },
+                { plate: '浙A1PJ78', date: '2024-10-27' }
+            ]
+        },
+        methods: {
+            search() {
+                alert(`搜索内容: ${this.searchQuery}`);
+                // 在这里可以添加搜索逻辑
+            },
+            addRecord() {
+                alert('添加记录的逻辑');
+                // 在这里可以添加添加记录的逻辑
+            }
+        }
+    });
+</script>
+
+
+
