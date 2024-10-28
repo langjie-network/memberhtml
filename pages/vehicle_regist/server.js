@@ -21,6 +21,11 @@ app.get("/vehicleRegistUpdate",async (req,res)=>{
 });
 
 
+app.get("/vehicleRegistDelete",async (req,res)=>{
+    const r= await M.request.delete("/member_ajax/vehicleRegist/del/"+req.params.v_id);
+    res.send(r);
+});
+
 /**
  * 上传图片
  */

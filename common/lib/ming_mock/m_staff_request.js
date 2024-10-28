@@ -95,6 +95,31 @@
     }
 
 
+
+    const del  = async (api, params = {},headers) => {
+        return new Promise((reslove, reject) => {
+            $.ajax({
+                type:"delete",
+                url:api,
+                dataType:"json",
+                contentType: "application/json",
+                data:JSON.stringify(params),
+                beforeSend: function(request) {
+                    request.setRequestHeader('token',localStorage.getItem('lj_token'))
+                },
+                headers: headers|| {'Content-Type':'application/json;charset=utf8'},
+                success:function(data){
+                    reslove(data)
+                },
+                error: function(err){
+                    dealErrRequest(err);
+                    reject(err)
+                }
+            });
+        });
+    }
+
+
     const get = async (api, params = {},headers) => {
         return new Promise((reslove, reject) => {
             $.ajax({
@@ -149,10 +174,15 @@
             }
         });
     }
+
+    M.checkR=function (r){
+        return r.code==200 || r.code==0;
+    }
     window.M.request={}
     window.M.request.get=get;
     window.M.request.post=post;
     window.M.request.put=put;
+    window.M.request.delete=del;
     window.M.getLocation=getLocation;
     window.M.getPageParam=getPageParam;
     window.M.setPageParam=setPageParam;

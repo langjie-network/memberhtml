@@ -76,6 +76,17 @@
                 <div class="weui-cell__ft">{{ user_name }}</div>
             </div>
             <div class="weui-cell">
+                <div class="weui-cell__bd">类型</div>
+                <div class="weui-cell__ft" style="display: flex;justify-content: left">
+                    <label class="weui-cell ">
+                        <input style="width: 10vw"  type="radio" value="1" v-model="is_pub">公用
+                    </label>
+                    <label class="weui-cell ">
+                        <input style="width: 10vw" type="radio" value="0" v-model="is_pub">私用
+                    </label>
+                </div>
+            </div>
+            <div class="weui-cell">
                 <div class="weui-cell__bd">车牌号</div>
                 <div class="weui-cell__ft">{{ car_no }}</div>
             </div>
@@ -170,7 +181,12 @@
             take_img: null,
             back_img: null,
             take_img_temp: null,
-            back_img_temp: null
+            back_img_temp: null,
+            is_pub:1,
+            typeOptions: [
+                { value: 1, label: '公用' },
+                { value: 0, label: '私用' }
+            ]
         },
         methods: {
             async getBackGps() {
@@ -207,14 +223,27 @@
                         take_img: this.take_img_temp,
                         back_img: this.back_img_temp,
                         reason: this.reason,
+                        is_pub: this.is_pub,
                     });
                    if(r.code===200){
                        wxToast("修改成功");
+                       location.href="/memberhtml/pages/vehicle_regist/index.html";
                        return;
                    }
             },
-            deleteRecord() {
-                alert('删除逻辑');
+            async deleteRecord() {
+                let r= window.confirm("确定删除");
+                if(r){
+                   const ret=await  MIO.vehicleRegistDelete({v_id: M.getPageParam().v_id})
+                   if(M.checkR(ret)){
+                       wxToast("删除成功");
+                       location.href="/memberhtml/pages/vehicle_regist/index.html";
+                       return;
+                   }else {
+                       wxToast(ret.msg);
+                   }
+
+                }
                 // 在这里添加删除逻辑
             }
         },
@@ -234,6 +263,7 @@
             this.back_mile = record.back_mile;
             this.take_mile = record.take_mile;
             this.reason = record.reason;
+            this.is_pub = record.is_pub;
         }
     });
 </script>
