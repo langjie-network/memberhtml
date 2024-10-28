@@ -29,8 +29,7 @@ app.get("/member_ajax_ossUpload",async (req,res)=>{
         contentType: false,
         processData: false,
         success:  function (r) {
-            let ossUrl="https://langjie.oss-cn-hangzhou.aliyuncs.com"+"/" +  r.data.ossResult.name;
-            res.send(ossUrl);
+            res.send(r.data);
         },
         error: function (err) {
             res.send("");

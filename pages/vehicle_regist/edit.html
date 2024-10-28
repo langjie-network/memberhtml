@@ -117,19 +117,19 @@
     <div class="weui-panel">
         <div class="weui-panel__bd">
             <div class="image-upload" @click="$refs.fileInput.click()">
-                <input type="file" ref="fileInput" @change="onFileChange" accept="image/*" style="display: none;" />
+                <input type="file" ref="fileInput" @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
                 <div class="upload-icon">+</div>
                 <p>拿车图</p>
-                <div class="image-preview" v-if="imageUrl">
-                    <img :src="imageUrl" alt="Pick-up Image" />
+                <div class="image-preview" v-if="take_img">
+                    <img :src="take_img" alt="Pick-up Image" />
                 </div>
             </div>
-            <div class="image-upload" @click="$refs.fileInput.click()">
-                <input type="file" ref="fileInput" @change="onFileChange" accept="image/*" style="display: none;" />
+            <div class="image-upload" @click="$refs.fileInput1.click()">
+                <input type="file" ref="fileInput1" @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
                 <div class="upload-icon">+</div>
                 <p>还车图</p>
-                <div class="image-preview" v-if="imageUrl">
-                    <img :src="imageUrl" alt="Pick-up Image" />
+                <div class="image-preview" v-if="back_img">
+                    <img :src="back_img" alt="Pick-up Image" />
                 </div>
             </div>
         </div>
@@ -153,19 +153,21 @@
             returnJourney: '', // Allow user to modify return journey
             currentJourney: '当前行程信息',
             reason: '原因信息',
-            imageUrl: null // To store the uploaded image URL
+            imageUrl: null ,
+            back_img: null,
+            take_img: null
         },
         methods: {
-            async onFileChange(event) {
+            async onFileChange(event,imgType) {
                 const file = event.target.files[0];
                 const r=await MIO.member_ajax_ossUpload({
                     file: file
                 });
-                console.log("eee",r);
+                console.log("eee",r.expressResult[0]);
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        this.imageUrl = e.target.result; // Set the image URL for preview
+                        this[imgType] = e.target.result; // Set the image URL for preview
                     };
                     reader.readAsDataURL(file); // Read the file as a data URL
                 }
@@ -181,12 +183,11 @@
             }
         },
         async mounted() {
-
            const r=await MIO.vehicleRegistGetRecordById({
                 v_id:M.getPageParam().v_id
             });
-
-            this.imageUrl = 'path/to/your/existing/image.jpg'; // Replace with actual image path
+            this.take_img=`https://langjie.oss-cn-hangzhou.aliyuncs.com/public/img/gallery/temp/file/aaa-1730121168542.png`;
+            this.back_img=`https://langjie.oss-cn-hangzhou.aliyuncs.com/public/img/gallery/temp/file/aaa-1730121168542.png`;
         }
     });
 </script>
