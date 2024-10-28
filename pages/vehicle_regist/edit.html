@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width, initial-scale=1.0">
+    <title>车辆详情</title>
+    <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+        .weui-cell {
+            background-color: #fff;
+        }
+        .submit-button {
+            margin: 20px;
+            background-color: #1aad19;
+            color: #fff;
+        }
+        .delete-button {
+            margin: 20px;
+            background-color: #f44336;
+            color: #fff;
+        }
+        .image-upload {
+            margin: 20px;
+            text-align: center;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .image-upload img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+        .upload-icon {
+            font-size: 50px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="weui-panel">
+        <div class="weui-panel__hd">详情</div>
+        <div class="weui-panel__bd">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">使用人</div>
+                <div class="weui-cell__ft">{{ userName }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">车牌号</div>
+                <div class="weui-cell__ft">{{ carNo }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">拿车时间</div>
+                <div class="weui-cell__ft">{{ takeTime }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">还车时间</div>
+                <div class="weui-cell__ft">{{ returnTime }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">还车行程</div>
+                <div class="weui-cell__ft">{{ returnJourney }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">本次行程</div>
+                <div class="weui-cell__ft">{{ currentJourney }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">原因</div>
+                <div class="weui-cell__ft">{{ reason }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-panel">
+        <div class="weui-panel__bd">
+            <div class="image-upload" @click="$refs.fileInput.click()">
+                <input type="file" ref="fileInput" @change="onFileChange" accept="image/*" style="display: none;" />
+                <div class="upload-icon">+</div>
+                <p>拿车图</p>
+                <div class="image-preview" v-if="imageUrl">
+                    <img :src="imageUrl" alt="Pick-up Image" />
+                </div>
+            </div>
+            <div class="weui-panel__bd">
+                <div class="image-upload" @click="$refs.fileInput.click()">
+                    <input type="file" ref="fileInput" @change="onFileChange" accept="image/*" style="display: none;" />
+                    <div class="upload-icon">+</div>
+                    <p>还车图</p>
+                    <div class="image-preview" v-if="imageUrl">
+                        <img :src="imageUrl" alt="Pick-up Image" />
+                    </div>
+                </div>
+              </div>
+         </div>
+    </div>
+    <div class="weui-panel">
+        <button class="weui-btn weui-btn_primary submit-button" @click="submit">提交</button>
+        <button class="weui-btn weui-btn_default delete-button" @click="deleteRecord">删除</button>
+    </div>
+</div>
+
+<script src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue@2.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            userName: '王明飞',
+            carNo: '浙A6995B',
+            takeTime: '2024-10-28 11:17',
+            returnTime: '2024-10-28 13:03',
+            returnJourney: '返回行程信息',
+            currentJourney: '当前行程信息',
+            reason: '原因信息',
+            imageUrl: null // To store the uploaded image URL
+        },
+        methods: {
+            onFileChange(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.imageUrl = e.target.result; // Set the image URL for preview
+                    };
+                    reader.readAsDataURL(file); // Read the file as a data URL
+                }
+            },
+            submit() {
+                alert('提交逻辑');
+                // 在这里添加提交逻辑
+            },
+            deleteRecord() {
+                alert('删除逻辑');
+                // 在这里添加删除逻辑
+            }
+        },
+        mounted() {
+            // Load existing image if available (for demonstration)
+            this.imageUrl = 'path/to/your/existing/image.jpg'; // Replace with actual image path
+        }
+    });
+</script>
+</body>
+</html>
