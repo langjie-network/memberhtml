@@ -107,6 +107,10 @@
                 },
                 headers: headers|| {'Content-Type':'application/json;charset=utf8'},
                 success:function(data){
+                    if(data.code==-100){
+                        window.location.href="/m/staff";
+                        return;
+                    }
                     reslove(data)
                 },
                 error: function(err){
@@ -120,9 +124,7 @@
     const getPageParam=()=>{
         const pageParamsStr=  sessionStorage.getItem("pageParams");
         if(pageParamsStr==null||pageParamsStr==""){
-            return {
-
-            }
+            return {}
         }
         return JSON.parse(pageParamsStr);
     }

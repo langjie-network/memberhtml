@@ -177,12 +177,10 @@
         },
         async mounted() {
 
-            MIO.vehicleRegistGetRecordById({
-                v_id:localStorage.getItem("v_id")
-            })
+           const r=await MIO.vehicleRegistGetRecordById({
+                v_id:M.getPageParam().v_id
+            });
 
-
-            // Load existing image if available (for demonstration)
             this.imageUrl = 'path/to/your/existing/image.jpg'; // Replace with actual image path
         }
     });
