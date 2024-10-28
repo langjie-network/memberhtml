@@ -117,6 +117,12 @@
                 this[imgType+"_temp"] =r.expressResult[0];
             },
             async submit() {
+                try{
+                    const r = await M.getLocation();
+                    this.take_gps=`${r[0].toFixed(3)},${r[1].toFixed(3)}`;
+                }catch(e){
+                    wxToast(e.message);
+                }
                 const r=await  MIO.vehicleRegistCreate({
                     car_no:this.car_no,
                     take_mile: this.take_mile,
