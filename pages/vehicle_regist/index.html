@@ -78,6 +78,9 @@
             el: '#main',
             data: {
                 searchQuery: '',
+                filter:{
+                    userName:localStorage.getItem("username")
+                },
                 records: [
                     { car_no: '浙A6995B', take_time: '2024-10-28' }
                 ],
@@ -99,7 +102,8 @@
                     wxLoadToast('正在搜索');
                     const r = await MIO.vehicleRegistGetList({
                         page: this.page,
-                        pageSize: this.pageSize
+                        pageSize: this.pageSize,
+                        filter: JSON.stringify(this.filter)
                     });
                     this.records = this.records.concat(r.data.data); // Append new records
                     this.isLoading = false; // Reset loading state
