@@ -1,3 +1,14 @@
+app.get("/vehicleRegistCreate",async (req,res)=>{
+    const r= await M.request.post("/member_ajax/vehicleRegist/create",{
+        car_no:req.params.car_no,
+        take_time:req.params.take_time,
+        take_mile:req.params.take_mile,
+        take_gps:req.params.take_gps
+    });
+    res.send(r);
+})
+
+
 
 app.get("/vehicleRegistGetList",async (req,res)=>{
     const r= await M.request.get("/member_ajax/vehicleRegist/getList",{
@@ -25,6 +36,37 @@ app.get("/vehicleRegistDelete",async (req,res)=>{
     const r= await M.request.delete("/member_ajax/vehicleRegist/del/"+req.params.v_id);
     res.send(r);
 });
+
+
+app.get("/goodsCarList",async (req,res)=>{
+    const r= await M.request.get("/home/goods/list",{
+        page: 1,
+        num: 30,
+        keywords: '',
+        order: 'albumUpdateTime',
+        filter: JSON.stringify({
+            "myGoods": "所有物品",
+            "goodsType": "车辆",
+            "location":"",
+            "management":"",
+            "isBorrow":"",
+            "borrowStatus":"",
+            "isdel":"在库",
+            "events":"借用"
+        })
+    });
+    res.send(r);
+});
+
+
+
+app.get("/fetchPrevMile",async (req,res)=>{
+    const r= await M.request.get("/member_ajax/vehicleRegist/getPrevMile",{
+         car_no:req.params.car_no
+        });
+      res.send(r);
+});
+
 
 /**
  * 上传图片
