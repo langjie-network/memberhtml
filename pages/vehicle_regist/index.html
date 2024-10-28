@@ -55,7 +55,7 @@
     </div>
     <div class="weui-panel">
         <div class="weui-panel__bd">
-            <div @click="goEditPage" class="weui-cell" v-for="(record, index) in records" :key="index">
+            <div @click="goEditPage(record.id)" class="weui-cell" v-for="(record, index) in records" :key="index">
                 <div class="weui-cell__bd">{{ record.car_no }}</div>
                 <div class="weui-cell__ft">{{ record.take_time.substring(0,10) }}</div>
             </div>
@@ -108,7 +108,10 @@
                     this.isLoading = false; // Reset loading state
                     $('#loadingToast').remove();
                 },
-                goEditPage(){
+                goEditPage(v_id){
+                    M.setPageParam({
+                        v_id:v_id
+                    });
                     location.href="./edit.html"
                 },
                 search() {

@@ -175,7 +175,13 @@
                 // 在这里添加删除逻辑
             }
         },
-        mounted() {
+        async mounted() {
+
+            MIO.vehicleRegistGetRecordById({
+                v_id:localStorage.getItem("v_id")
+            })
+
+
             // Load existing image if available (for demonstration)
             this.imageUrl = 'path/to/your/existing/image.jpg'; // Replace with actual image path
         }
