@@ -156,8 +156,12 @@
             imageUrl: null // To store the uploaded image URL
         },
         methods: {
-            onFileChange(event) {
+            async onFileChange(event) {
                 const file = event.target.files[0];
+                const r=await MIO.member_ajax_ossUpload({
+                    file: file
+                });
+                console.log("eee",r);
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
@@ -165,6 +169,7 @@
                     };
                     reader.readAsDataURL(file); // Read the file as a data URL
                 }
+
             },
             submit() {
                 alert('提交逻辑');
