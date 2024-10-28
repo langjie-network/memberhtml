@@ -85,6 +85,18 @@
                 </div>
             </div>
             <div class="weui-cell">
+                <div class="weui-cell__bd">拿车位置</div>
+                <div class="weui-cell__ft">
+                    <input type="text" v-model="take_gps" />
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">还车位置</div>
+                <div class="weui-cell__ft">
+                    <input type="text" v-model="back_gps" />
+                </div>
+            </div>
+            <div class="weui-cell">
                 <div class="weui-cell__bd">还车行程</div>
                 <div class="weui-cell__ft">
                     <input type="number" v-model="returnJourney" placeholder="请输入还车行程" />
@@ -134,6 +146,8 @@
         data: {
             userName: '王明飞',
             carNo: '浙A6995B',
+            take_gps:"11,11",
+            back_gps:"11,11",
             takeTime: '2024-10-28T11:17', // Default value for pick-up time
             returnTime: '2024-10-28T13:03', // Default value for return time
             returnJourney: '', // Allow user to modify return journey

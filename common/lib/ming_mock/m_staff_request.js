@@ -116,10 +116,28 @@
             });
         });
     };
+
+    const getPageParam=()=>{
+        const pageParamsStr=  sessionStorage.getItem("pageParams");
+        if(pageParamsStr==null||pageParamsStr==""){
+            return {
+
+            }
+        }
+        return JSON.parse(pageParamsStr);
+    }
+
+    const setPageParam=(pageParams)=>{
+        sessionStorage.setItem("pageParams",JSON.stringify(pageParams));
+        return null;
+    }
+
     window.M.request={}
     window.M.request.get=get;
     window.M.request.post=post;
     window.M.request.put=put;
+    window.M.getPageParam=getPageParam;
+    window.M.setPageParam=setPageParam;
     window.M.checkLogin=async ()=>{
         return new Promise((resolve, reject)=>{
             if(localStorage.getItem('lj_token')){
