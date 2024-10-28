@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width, initial-scale=1.0">
     <title>车辆详情</title>
-    <script type="text/javascript" src="https://res.wx.qq.com/t/wx_fed/cdn_libs/res/weui/1.2.3/weui.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
     <script type="text/javascript" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue@2.js"></script>
     <script src="../../../js/kendo/jquery.min.js" type="text/javascript"></script>
     <script src="../../../js/common.js" type="text/javascript"></script>
     <script src="../../common/lib/ming_mock/m_staff_request.js" type="text/javascript"></script>
     <script src="./server.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
+    <script type="text/javascript" src="https://res.wx.qq.com/t/wx_fed/cdn_libs/res/weui/1.2.3/weui.min.js"></script>
     <style>
         body {
             background-color: #f7f7f7;
@@ -57,6 +58,12 @@
             background-color: #f7f7f7; /* Optional: match background */
             outline: none; /* Remove outline on focus */
         }
+        .map-icon {
+            width: 20px; /* Adjust size as needed */
+            height: 20px; /* Adjust size as needed */
+            margin-left: 5px; /* Space between text and icon */
+            vertical-align: middle; /* Align icon with text */
+        }
     </style>
 </head>
 <body>
@@ -86,14 +93,12 @@
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">拿车位置</div>
-                <div class="weui-cell__ft">
-                    <input type="text" v-model="take_gps" />
-                </div>
+                <div class="weui-cell__ft">{{ take_gps }}</div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">还车位置</div>
                 <div class="weui-cell__ft">
-                    <input type="text" v-model="back_gps" />
+                    {{ back_gps }}  <span  @click="getBackGps"> 🗺️</span>
                 </div>
             </div>
             <div class="weui-cell">
@@ -110,7 +115,7 @@
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">本次行程</div>
-                <div class="weui-cell__ft">{{ this.back_mile-this.take_mile }}</div>
+                <div class="weui-cell__ft">{{ this.back_mile - this.take_mile }}</div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">原因</div>
@@ -147,34 +152,38 @@
 </div>
 
 <script>
-
-    const BASE_IMG =img=>'https://langjie.oss-cn-hangzhou.aliyuncs.com/public/img/gallery/'+img;
+    const BASE_IMG = img => 'https://langjie.oss-cn-hangzhou.aliyuncs.com/public/img/gallery/' + img;
 
     new Vue({
         el: '#main',
         data: {
             user_name: '',
-            car_no : '',
-            take_gps:"",
-            back_gps:"",
+            car_no: '',
+            take_gps: "",
+            back_gps: "",
             take_time: '', // Default value for pick-up time
             back_time: '', // Default value for return time
             reason: '',
             use_mile: '',
             take_mile: '',
-            back_mile:'',
-            reason: '',
-            imageUrl: null ,
+            back_mile: '',
+            take_img: null,
             back_img: null,
-            take_img: null
+            take_img_temp: null,
+            back_img_temp: null
         },
         methods: {
-            async onFileChange(event,imgType) {
+            async getBackGps() {
+                try{
+                    const r = await M.getLocation();
+                    this.back_gps=`${r[0].toFixed(3)},${r[1].toFixed(3)}`;
+                }catch(e){
+                    alert(e.message);
+                }       
+     
+            },
+            async onFileChange(event, imgType) {
                 const file = event.target.files[0];
-                const r=await MIO.member_ajax_ossUpload({
-                    file: file
-                });
-                console.log("eee",r.expressResult[0]);
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
@@ -182,24 +191,27 @@
                     };
                     reader.readAsDataURL(file); // Read the file as a data URL
                 }
-
+                const r = await MIO.member_ajax_ossUpload({
+                    file: file
+                });
+                this[imgType+"_temp"] =r.expressResult[0];
             },
-            submit() {
-
-                console.log("AA",this.take_time);
-
-                return;
-                MIO.vehicleRegistUpdate({
-                    id: M.getPageParam().v_id,
-                    take_mile:5,
-                    take_time:'2021-11-11 12:00',
-                    back_mile:4,
-                    back_time:'2021-11-11 12:00',
-                    reason:'22'
-                })
-
-
-
+            async submit() {
+                  const r=await  MIO.vehicleRegistUpdate({
+                        id: M.getPageParam().v_id,
+                        take_mile: this.take_mile,
+                        take_time:this.take_time,
+                        back_mile: this.back_mile,
+                        back_time: this.back_time,
+                        reason: this.reason,
+                        take_img: this.take_img_temp,
+                        back_img: this.back_img_temp,
+                        reason: this.reason,
+                    });
+                   if(r.code===200){
+                       wxToast("修改成功");
+                       return;
+                   }
             },
             deleteRecord() {
                 alert('删除逻辑');
@@ -207,18 +219,21 @@
             }
         },
         async mounted() {
-           const r=await MIO.vehicleRegistGetRecordById({
-                v_id:M.getPageParam().v_id
+            const r = await MIO.vehicleRegistGetRecordById({
+                v_id: M.getPageParam().v_id
             });
-            let record=r.data;
-            this.user_name=record.user_name;
-            this.car_no=record.car_no;
-            this.take_time=new Date(record.take_time).toISOString().slice(0, 16);
-            this.back_time=new Date(record.back_time).toISOString().slice(0, 16);
-            this.take_img=BASE_IMG(record.take_img);
-            this.back_img=BASE_IMG(record.back_img);
-
-
+            let record = r.data;
+            this.user_name = record.user_name;
+            this.car_no = record.car_no;
+            this.take_time = new Date(record.take_time).toISOString().slice(0, 16);
+            this.back_time = new Date(record.back_time).toISOString().slice(0, 16);
+            this.take_img = BASE_IMG(record.take_img);
+            this.back_img = BASE_IMG(record.back_img);
+            this.take_img_temp = record.take_img;
+            this.back_img_temp =record.back_img;
+            this.back_mile = record.back_mile;
+            this.take_mile = record.take_mile;
+            this.reason = record.reason;
         }
     });
 </script>

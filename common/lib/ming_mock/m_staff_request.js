@@ -134,10 +134,26 @@
         return null;
     }
 
+    function getLocation() {
+        return new Promise((resolve, reject) => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    resolve([latitude, longitude]);
+                }, error => {
+                    reject(error);
+                });
+            } else {
+                reject(new Error("您的浏览器不支持地理定位功能。"));
+            }
+        });
+    }
     window.M.request={}
     window.M.request.get=get;
     window.M.request.post=post;
     window.M.request.put=put;
+    window.M.getLocation=getLocation;
     window.M.getPageParam=getPageParam;
     window.M.setPageParam=setPageParam;
     window.M.checkLogin=async ()=>{
