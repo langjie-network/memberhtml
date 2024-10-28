@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, width=device-width, initial-scale=1.0">
     <title>车辆详情</title>
+    <script type="text/javascript" src="https://res.wx.qq.com/t/wx_fed/cdn_libs/res/weui/1.2.3/weui.min.js"></script>
+    <script type="text/javascript" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue@2.js"></script>
+    <script src="../../../js/kendo/jquery.min.js" type="text/javascript"></script>
+    <script src="../../../js/common.js" type="text/javascript"></script>
+    <script src="../../common/lib/ming_mock/m_staff_request.js" type="text/javascript"></script>
+    <script src="./server.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
     <style>
         body {
@@ -38,10 +44,23 @@
             font-size: 50px;
             color: #ccc;
         }
+        .button-container {
+            display: flex;
+            justify-content: center; /* Center the buttons */
+            margin: 20px 0; /* Add some margin */
+        }
+        .weui-cell__ft input {
+            width: 100%;
+            padding: 10px;
+            border: none; /* Remove border */
+            border-radius: 5px;
+            background-color: #f7f7f7; /* Optional: match background */
+            outline: none; /* Remove outline on focus */
+        }
     </style>
 </head>
 <body>
-<div id="app">
+<div id="main">
     <div class="weui-panel">
         <div class="weui-panel__hd">详情</div>
         <div class="weui-panel__bd">
@@ -55,15 +74,21 @@
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">拿车时间</div>
-                <div class="weui-cell__ft">{{ takeTime }}</div>
+                <div class="weui-cell__ft">
+                    <input type="datetime-local" v-model="takeTime" />
+                </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">还车时间</div>
-                <div class="weui-cell__ft">{{ returnTime }}</div>
+                <div class="weui-cell__ft">
+                    <input type="datetime-local" v-model="returnTime" />
+                </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">还车行程</div>
-                <div class="weui-cell__ft">{{ returnJourney }}</div>
+                <div class="weui-cell__ft">
+                    <input type="number" v-model="returnJourney" placeholder="请输入还车行程" />
+                </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">本次行程</div>
@@ -71,7 +96,9 @@
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">原因</div>
-                <div class="weui-cell__ft">{{ reason }}</div>
+                <div class="weui-cell__ft">
+                    <input type="text" v-model="reason" placeholder="请输入原因" />
+                </div>
             </div>
         </div>
     </div>
@@ -85,34 +112,31 @@
                     <img :src="imageUrl" alt="Pick-up Image" />
                 </div>
             </div>
-            <div class="weui-panel__bd">
-                <div class="image-upload" @click="$refs.fileInput.click()">
-                    <input type="file" ref="fileInput" @change="onFileChange" accept="image/*" style="display: none;" />
-                    <div class="upload-icon">+</div>
-                    <p>还车图</p>
-                    <div class="image-preview" v-if="imageUrl">
-                        <img :src="imageUrl" alt="Pick-up Image" />
-                    </div>
+            <div class="image-upload" @click="$refs.fileInput.click()">
+                <input type="file" ref="fileInput" @change="onFileChange" accept="image/*" style="display: none;" />
+                <div class="upload-icon">+</div>
+                <p>还车图</p>
+                <div class="image-preview" v-if="imageUrl">
+                    <img :src="imageUrl" alt="Pick-up Image" />
                 </div>
-              </div>
-         </div>
+            </div>
+        </div>
     </div>
-    <div class="weui-panel">
+    <div class="button-container">
         <button class="weui-btn weui-btn_primary submit-button" @click="submit">提交</button>
         <button class="weui-btn weui-btn_default delete-button" @click="deleteRecord">删除</button>
     </div>
 </div>
 
-<script src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue@2.js"></script>
 <script>
     new Vue({
-        el: '#app',
+        el: '#main',
         data: {
             userName: '王明飞',
             carNo: '浙A6995B',
-            takeTime: '2024-10-28 11:17',
-            returnTime: '2024-10-28 13:03',
-            returnJourney: '返回行程信息',
+            takeTime: '2024-10-28T11:17', // Default value for pick-up time
+            returnTime: '2024-10-28T13:03', // Default value for return time
+            returnJourney: '', // Allow user to modify return journey
             currentJourney: '当前行程信息',
             reason: '原因信息',
             imageUrl: null // To store the uploaded image URL
