@@ -117,6 +117,7 @@
                 search() {
                     this.page = 1; // Reset to first page on search
                     this.records = []; // Clear existing records
+                    this.filter.carNo=this.searchQuery;
                     this.fetch();
                 },
                 addRecord() {
