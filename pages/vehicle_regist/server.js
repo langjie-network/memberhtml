@@ -14,6 +14,13 @@ app.get("/vehicleRegistGetRecordById",async (req,res)=>{
     res.send(r);
 });
 
+
+app.get("/vehicleRegistUpdate",async (req,res)=>{
+    const r= await M.request.put("/member_ajax/vehicleRegist/update",req.params);
+    res.send(r);
+});
+
+
 /**
  * 上传图片
  */

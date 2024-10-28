@@ -66,22 +66,22 @@
         <div class="weui-panel__bd">
             <div class="weui-cell">
                 <div class="weui-cell__bd">使用人</div>
-                <div class="weui-cell__ft">{{ userName }}</div>
+                <div class="weui-cell__ft">{{ user_name }}</div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">车牌号</div>
-                <div class="weui-cell__ft">{{ carNo }}</div>
+                <div class="weui-cell__ft">{{ car_no }}</div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">拿车时间</div>
                 <div class="weui-cell__ft">
-                    <input type="datetime-local" v-model="takeTime" />
+                    <input type="datetime-local" v-model="take_time" />
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">还车时间</div>
                 <div class="weui-cell__ft">
-                    <input type="datetime-local" v-model="returnTime" />
+                    <input type="datetime-local" v-model="back_time" />
                 </div>
             </div>
             <div class="weui-cell">
@@ -97,14 +97,20 @@
                 </div>
             </div>
             <div class="weui-cell">
+                <div class="weui-cell__bd">拿车行程</div>
+                <div class="weui-cell__ft">
+                    <input type="number" v-model="take_mile" placeholder="请输入拿车行程" />
+                </div>
+            </div>
+            <div class="weui-cell">
                 <div class="weui-cell__bd">还车行程</div>
                 <div class="weui-cell__ft">
-                    <input type="number" v-model="returnJourney" placeholder="请输入还车行程" />
+                    <input type="number" v-model="back_mile" placeholder="请输入还车行程" />
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">本次行程</div>
-                <div class="weui-cell__ft">{{ currentJourney }}</div>
+                <div class="weui-cell__ft">{{ this.back_mile-this.take_mile }}</div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">原因</div>
@@ -141,18 +147,23 @@
 </div>
 
 <script>
+
+    const BASE_IMG =img=>'https://langjie.oss-cn-hangzhou.aliyuncs.com/public/img/gallery/'+img;
+
     new Vue({
         el: '#main',
         data: {
-            userName: '王明飞',
-            carNo: '浙A6995B',
-            take_gps:"11,11",
-            back_gps:"11,11",
-            takeTime: '2024-10-28T11:17', // Default value for pick-up time
-            returnTime: '2024-10-28T13:03', // Default value for return time
-            returnJourney: '', // Allow user to modify return journey
-            currentJourney: '当前行程信息',
-            reason: '原因信息',
+            user_name: '',
+            car_no : '',
+            take_gps:"",
+            back_gps:"",
+            take_time: '', // Default value for pick-up time
+            back_time: '', // Default value for return time
+            reason: '',
+            use_mile: '',
+            take_mile: '',
+            back_mile:'',
+            reason: '',
             imageUrl: null ,
             back_img: null,
             take_img: null
@@ -174,8 +185,21 @@
 
             },
             submit() {
-                alert('提交逻辑');
-                // 在这里添加提交逻辑
+
+                console.log("AA",this.take_time);
+
+                return;
+                MIO.vehicleRegistUpdate({
+                    id: M.getPageParam().v_id,
+                    take_mile:5,
+                    take_time:'2021-11-11 12:00',
+                    back_mile:4,
+                    back_time:'2021-11-11 12:00',
+                    reason:'22'
+                })
+
+
+
             },
             deleteRecord() {
                 alert('删除逻辑');
@@ -186,8 +210,15 @@
            const r=await MIO.vehicleRegistGetRecordById({
                 v_id:M.getPageParam().v_id
             });
-            this.take_img=`https://langjie.oss-cn-hangzhou.aliyuncs.com/public/img/gallery/temp/file/aaa-1730121168542.png`;
-            this.back_img=`https://langjie.oss-cn-hangzhou.aliyuncs.com/public/img/gallery/temp/file/aaa-1730121168542.png`;
+            let record=r.data;
+            this.user_name=record.user_name;
+            this.car_no=record.car_no;
+            this.take_time=new Date(record.take_time).toISOString().slice(0, 16);
+            this.back_time=new Date(record.back_time).toISOString().slice(0, 16);
+            this.take_img=BASE_IMG(record.take_img);
+            this.back_img=BASE_IMG(record.back_img);
+
+
         }
     });
 </script>
