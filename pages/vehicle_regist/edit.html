@@ -209,6 +209,7 @@
                     file: file
                 });
                 this[imgType+"_temp"] =r.expressResult[0];
+                alert(r.expressResult[0])
             },
             async submit() {
                   const r=await  MIO.vehicleRegistUpdate({
