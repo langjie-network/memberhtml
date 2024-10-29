@@ -29,6 +29,7 @@
         }
         .image-upload {
             margin: 20px;
+            width: 10vw;
             text-align: center;
             border: 2px dashed #ccc;
             border-radius: 10px;
@@ -63,11 +64,70 @@
             vertical-align: middle; /* Align icon with text */
         }
     </style>
+    <style>
+        /* ... (保留原有的样式) ... */
+        .image-upload-wrap{
+            display: flex;
+            flex-wrap: nowrap; /* 允许换行 */
+            justify-content: space-between; /* 两端对齐 */
+        }
+
+        .weui-panel__bd {
+            display: flex;
+            flex-wrap: wrap; /* 允许换行 */
+            justify-content: space-between; /* 两端对齐 */
+        }
+
+        .weui-cell {
+            width: 40%; /* 两列布局，每个单元格占48%的宽度，留出2%的间距 */
+            box-sizing: border-box; /* 包括padding和border在内 */
+            margin-bottom: 10px; /* 单元格之间的垂直间距 */
+        }
+        /* 调整图片上传区域的样式 */
+        .image-upload {
+            width: 48%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        /* 调整按钮容器的样式 */
+        .button-container {
+            width: 100%;
+            box-sizing: border-box;
+            justify-content: space-between; /* 两端对齐 */
+        }
+        .submit-button, .delete-button {
+            width: 48%; /* 按钮占48%的宽度 */
+        }
+    </style>
 </head>
 <body>
 <div id="main">
     <div class="weui-panel">
         <div class="weui-panel__hd">详情:{{g_v_id}}</div>
+    </div>
+
+    <div class="weui-panel">
+        <div class="image-upload-wrap">
+            <div class="image-upload" @click="$refs.fileInput.click()">
+                <input type="file" ref="fileInput" disabled @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
+                <div class="upload-icon">+</div>
+                <p>拿车图</p>
+                <div class="image-preview" v-if="take_img">
+                    <img :src="take_img" alt="Pick-up Image" />
+                </div>
+            </div>
+            <div class="image-upload" @click="$refs.fileInput1.click()">
+                <input type="file" ref="fileInput1" disabled @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
+                <div class="upload-icon">+</div>
+                <p>还车图</p>
+                <div class="image-preview" v-if="back_img">
+                    <img :src="back_img" alt="Pick-up Image" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-panel">
         <div class="weui-panel__bd">
             <div class="weui-cell">
                 <div class="weui-cell__bd">使用人</div>
@@ -134,26 +194,7 @@
             </div>
         </div>
     </div>
-    <div class="weui-panel">
-        <div class="weui-panel__bd">
-            <div class="image-upload" @click="$refs.fileInput.click()">
-                <input type="file" ref="fileInput" disabled @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
-                <div class="upload-icon">+</div>
-                <p>拿车图</p>
-                <div class="image-preview" v-if="take_img">
-                    <img :src="take_img" alt="Pick-up Image" />
-                </div>
-            </div>
-            <div class="image-upload" @click="$refs.fileInput1.click()">
-                <input type="file" ref="fileInput1" disabled @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
-                <div class="upload-icon">+</div>
-                <p>还车图</p>
-                <div class="image-preview" v-if="back_img">
-                    <img :src="back_img" alt="Pick-up Image" />
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="button-container">
         <button class="weui-btn weui-btn_primary submit-button" @click="submit">提交</button>
         <button class="weui-btn weui-btn_default delete-button" @click="deleteRecord">删除</button>
