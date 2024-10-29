@@ -12,8 +12,8 @@ app.get("/vehicleRegistCreate",async (req,res)=>{
 
 app.get("/vehicleRegistGetList",async (req,res)=>{
     const r= await M.request.get("/member_ajax/vehicleRegist/getList",{
-        page:1,
-        num:10,
+        page:req.params.page,
+        num:req.params.pageSize,
         filter:req.params.filter
     });
     res.send(r);
