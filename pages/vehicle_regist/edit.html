@@ -137,7 +137,7 @@
     <div class="weui-panel">
         <div class="weui-panel__bd">
             <div class="image-upload" @click="$refs.fileInput.click()">
-                <input type="file" ref="fileInput" @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
+                <input type="file" ref="fileInput" disabled @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
                 <div class="upload-icon">+</div>
                 <p>拿车图</p>
                 <div class="image-preview" v-if="take_img">
@@ -145,7 +145,7 @@
                 </div>
             </div>
             <div class="image-upload" @click="$refs.fileInput1.click()">
-                <input type="file" ref="fileInput1" @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
+                <input type="file" ref="fileInput1" disabled @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
                 <div class="upload-icon">+</div>
                 <p>还车图</p>
                 <div class="image-preview" v-if="back_img">
