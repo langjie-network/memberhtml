@@ -98,9 +98,7 @@
                 async fetch() {
                     if (this.isLoading) return; // Prevent multiple requests
                     this.isLoading = true; // Set loading state
-
-                    this.filter.userName=localStorage.getItem("username");
-                    wxLoadToast(this.filter.userName);
+                    wxLoadToast("搜索中");
                     const r = await MIO.vehicleRegistGetList({
                         page: this.page,
                         pageSize: this.pageSize,
