@@ -200,6 +200,14 @@
         });
     }
 
+    M.getParameter = function (name) {
+        let locationhref =window.location.href;
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = locationhref.substr(locationhref.indexOf('?')).substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    };
+
     M.checkR=function (r){
         return r.code==200 || r.code==0;
     }

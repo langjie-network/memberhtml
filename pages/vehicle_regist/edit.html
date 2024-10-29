@@ -67,7 +67,7 @@
 <body>
 <div id="main">
     <div class="weui-panel">
-        <div class="weui-panel__hd">详情</div>
+        <div class="weui-panel__hd">详情:{{g_v_id}}</div>
         <div class="weui-panel__bd">
             <div class="weui-cell">
                 <div class="weui-cell__bd">使用人</div>
@@ -162,10 +162,10 @@
 
 <script>
     const BASE_IMG = img => 'https://langjie.oss-cn-hangzhou.aliyuncs.com/public/img/gallery/' + img;
-
     new Vue({
         el: '#main',
         data: {
+            g_v_id:0,
             user_name: '',
             car_no: '',
             take_gps: "",
@@ -220,7 +220,7 @@
             },
             async submit() {
                   const r=await  MIO.vehicleRegistUpdate({
-                        id: M.getPageParam().v_id,
+                        id: this.g_v_id,
                         take_mile: this.take_mile,
                         take_time:this.take_time,
                         back_mile: this.back_mile,
@@ -243,7 +243,7 @@
             async deleteRecord() {
                 let r= window.confirm("确定删除");
                 if(r){
-                   const ret=await  MIO.vehicleRegistDelete({v_id: M.getPageParam().v_id})
+                   const ret=await  MIO.vehicleRegistDelete({v_id: this.g_v_id})
                    if(M.checkR(ret)){
                        wxToast("删除成功");
                        location.href="/memberhtml/pages/vehicle_regist/index.html";
@@ -257,8 +257,9 @@
             }
         },
         async mounted() {
+            this.g_v_id=M.getParameter("v_id")|| M.getPageParam().v_id;
             const r = await MIO.vehicleRegistGetRecordById({
-                v_id: M.getPageParam().v_id
+                v_id:this.g_v_id
             });
             let record = r.data;
             this.user_name = record.user_name;
