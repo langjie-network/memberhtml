@@ -197,19 +197,26 @@
      
             },
             async onFileChange(event, imgType) {
+                wxLoadToast("上传中...");
                 const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        this[imgType] = e.target.result; // Set the image URL for preview
-                    };
-                    reader.readAsDataURL(file); // Read the file as a data URL
+                if(0){
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            this[imgType] = e.target.result; // Set the image URL for preview
+                        };
+                        reader.readAsDataURL(file); // Read the file as a data URL
+                    }
+
                 }
                 const r = await MIO.member_ajax_ossUpload({
                     file: file
                 });
-                this[imgType+"_temp"] =r.expressResult[0];
-                alert(r.expressResult[0])
+                $('#loadingToast').remove();
+                if(M.checkR(r)){
+                    this[imgType] =BASE_IMG(r.data.expressResult[0]) ;
+                    this[imgType+"_temp"] =r.data.expressResult[0];
+                }
             },
             async submit() {
                   const r=await  MIO.vehicleRegistUpdate({

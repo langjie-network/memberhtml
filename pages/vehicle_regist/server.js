@@ -83,10 +83,14 @@ app.get("/member_ajax_ossUpload",async (req,res)=>{
         contentType: false,
         processData: false,
         success:  function (r) {
-            res.send(r.data);
+            res.send(r);
         },
         error: function (err) {
-            res.send("");
+            console.error(err);
+            res.send({
+                code:-1,
+                msg:"上传失败"
+            });
         }
     });
 })
