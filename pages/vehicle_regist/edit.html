@@ -227,6 +227,8 @@
                        wxToast("修改成功");
                        location.href="/memberhtml/pages/vehicle_regist/index.html";
                        return;
+                   }else {
+                       wxToast(r.msg);
                    }
             },
             async deleteRecord() {
