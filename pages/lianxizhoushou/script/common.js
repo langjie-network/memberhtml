@@ -464,7 +464,7 @@ function randomSwitchBtn(tag) {
         location.href="../html/meetOrders.html"
     }
     if(text=="车辆"){
-        location.href="../html/frame3.html"
+     //   location.href="../html/frame3.html"
     }
     if(text=="注册券"){
         location.href="../html/yb_voucher_frame.html"
