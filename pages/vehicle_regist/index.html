@@ -98,7 +98,7 @@
                 async fetch() {
                     if (this.isLoading) return; // Prevent multiple requests
                     this.isLoading = true; // Set loading state
-                    wxLoadToast("搜索中");
+                    if(this.page===1) wxLoadToast("搜索中");
                     const r = await MIO.vehicleRegistGetList({
                         page: this.page,
                         pageSize: this.pageSize,
@@ -125,7 +125,7 @@
                 },
                 handleScroll() {
                     // Check if scrolled to bottom
-                    if (false) {
+                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
                         this.page++; // Increment page number
                         this.fetch(); // Fetch next page
                     }
