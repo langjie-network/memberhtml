@@ -98,7 +98,7 @@
 <div id="main">
     <div class="weui-panel">
         <div class="weui-cell">
-            <div class="weui-cell__bd">{{ car_no }}-{{g_v_id}}</div>
+            <div @click="goBack" class="weui-cell__bd">{{ car_no }}-{{g_v_id}}</div>
             <div class="weui-cell__ft">{{ user_name }}</div>
         </div>
     </div>
@@ -136,7 +136,7 @@
             <div style="padding: 16px; width: 48vw;">
                 <div class="weui-cell__bd">还车行程</div>
                 <div class="weui-cell__ft">
-                    <input   :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="back_mile" placeholder="请输入还车行程" />
+                    <input :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="back_mile" placeholder="请输入还车行程" />
                 </div>
             </div>
         </div>
@@ -196,7 +196,7 @@
         <div v-if="is_pub==1" class="weui-cell" >
             <div class="weui-cell__bd">原因</div>
             <div class="weui-cell__ft" style="width: 60vw;margin-right: 30px">
-                <textarea   :disabled="disable_edit" class="weui-textarea" placeholder="请输入留言" rows="3" cols="1" v-model="reason" ></textarea>
+                <textarea   :disabled="disable_edit" class="weui-textarea" placeholder="请输入用车原因" rows="3" cols="1" v-model="reason" ></textarea>
             </div>
         </div>
 
@@ -248,6 +248,10 @@
             ]
         },
         methods: {
+            goBack(){
+                location.href="/memberhtml/pages/vehicle_regist/index.html";
+                return;
+            },
             async getBackGps(type) {
                 try{
                     const r = await M.getLocation();
@@ -379,8 +383,6 @@
                 if(this.back_mile >0 && this.back_mile-this.take_mile>0){
                     this.disable_edit=true;
                 }
-
-
             },
 
         },
