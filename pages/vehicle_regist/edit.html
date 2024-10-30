@@ -46,8 +46,8 @@
         }
         .button-container {
             display: flex;
-            justify-content: center; /* Center the buttons */
-            margin: 20px 0; /* Add some margin */
+            align-items: center; /* 水平居中 */
+
         }
         .weui-cell__ft input {
             width: 100%;
@@ -77,12 +77,6 @@
             flex-wrap: nowrap; /* 允许换行 */
         }
 
-        /* 调整按钮容器的样式 */
-        .button-container {
-            width: 100%;
-            box-sizing: border-box;
-            justify-content: space-between; /* 两端对齐 */
-        }
         .submit-button, .delete-button {
             width: 48%; /* 按钮占48%的宽度 */
         }
@@ -111,49 +105,21 @@
     <div class="weui-panel">
         <div class="image-upload-wrap">
             <div class="image-upload" @click="$refs.fileInput.click()">
-                <input type="file" ref="fileInput" disabled @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
+                <input   :disabled="disable_edit"   type="file" ref="fileInput"  @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
                 <div class="upload-icon">+</div>
-                <p>拿车图</p>
+                <p>拿车</p>
                 <div class="image-preview" v-if="take_img">
                     <img :src="take_img" alt="Pick-up Image" />
                 </div>
             </div>
             <div class="vertical-divider"></div>
             <div class="image-upload" @click="$refs.fileInput1.click()">
-                <input type="file" ref="fileInput1" disabled @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
+                <input   :disabled="disable_edit"  type="file" ref="fileInput1"  @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
                 <div class="upload-icon">+</div>
-                <p>还车图</p>
+                <p>还车</p>
                 <div class="image-preview" v-if="back_img">
                     <img :src="back_img" alt="Pick-up Image" />
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="weui-panel">
-        <div class="weui-panel__bd">
-            <div  style="padding: 16px; width: 48vw;">
-                <div>拿车时间</div>
-                <div>22/05/04 12:00</div>
-            </div>
-            <div class="vertical-divider"></div>
-            <div style="padding: 16px; width: 48vw;">
-                <div>还车时间</div>
-                <div>22/05/04 12:00</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="weui-panel">
-        <div class="weui-panel__bd">
-            <div  style="padding: 16px; width: 48vw;">
-                <div>拿车位置</div>
-                <div>555,6666</div>
-            </div>
-            <div class="vertical-divider"></div>
-            <div style="padding: 16px; width: 48vw;">
-                <div>还车位置</div>
-                <div>555,6666</div>
             </div>
         </div>
     </div>
@@ -170,11 +136,41 @@
             <div style="padding: 16px; width: 48vw;">
                 <div class="weui-cell__bd">还车行程</div>
                 <div class="weui-cell__ft">
-                    <input style="background-color: honeydew"  type="number" v-model="back_mile" placeholder="请输入还车行程" />
+                    <input   :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="back_mile" placeholder="请输入还车行程" />
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="weui-panel">
+        <div class="weui-panel__bd">
+            <div  style="padding: 16px; width: 48vw;">
+                <div>拿车时间</div>
+                <div>{{this.take_time}}</div>
+            </div>
+            <div class="vertical-divider"></div>
+            <div style="padding: 16px; width: 48vw;">
+                <div>还车时间</div>
+                <div>{{this.back_time}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-panel">
+        <div class="weui-panel__bd">
+            <div  style="padding: 16px; width: 48vw;">
+                <div>拿车位置</div>
+                <div>{{this.take_gps}}</div>
+            </div>
+            <div class="vertical-divider"></div>
+            <div style="padding: 16px; width: 48vw;">
+                <div>还车位置</div>
+                <div>{{this.back_gps}}</div>
+            </div>
+        </div>
+    </div>
+
+
 
     <div class="weui-panel">
         <div class="weui-cell">
@@ -189,10 +185,10 @@
             <div class="weui-cell__bd">类型</div>
             <div class="weui-cell__ft" style="display: flex;justify-content: left">
                 <label class="weui-cell ">
-                    <input style="width: 10vw"  type="radio" value="1" v-model="is_pub">公用
+                    <input   :disabled="disable_edit" style="width: 10vw"  type="radio" value="1" v-model="is_pub">公用
                 </label>
                 <label class="weui-cell ">
-                    <input style="width: 10vw" type="radio" value="0" v-model="is_pub">私用
+                    <input   :disabled="disable_edit" style="width: 10vw" type="radio" value="0" v-model="is_pub">私用
                 </label>
             </div>
         </div>
@@ -200,14 +196,27 @@
         <div v-if="is_pub==1" class="weui-cell" >
             <div class="weui-cell__bd">原因</div>
             <div class="weui-cell__ft" style="width: 60vw;margin-right: 30px">
-                <textarea class="weui-textarea" placeholder="请输入留言" rows="3" cols="1" v-model="reason" ></textarea>
+                <textarea   :disabled="disable_edit" class="weui-textarea" placeholder="请输入留言" rows="3" cols="1" v-model="reason" ></textarea>
             </div>
         </div>
 
     </div>
     <div class="button-container">
-        <button class="weui-btn weui-btn_primary submit-button" @click="submit">提交</button>
-        <button class="weui-btn weui-btn_default delete-button" @click="deleteRecord">删除</button>
+        <button
+                class="weui-btn weui-btn_primary submit-button"
+                @click="submit"
+                :disabled="disable_edit"
+                :style='{
+                   "background-color":disable_edit? "#CCC":null
+                }'
+        >
+            提交
+        </button>
+        <button
+                class="weui-btn weui-btn_primary delete-button"
+                @click="deleteRecord">
+            删除
+        </button>
     </div>
 </div>
 
@@ -217,7 +226,7 @@
         el: '#main',
         data: {
             g_v_id:0,
-            disable_edit:true,
+            disable_edit:false,
             user_name: '',
             car_no: '',
             take_gps: "",
@@ -239,10 +248,14 @@
             ]
         },
         methods: {
-            async getBackGps() {
+            async getBackGps(type) {
                 try{
                     const r = await M.getLocation();
-                    this.back_gps=`${r[0].toFixed(3)},${r[1].toFixed(3)}`;
+                    if(type==="take"){
+                        this.take_gps=`${r[0].toFixed(3)},${r[1].toFixed(3)}`;
+                    }else {
+                        this.back_gps=`${r[0].toFixed(3)},${r[1].toFixed(3)}`;
+                    }
                 }catch(e){
                     alert(e.message);
                 }       
@@ -251,23 +264,40 @@
             async onFileChange(event, imgType) {
                 wxLoadToast("上传中...");
                 const file = event.target.files[0];
-                if(0){
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            this[imgType] = e.target.result; // Set the image URL for preview
-                        };
-                        reader.readAsDataURL(file); // Read the file as a data URL
-                    }
-
-                }
                 const r = await MIO.member_ajax_ossUpload({
                     file: file
                 });
-                $('#loadingToast').remove();
                 if(M.checkR(r)){
-                    this[imgType] =BASE_IMG(r.data.expressResult[0]) ;
-                    this[imgType+"_temp"] =r.data.expressResult[0];
+
+                    let r1=null;
+                    if(imgType=="take_img"){
+                        await this.getBackGps("take");
+                        r1=await  MIO.vehicleRegistUpdateTake({
+                            id:this.g_v_id,
+                            take_time:new Date().format("yyyy-MM-ddThh:mm:ss"),
+                            take_img:r.data.expressResult[0],
+                            take_gps: this.take_gps
+                        });
+                    }else {
+                        await this.getBackGps("back");
+                        r1=await  MIO.vehicleRegistUpdateBack({
+                            id:this.g_v_id,
+                            back_time:new Date().format("yyyy-MM-ddThh:mm:ss"),
+                            back_img:r.data.expressResult[0],
+                            back_gps: this.back_gps
+                        });
+                    }
+                    $('#loadingToast').remove();
+                    if(M.checkR(r1)){
+                        this[imgType] =BASE_IMG(r.data.expressResult[0]) ;
+                        this[imgType+"_temp"] =r.data.expressResult[0];
+                        this.fetch();
+                    }else {
+                        alertToast(r1.msg);
+                    }
+
+                }else {
+                    alertToast(r.msg);
                 }
             },
             async submit() {
@@ -280,14 +310,12 @@
                     alertToast("缺少还车行程");
                     return;
                 }
-
-                if(this.is_pub){
+                if(this.is_pub==1){
                     if(!this.reason){
                         alertToast("缺少原因");
                         return;
                     }
                 }
-
                   const r=await  MIO.vehicleRegistUpdate({
                         id: this.g_v_id,
                         take_mile: this.take_mile,
@@ -323,36 +351,44 @@
 
                 }
                 // 在这里添加删除逻辑
-            }
+            },
+
+            async fetch(){
+                const r = await MIO.vehicleRegistGetRecordById({
+                    v_id:this.g_v_id
+                });
+                let record = r.data;
+                this.user_name = record.user_name;
+                this.car_no = record.car_no;
+                this.take_time = new Date(record.take_time).format("yyyy-MM-dd hh:mm:ss");
+                if(record.back_time){
+                    this.back_time = new Date(record.back_time).format("yyyy-MM-dd hh:mm:ss");
+                }else {
+                    this.back_time = null;
+                }
+                this.take_img = BASE_IMG(record.take_img);
+                this.back_img = BASE_IMG(record.back_img);
+                this.take_img_temp = record.take_img;
+                this.back_img_temp = record.back_img;
+                this.take_gps =record.take_gps;
+                this.back_gps =record.back_gps;
+                this.back_mile = record.back_mile;
+                this.take_mile = record.take_mile;
+                this.reason = record.reason;
+                this.is_pub = record.is_pub;
+                if(this.back_mile >0 && this.back_mile-this.take_mile>0){
+                    this.disable_edit=true;
+                }
+
+
+            },
+
         },
+
+
         async mounted() {
             this.g_v_id=M.getParameter("v_id")|| M.getPageParam().v_id;
-            const r = await MIO.vehicleRegistGetRecordById({
-                v_id:this.g_v_id
-            });
-            let record = r.data;
-            this.user_name = record.user_name;
-            this.car_no = record.car_no;
-            this.take_time = new Date(record.take_time).format("yyyy-MM-ddThh:mm");
-            if(record.back_time){
-                this.back_time = new Date(record.back_time).format("yyyy-MM-ddThh:mm");
-            }else {
-                this.back_time = new Date().format("yyyy-MM-ddThh:mm");
-            }
-            this.take_img = BASE_IMG(record.take_img);
-            this.back_img = BASE_IMG(record.back_img);
-            this.take_img_temp = record.take_img;
-            this.back_img_temp = record.back_img;
-            this.take_gps =record.take_gps;
-            this.back_gps =record.back_gps;
-            this.back_mile = record.back_mile;
-            this.take_mile = record.take_mile;
-            this.reason = record.reason;
-            this.is_pub = record.is_pub;
-            if(this.back_mile >0 && this.back_mile-this.take_mile>0){
-                this.disable_edit=true;
-            }
-
+            this.fetch();
         }
     });
 </script>

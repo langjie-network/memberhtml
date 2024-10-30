@@ -32,6 +32,18 @@ app.get("/vehicleRegistUpdate",async (req,res)=>{
 });
 
 
+app.get("/vehicleRegistUpdateTake",async (req,res)=>{
+    const r= await M.request.put("/member_ajax/vehicleRegist/updateTake",req.params);
+    res.send(r);
+});
+
+
+app.get("/vehicleRegistUpdateBack",async (req,res)=>{
+    const r= await M.request.put("/member_ajax/vehicleRegist/updateBack",req.params);
+    res.send(r);
+});
+
+
 app.get("/vehicleRegistDelete",async (req,res)=>{
     const r= await M.request.delete("/member_ajax/vehicleRegist/del/"+req.params.v_id);
     res.send(r);

@@ -56,8 +56,8 @@
     <div class="weui-panel">
         <div class="weui-panel__bd">
             <div @click="goEditPage(record.id)" class="weui-cell" v-for="(record, index) in records" :key="index">
-                <div class="weui-cell__bd">{{ record.car_no }}</div>
-                <div class="weui-cell__ft">{{ record.take_time.substring(0,10) }}</div>
+                <div class="weui-cell__bd">{{ record.car_no }}-{{record.id}}</div>
+                <div class="weui-cell__ft">{{ record.take_time?.substring(0,10) }}</div>
             </div>
         </div>
     </div>
