@@ -55,6 +55,7 @@ app.get("/goodsCarList",async (req,res)=>{
             "events":"借用"
         })
     });
+    r.data.data=r.data.data.filter(u=>u.serialNo!=="浙AA8B92" && u.serialNo!=="浙A6995B");
     res.send(r);
 });
 

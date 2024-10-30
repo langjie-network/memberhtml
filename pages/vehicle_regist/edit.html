@@ -14,9 +14,7 @@
         body {
             background-color: #f7f7f7;
         }
-        .weui-cell {
-            background-color: #fff;
-        }
+
         .submit-button {
             margin: 20px;
             background-color: #1aad19;
@@ -29,11 +27,13 @@
         }
         .image-upload {
             margin: 20px;
-            width: 10vw;
             text-align: center;
             border: 2px dashed #ccc;
             border-radius: 10px;
             padding: 20px;
+            width: 48%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
         }
         .image-upload img {
             max-width: 100%;
@@ -74,21 +74,9 @@
 
         .weui-panel__bd {
             display: flex;
-            flex-wrap: wrap; /* 允许换行 */
-            justify-content: space-between; /* 两端对齐 */
+            flex-wrap: nowrap; /* 允许换行 */
         }
 
-        .weui-cell {
-            width: 40%; /* 两列布局，每个单元格占48%的宽度，留出2%的间距 */
-            box-sizing: border-box; /* 包括padding和border在内 */
-            margin-bottom: 10px; /* 单元格之间的垂直间距 */
-        }
-        /* 调整图片上传区域的样式 */
-        .image-upload {
-            width: 48%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
         /* 调整按钮容器的样式 */
         .button-container {
             width: 100%;
@@ -98,14 +86,28 @@
         .submit-button, .delete-button {
             width: 48%; /* 按钮占48%的宽度 */
         }
+        .vertical-divider {
+            width: 1px; /* 设置分割线的宽度 */
+            background-color: #dcdcdc; /* 设置分割线的颜色 */
+            margin: 0 10px; /* 设置分割线左右的间距，根据需要调整 */
+        }
+
+        .weui-textarea {
+            border: 1px solid #CCC;
+            margin: 10px;
+            padding: 10px;
+        }
+
     </style>
 </head>
 <body>
 <div id="main">
     <div class="weui-panel">
-        <div class="weui-panel__hd">详情:{{g_v_id}}</div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">{{ car_no }}-{{g_v_id}}</div>
+            <div class="weui-cell__ft">{{ user_name }}</div>
+        </div>
     </div>
-
     <div class="weui-panel">
         <div class="image-upload-wrap">
             <div class="image-upload" @click="$refs.fileInput.click()">
@@ -116,6 +118,7 @@
                     <img :src="take_img" alt="Pick-up Image" />
                 </div>
             </div>
+            <div class="vertical-divider"></div>
             <div class="image-upload" @click="$refs.fileInput1.click()">
                 <input type="file" ref="fileInput1" disabled @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
                 <div class="upload-icon">+</div>
@@ -129,72 +132,79 @@
 
     <div class="weui-panel">
         <div class="weui-panel__bd">
-            <div class="weui-cell">
-                <div class="weui-cell__bd">使用人</div>
-                <div class="weui-cell__ft">{{ user_name }}</div>
+            <div  style="padding: 16px; width: 48vw;">
+                <div>拿车时间</div>
+                <div>22/05/04 12:00</div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">类型</div>
-                <div class="weui-cell__ft" style="display: flex;justify-content: left">
-                    <label class="weui-cell ">
-                        <input style="width: 10vw"  type="radio" value="1" v-model="is_pub">公用
-                    </label>
-                    <label class="weui-cell ">
-                        <input style="width: 10vw" type="radio" value="0" v-model="is_pub">私用
-                    </label>
-                </div>
+            <div class="vertical-divider"></div>
+            <div style="padding: 16px; width: 48vw;">
+                <div>还车时间</div>
+                <div>22/05/04 12:00</div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">车牌号</div>
-                <div class="weui-cell__ft">{{ car_no }}</div>
+        </div>
+    </div>
+
+    <div class="weui-panel">
+        <div class="weui-panel__bd">
+            <div  style="padding: 16px; width: 48vw;">
+                <div>拿车位置</div>
+                <div>555,6666</div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">拿车时间</div>
-                <div class="weui-cell__ft">
-                    <input style="width: 30vw" type="datetime-local" v-model="take_time" />
-                </div>
+            <div class="vertical-divider"></div>
+            <div style="padding: 16px; width: 48vw;">
+                <div>还车位置</div>
+                <div>555,6666</div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">还车时间</div>
-                <div class="weui-cell__ft">
-                    <input style="width: 30vw" type="datetime-local" v-model="back_time" />
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">拿车位置</div>
-                <div class="weui-cell__ft">{{ take_gps }}</div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">还车位置</div>
-                <div class="weui-cell__ft">
-                    {{ back_gps }}  <span  @click="getBackGps"> 🗺️</span>
-                </div>
-            </div>
-            <div class="weui-cell">
+        </div>
+    </div>
+
+    <div class="weui-panel">
+        <div class="weui-panel__bd">
+            <div  style="padding: 16px; width: 48vw;">
                 <div class="weui-cell__bd">拿车行程</div>
                 <div class="weui-cell__ft">
-                    <input type="number" v-model="take_mile" placeholder="请输入拿车行程" />
+                    <input readonly type="number" v-model="take_mile" placeholder="请输入拿车行程" />
                 </div>
             </div>
-            <div class="weui-cell">
+            <div class="vertical-divider"></div>
+            <div style="padding: 16px; width: 48vw;">
                 <div class="weui-cell__bd">还车行程</div>
                 <div class="weui-cell__ft">
-                    <input type="number" v-model="back_mile" placeholder="请输入还车行程" />
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">本次行程</div>
-                <div class="weui-cell__ft">{{ this.back_mile - this.take_mile }}</div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">原因</div>
-                <div class="weui-cell__ft">
-                    <input type="text" v-model="reason" placeholder="请输入原因" />
+                    <input style="background-color: honeydew"  type="number" v-model="back_mile" placeholder="请输入还车行程" />
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="weui-panel">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">本次行程</div>
+            <div class="weui-cell__ft">{{ this.back_mile - this.take_mile }}</div>
+        </div>
+    </div>
+
+    <div class="weui-panel">
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">类型</div>
+            <div class="weui-cell__ft" style="display: flex;justify-content: left">
+                <label class="weui-cell ">
+                    <input style="width: 10vw"  type="radio" value="1" v-model="is_pub">公用
+                </label>
+                <label class="weui-cell ">
+                    <input style="width: 10vw" type="radio" value="0" v-model="is_pub">私用
+                </label>
+            </div>
+        </div>
+
+        <div v-if="is_pub==1" class="weui-cell" >
+            <div class="weui-cell__bd">原因</div>
+            <div class="weui-cell__ft" style="width: 60vw;margin-right: 30px">
+                <textarea class="weui-textarea" placeholder="请输入留言" rows="3" cols="1" v-model="reason" ></textarea>
+            </div>
+        </div>
+
+    </div>
     <div class="button-container">
         <button class="weui-btn weui-btn_primary submit-button" @click="submit">提交</button>
         <button class="weui-btn weui-btn_default delete-button" @click="deleteRecord">删除</button>
@@ -207,6 +217,7 @@
         el: '#main',
         data: {
             g_v_id:0,
+            disable_edit:true,
             user_name: '',
             car_no: '',
             take_gps: "",
@@ -260,6 +271,23 @@
                 }
             },
             async submit() {
+                  if(!this.back_img_temp){
+                      alertToast("缺少还车图");
+                      return;
+                  }
+
+                if(!this.back_mile==null||this.back_mile<=0){
+                    alertToast("缺少还车行程");
+                    return;
+                }
+
+                if(this.is_pub){
+                    if(!this.reason){
+                        alertToast("缺少原因");
+                        return;
+                    }
+                }
+
                   const r=await  MIO.vehicleRegistUpdate({
                         id: this.g_v_id,
                         take_mile: this.take_mile,
@@ -321,6 +349,10 @@
             this.take_mile = record.take_mile;
             this.reason = record.reason;
             this.is_pub = record.is_pub;
+            if(this.back_mile >0 && this.back_mile-this.take_mile>0){
+                this.disable_edit=true;
+            }
+
         }
     });
 </script>
