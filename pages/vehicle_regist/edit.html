@@ -109,7 +109,7 @@
                 <div class="upload-icon">+</div>
                 <p>拿车</p>
                 <div class="image-preview" v-if="take_img">
-                    <img @click="showImg(take_img)"  :src="take_img" alt="Pick-up Image" />
+                    <img @click="showImg($event,take_img)"  :src="take_img" alt="Pick-up Image" />
                 </div>
             </div>
             <div class="vertical-divider"></div>
@@ -118,7 +118,7 @@
                 <div class="upload-icon">+</div>
                 <p>还车</p>
                 <div class="image-preview" v-if="back_img">
-                    <img @click="showImg(take_img)"  :src="back_img" alt="Pick-up Image" />
+                    <img  @click="showImg($event,back_img)" :src="back_img" alt="Pick-up Image" />
                 </div>
             </div>
         </div>
@@ -248,8 +248,11 @@
             ]
         },
         methods: {
-            showImg(imgUrl){
-                location.href=imgUrl;
+            showImg(event,imgUrl){
+                event.stopPropagation();
+                if(imgUrl!=null && !imgUrl.endsWith("null")){
+                    location.href=imgUrl;
+                }
             },
             goBack(){
                 location.href="/memberhtml/pages/vehicle_regist/index.html";
