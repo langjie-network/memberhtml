@@ -26,7 +26,6 @@
             color: #fff;
         }
         .image-upload {
-            margin: 5vw;
             text-align: center;
             border: 1px dashed #ccc;
             border-radius: 10px;
@@ -71,7 +70,7 @@
         .image-upload-wrap{
             display: flex;
             flex-wrap: nowrap; /* 允许换行 */
-            justify-content: center;
+            justify-content: space-between; /* 两端对齐 */
         }
 
         .weui-panel__bd {
@@ -99,7 +98,7 @@
     </div>
     <div class="weui-panel">
         <div class="image-upload-wrap">
-            <div class="image-upload" @click="$refs.fileInput.click()">
+            <div style="margin-left: 4vw" class="image-upload" @click="$refs.fileInput.click()">
                 <input  :disabled="disable_edit"   type="file" ref="fileInput"  @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
                 <div v-if="take_img_temp==null" class="upload-icon">+</div>
                 <div v-if="take_img_temp!=null">
@@ -107,7 +106,7 @@
                 </div>
             </div>
             <div class="vertical-divider"></div>
-            <div class="image-upload" @click="$refs.fileInput1.click()">
+            <div style="margin-right: 4vw" class="image-upload" @click="$refs.fileInput1.click()">
                 <input  :disabled="disable_edit"  type="file" ref="fileInput1"  @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
                 <div v-if="back_img_temp==null" class="upload-icon">+</div>
                 <div  v-if="back_img_temp!=null">
@@ -115,7 +114,6 @@
                 </div>
             </div>
         </div>
-
         <div class="weui-panel__bd">
             <div  style="padding: 16px; width: 48vw;display: flex">
                 <div style="width: 30vw" class="weui-cell__ft">
@@ -129,7 +127,6 @@
                 </div>
             </div>
         </div>
-
         <div class="weui-panel__bd">
             <div  style="padding: 16px; width: 48vw;">
                 <div>{{this.take_time}}</div>
@@ -155,12 +152,12 @@
         </div>
         <div class="weui-cell">
             <div>类型</div>
-            <div class="weui-cell__ft" style="display: flex;justify-content: right">
-                <label class="weui-cell">
+            <div class="weui-cell__ft" style="width:36.5vw;  display: flex;justify-content:space-between">
+                <label >
                     <input :disabled="disable_edit" style="width: 20px" type="radio" value="1" v-model="is_pub" />
                     <span style="white-space: nowrap;">公用</span>
                 </label>
-                <label class="weui-cell">
+                <label >
                     <input :disabled="disable_edit" style="width: 20px" type="radio" value="0" v-model="is_pub"/>
                     <span style="white-space: nowrap;">私用</span>
                 </label>
@@ -170,19 +167,19 @@
         <div class="weui-cell" v-if="is_pub==1">
             <div>原因</div>
             <div class="weui-cell__ft" style="width: 82vw; display: flex; justify-content: space-between;">
-                <label class="weui-cell">
+                <label >
                     <input :disabled="disable_edit" type="radio" value="1" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="white-space: nowrap;">出差</span>
                 </label>
-                <label class="weui-cell">
+                <label >
                     <input :disabled="disable_edit" type="radio" value="2" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="white-space: nowrap;">接送</span>
                 </label>
-                <label class="weui-cell">
+                <label>
                     <input :disabled="disable_edit" type="radio" value="3" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="white-space: nowrap;">团建</span>
                 </label>
-                <label class="weui-cell">
+                <label>
                     <input :disabled="disable_edit" type="radio" value="4" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="white-space: nowrap;">修车</span>
                 </label>
