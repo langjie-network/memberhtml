@@ -1,1 +1,1 @@
-http://114.55.104.101:60000/gitpull
+http://114.55.104.101:60000/gitpull   petalinux
