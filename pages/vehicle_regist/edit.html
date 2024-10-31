@@ -26,14 +26,14 @@
             color: #fff;
         }
         .image-upload {
-            margin: 20px;
+            margin: 5px;
             text-align: center;
-            border: 2px dashed #ccc;
+            border: 1px dashed #ccc;
             border-radius: 10px;
-            padding: 20px;
-            width: 48%;
+            padding: 0;
+            width: 40vw;
+            height: 40vw;
             box-sizing: border-box;
-            margin-bottom: 10px;
         }
         .image-upload img {
             max-width: 100%;
@@ -41,13 +41,16 @@
             margin-top: 10px;
         }
         .upload-icon {
-            font-size: 50px;
+            font-size: 22vw;
             color: #ccc;
         }
         .button-container {
             display: flex;
             align-items: center; /* 水平居中 */
 
+        }
+        .weui-cell{
+            border: 0;
         }
         .weui-cell__ft input {
             width: 100%;
@@ -85,13 +88,6 @@
             background-color: #dcdcdc; /* 设置分割线的颜色 */
             margin: 0 10px; /* 设置分割线左右的间距，根据需要调整 */
         }
-
-        .weui-textarea {
-            border: 1px solid #CCC;
-            margin: 10px;
-            padding: 10px;
-        }
-
     </style>
 </head>
 <body>
@@ -105,102 +101,99 @@
     <div class="weui-panel">
         <div class="image-upload-wrap">
             <div class="image-upload" @click="$refs.fileInput.click()">
-                <input   :disabled="disable_edit"   type="file" ref="fileInput"  @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
-                <div class="upload-icon">+</div>
-                <p>拿车</p>
-                <div class="image-preview" v-if="take_img">
+                <input  :disabled="disable_edit"   type="file" ref="fileInput"  @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
+                <div v-if="take_img_temp==null" class="upload-icon">+</div>
+                <div v-if="take_img_temp!=null">
                     <img @click="showImg($event,take_img)"  :src="take_img" alt="Pick-up Image" />
                 </div>
             </div>
             <div class="vertical-divider"></div>
             <div class="image-upload" @click="$refs.fileInput1.click()">
-                <input   :disabled="disable_edit"  type="file" ref="fileInput1"  @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
-                <div class="upload-icon">+</div>
-                <p>还车</p>
-                <div class="image-preview" v-if="back_img">
+                <input  :disabled="disable_edit"  type="file" ref="fileInput1"  @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
+                <div v-if="back_img_temp==null" class="upload-icon">+</div>
+                <div  v-if="back_img_temp!=null">
                     <img  @click="showImg($event,back_img)" :src="back_img" alt="Pick-up Image" />
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="weui-panel">
         <div class="weui-panel__bd">
-            <div  style="padding: 16px; width: 48vw;">
-                <div class="weui-cell__bd">拿车行程</div>
-                <div class="weui-cell__ft">
-                    <input readonly type="number" v-model="take_mile" placeholder="请输入拿车行程" />
+            <div  style="padding: 16px; width: 48vw;display: flex">
+                <div class="weui-cell__bd">行程</div>
+                <div style="width: 30vw" class="weui-cell__ft">
+                    <input :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="take_mile" placeholder="请输入拿车行程" />
                 </div>
             </div>
             <div class="vertical-divider"></div>
-            <div style="padding: 16px; width: 48vw;">
-                <div class="weui-cell__bd">还车行程</div>
-                <div class="weui-cell__ft">
+            <div style="padding: 16px; width: 48vw; display: flex" >
+                <div class="weui-cell__bd">行程</div>
+                <div style="width: 30vw" class="weui-cell__ft">
                     <input :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="back_mile" placeholder="请输入还车行程" />
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="weui-panel">
         <div class="weui-panel__bd">
             <div  style="padding: 16px; width: 48vw;">
-                <div>拿车时间</div>
                 <div>{{this.take_time}}</div>
             </div>
             <div class="vertical-divider"></div>
             <div style="padding: 16px; width: 48vw;">
-                <div>还车时间</div>
                 <div>{{this.back_time}}</div>
             </div>
         </div>
-    </div>
-
-    <div class="weui-panel">
         <div class="weui-panel__bd">
             <div  style="padding: 16px; width: 48vw;">
-                <div>拿车位置</div>
-                <div>{{this.take_gps}}</div>
+                <div></div>
+                <div>位置:{{this.take_gps}}</div>
             </div>
             <div class="vertical-divider"></div>
             <div style="padding: 16px; width: 48vw;">
-                <div>还车位置</div>
-                <div>{{this.back_gps}}</div>
+                <div>位置:{{this.back_gps}}</div>
             </div>
         </div>
-    </div>
-
-
-
-    <div class="weui-panel">
         <div class="weui-cell">
             <div class="weui-cell__bd">本次行程</div>
             <div class="weui-cell__ft">{{ this.back_mile - this.take_mile }}</div>
         </div>
-    </div>
-
-    <div class="weui-panel">
-
         <div class="weui-cell">
-            <div class="weui-cell__bd">类型</div>
-            <div class="weui-cell__ft" style="display: flex;justify-content: left">
-                <label class="weui-cell ">
-                    <input   :disabled="disable_edit" style="width: 10vw"  type="radio" value="1" v-model="is_pub">公用
+            <div>类型</div>
+            <div class="weui-cell__ft" style="display: flex;justify-content: right">
+                <label class="weui-cell">
+                    <input :disabled="disable_edit" style="width: 20px" type="radio" value="1" v-model="is_pub" />
+                    <span style="white-space: nowrap;">公用</span>
                 </label>
-                <label class="weui-cell ">
-                    <input   :disabled="disable_edit" style="width: 10vw" type="radio" value="0" v-model="is_pub">私用
+                <label class="weui-cell">
+                    <input :disabled="disable_edit" style="width: 20px" type="radio" value="0" v-model="is_pub"/>
+                    <span style="white-space: nowrap;">私用</span>
                 </label>
             </div>
         </div>
 
-        <div v-if="is_pub==1" class="weui-cell" >
-            <div class="weui-cell__bd">原因</div>
-            <div class="weui-cell__ft" style="width: 60vw;margin-right: 30px">
-                <textarea   :disabled="disable_edit" class="weui-textarea" placeholder="请输入用车原因" rows="3" cols="1" v-model="reason" ></textarea>
+        <div class="weui-cell" v-if="is_pub==1">
+            <div>原因</div>
+            <div class="weui-cell__ft" style="width: 82vw; display: flex; justify-content: space-between;">
+                <label class="weui-cell">
+                    <input :disabled="disable_edit" type="radio" value="1" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <span style="white-space: nowrap;">出差</span>
+                </label>
+                <label class="weui-cell">
+                    <input :disabled="disable_edit" type="radio" value="2" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <span style="white-space: nowrap;">接送</span>
+                </label>
+                <label class="weui-cell">
+                    <input :disabled="disable_edit" type="radio" value="3" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <span style="white-space: nowrap;">团建</span>
+                </label>
+                <label class="weui-cell">
+                    <input :disabled="disable_edit" type="radio" value="4" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <span style="white-space: nowrap;">修车</span>
+                </label>
             </div>
         </div>
 
     </div>
+
     <div class="button-container">
         <button
                 class="weui-btn weui-btn_primary submit-button"
@@ -233,6 +226,7 @@
             back_gps: "",
             take_time: '', // Default value for pick-up time
             back_time: '', // Default value for return time
+            reasonType:1,
             reason: '',
             use_mile: '',
             take_mile: '',
