@@ -152,34 +152,34 @@
         </div>
         <div class="weui-cell">
             <div style="width: 10vw">类型</div>
-            <div class="weui-cell__ft" style="width:36.5vw;  display: flex;justify-content:space-between">
-                <label >
+            <div class="weui-cell__ft" style="width:36.5vw; display: flex;justify-content:space-between">
+                <label style="height: 20px;">
                     <input :disabled="disable_edit" style="width: 20px" type="radio" value="1" v-model="is_pub" />
-                    <span style="white-space: nowrap;">公用</span>
+                    <span style="white-space: nowrap; line-height: 20px;">公用</span>
                 </label>
-                <label >
+                <label style="height: 20px;">
                     <input :disabled="disable_edit" style="width: 20px" type="radio" value="0" v-model="is_pub"/>
-                    <span style="white-space: nowrap;">私用</span>
+                    <span style="white-space: nowrap; line-height: 20px;">私用</span>
                 </label>
             </div>
         </div>
 
         <div class="weui-cell" v-if="is_pub==1">
-            <div  style="width: 10vw">原因</div>
+            <div style="width: 10vw">原因</div>
             <div class="weui-cell__ft" style="width: 82vw; display: flex; justify-content: space-between;">
-                <label >
+                <label style="display: flex; align-items: center;">
                     <input :disabled="disable_edit" type="radio" value="1" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="white-space: nowrap;">出差</span>
                 </label>
-                <label >
+                <label style="display: flex; align-items: center;">
                     <input :disabled="disable_edit" type="radio" value="2" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="white-space: nowrap;">接送</span>
                 </label>
-                <label>
+                <label style="display: flex; align-items: center;">
                     <input :disabled="disable_edit" type="radio" value="3" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="white-space: nowrap;">团建</span>
                 </label>
-                <label>
+                <label style="display: flex; align-items: center;">
                     <input :disabled="disable_edit" type="radio" value="4" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="white-space: nowrap;">修车</span>
                 </label>
