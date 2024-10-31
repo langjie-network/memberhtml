@@ -151,7 +151,7 @@
             <div class="weui-cell__ft">{{ this.back_mile - this.take_mile }}</div>
         </div>
         <div class="weui-cell">
-            <div>类型</div>
+            <div style="margin-right: 2vw">类型</div>
             <div class="weui-cell__ft" style="width:36.5vw;  display: flex;justify-content:space-between">
                 <label >
                     <input :disabled="disable_edit" style="width: 20px" type="radio" value="1" v-model="is_pub" />
@@ -165,7 +165,7 @@
         </div>
 
         <div class="weui-cell" v-if="is_pub==1">
-            <div>原因</div>
+            <div  style="margin-right: 2vw">原因</div>
             <div class="weui-cell__ft" style="width: 82vw; display: flex; justify-content: space-between;">
                 <label >
                     <input :disabled="disable_edit" type="radio" value="1" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
