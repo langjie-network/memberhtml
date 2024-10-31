@@ -90,17 +90,19 @@
 </head>
 <body>
 <div id="main">
+
     <div class="weui-panel">
-        <div class="weui-cell">
-            <div @click="goBack" class="weui-cell__bd">{{ car_no }}-{{g_v_id}}</div>
-            <div class="weui-cell__ft">{{ user_name }}</div>
+        <div class="weui-panel">
+            <div class="weui-cell">
+                <div @click="goBack" class="weui-cell__bd">{{ car_no }}-{{g_v_id}}</div>
+                <div class="weui-cell__ft">{{ user_name }}</div>
+            </div>
         </div>
-    </div>
-    <div class="weui-panel">
         <div class="image-upload-wrap">
             <div style="margin-left: 4vw" class="image-upload" @click="$refs.fileInput.click()">
+
                 <input  :disabled="disable_edit"   type="file" ref="fileInput"  @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
-                <div v-if="take_img_temp==null" class="upload-icon">+</div>
+                <div v-if="take_img_temp==null" class="upload-icon">拿</div>
                 <div v-if="take_img_temp!=null">
                     <img @click="showImg($event,take_img)"  :src="take_img" alt="Pick-up Image" />
                 </div>
@@ -108,7 +110,7 @@
             <div class="vertical-divider"></div>
             <div style="margin-right: 4vw" class="image-upload" @click="$refs.fileInput1.click()">
                 <input  :disabled="disable_edit"  type="file" ref="fileInput1"  @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
-                <div v-if="back_img_temp==null" class="upload-icon">+</div>
+                <div v-if="back_img_temp==null" class="upload-icon">还</div>
                 <div  v-if="back_img_temp!=null">
                     <img  @click="showImg($event,back_img)" :src="back_img" alt="Pick-up Image" />
                 </div>
