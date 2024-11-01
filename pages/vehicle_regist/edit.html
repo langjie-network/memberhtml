@@ -202,7 +202,7 @@
             </div>
 
         </div>
-        <div class="weui-cell__ft">
+        <div v-if="is_pub==1" class="weui-cell__ft">
             <input :disabled="disable_edit"  v-model="reason"  style="background-color: honeydew" placeholder=""></input>
         </div>
     </div>
