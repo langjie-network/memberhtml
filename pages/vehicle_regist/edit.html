@@ -86,6 +86,18 @@
             background-color: #dcdcdc; /* 设置分割线的颜色 */
             margin: 0 10px; /* 设置分割线左右的间距，根据需要调整 */
         }
+
+        /* 添加图标样式 */
+        div  .image-delete {
+            position: absolute;
+            cursor: pointer;
+            width: 5vw;
+            height: 5vw;
+            top: 0;
+            right: 0;
+        }
+
+
     </style>
 </head>
 <body>
@@ -100,19 +112,20 @@
         </div>
         <div class="image-upload-wrap">
             <div style="margin-left: 4vw" class="image-upload" @click="$refs.fileInput.click()">
-
                 <input  :disabled="disable_edit"   type="file" ref="fileInput"  @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
                 <div v-if="take_img_temp==null" class="upload-icon">拿</div>
-                <div v-if="take_img_temp!=null">
+                <div style="position: relative" v-if="take_img_temp!=null">
                     <img @click="showImg($event,take_img)"  :src="take_img" alt="Pick-up Image" />
+                    <img v-show="!disable_edit" class="image-delete" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/car_img_edit0045.png" />
                 </div>
             </div>
             <div class="vertical-divider"></div>
             <div style="margin-right: 4vw" class="image-upload" @click="$refs.fileInput1.click()">
                 <input  :disabled="disable_edit"  type="file" ref="fileInput1"  @change="onFileChange($event,'back_img')" accept="image/*" style="display: none;" />
                 <div v-if="back_img_temp==null" class="upload-icon">还</div>
-                <div  v-if="back_img_temp!=null">
+                <div  style="position: relative" v-if="back_img_temp!=null">
                     <img  @click="showImg($event,back_img)" :src="back_img" alt="Pick-up Image" />
+                    <img  v-show="!disable_edit" class="image-delete"  src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/car_img_edit0045.png" />
                 </div>
             </div>
         </div>
@@ -171,24 +184,27 @@
             <div style="width: 10vw">原因</div>
             <div class="weui-cell__ft" style="width: 82vw; display: flex; justify-content: space-between;">
                 <label style="display: flex; align-items: center;">
-                    <input :disabled="disable_edit" type="radio" value="1" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <input :disabled="disable_edit" type="radio" value="出差" v-model="reason_type" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="margin-left: 2vw; white-space: nowrap;">出差</span>
                 </label>
                 <label style="display: flex; align-items: center;">
-                    <input :disabled="disable_edit" type="radio" value="2" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <input :disabled="disable_edit" type="radio" value="接送" v-model="reason_type" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="margin-left: 2vw; white-space: nowrap;">接送</span>
                 </label>
                 <label style="display: flex; align-items: center;">
-                    <input :disabled="disable_edit" type="radio" value="3" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <input :disabled="disable_edit" type="radio" value="团建" v-model="reason_type" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="margin-left: 2vw; white-space: nowrap;">团建</span>
                 </label>
                 <label style="display: flex; align-items: center;">
-                    <input :disabled="disable_edit" type="radio" value="4" v-model="reasonType" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <input :disabled="disable_edit" type="radio" value="修车" v-model="reason_type" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
                     <span style="margin-left: 2vw; white-space: nowrap;">修车</span>
                 </label>
             </div>
-        </div>
 
+        </div>
+        <div class="weui-cell__ft">
+            <input :disabled="disable_edit"  v-model="reason"  style="background-color: honeydew" placeholder=""></input>
+        </div>
     </div>
 
     <div class="button-container">
@@ -223,7 +239,7 @@
             back_gps: "",
             take_time: '', // Default value for pick-up time
             back_time: '', // Default value for return time
-            reasonType:1,
+            reason_type:"出差",
             reason: '',
             use_mile: '',
             take_mile: '',
@@ -311,12 +327,7 @@
                     alertToast("缺少还车行程");
                     return;
                 }
-                if(this.is_pub==1){
-                    if(!this.reason){
-                        alertToast("缺少原因");
-                        return;
-                    }
-                }
+
                   const r=await  MIO.vehicleRegistUpdate({
                         id: this.g_v_id,
                         take_mile: this.take_mile,
@@ -327,7 +338,6 @@
                         reason: this.reason,
                         take_img: this.take_img_temp,
                         back_img: this.back_img_temp,
-                        reason: this.reason,
                         is_pub: this.is_pub,
                     });
                    if(r.code===200){
@@ -366,6 +376,9 @@
                     this.back_time = new Date(record.back_time).format("yyyy-MM-dd hh:mm:ss");
                 }else {
                     this.back_time = null;
+                }
+                if(record.reason_type==null||record.reason_type==""){
+                    record.reason_type="出差";
                 }
                 this.take_img = BASE_IMG(record.take_img);
                 this.back_img = BASE_IMG(record.back_img);
