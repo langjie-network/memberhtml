@@ -113,7 +113,7 @@
         <div class="image-upload-wrap">
             <div style="margin-left: 4vw" class="image-upload" @click="$refs.fileInput.click()">
                 <input  :disabled="disable_edit"   type="file" ref="fileInput"  @change="onFileChange($event,'take_img')" accept="image/*" style="display: none;" />
-                <div v-if="take_img_temp==null" class="upload-icon">拿</div>
+                <div v-if="take_img_temp==null" class="upload-icon">取</div>
                 <div style="position: relative" v-if="take_img_temp!=null">
                     <img @click="showImg($event,take_img)"  :src="take_img" alt="Pick-up Image" />
                     <img v-show="!disable_edit" class="image-delete" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/car_img_edit0045.png" />
@@ -132,13 +132,13 @@
         <div class="weui-panel__bd">
             <div  style="padding: 16px; width: 48vw;display: flex">
                 <div style="width: 30vw" class="weui-cell__ft">
-                    <input :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="take_mile" placeholder="请输入拿车行程" />
+                    <input :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="take_mile" placeholder="请输入取车里程" />
                 </div>
             </div>
             <div class="vertical-divider"></div>
             <div style="padding: 16px; width: 48vw; display: flex" >
                 <div style="width: 30vw" class="weui-cell__ft">
-                    <input :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="back_mile" placeholder="请输入还车行程" />
+                    <input :disabled="disable_edit" style="background-color: honeydew"  type="number" v-model="back_mile" placeholder="请输入还车里程" />
                 </div>
             </div>
         </div>
