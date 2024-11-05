@@ -59,7 +59,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__bd">还车时间</div>
                 <div class="weui-cell__ft">
-                    <input style="width: 50vw" type="datetime-local" v-model="take_time" />
+                    <input style="width: 50vw" type="datetime-local" v-model="back_time" />
                 </div>
             </div>
             <div class="weui-cell">
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="weui-cell">
-                <div class="weui-cell__bd">拿车里程</div>
+                <div class="weui-cell__bd">还车里程</div>
                 <div class="weui-cell__ft">
                     <input style="width: 50vw" type="number" v-model="back_mile" placeholder="请输入还车里程" />
                 </div>
@@ -80,21 +80,69 @@
                     {{ this.back_mile - this.take_mile }}
                 </div>
             </div>
+            <div class="weui-cell">
+                <div style="width: 10vw">类型</div>
+                <div class="weui-cell__ft" style="width:36.5vw; display: flex;justify-content:space-between">
+                    <label  style="display: flex; align-items: center;">
+                        <input  style="width: 20px" type="radio" value="1" v-model="is_pub" />
+                        <span style="margin-left: 2vw; white-space: nowrap; ">公用</span>
+                    </label>
+
+                    <label  style="display: flex; align-items: center;">
+                        <input style="width: 20px" type="radio" value="0" v-model="is_pub"/>
+                        <span style="margin-left: 2vw;  white-space: nowrap;">私用</span>
+                    </label>
+                </div>
+
+                </div>
+            </div>
+            <div class="weui-cell" v-if="is_pub==1">
+            <div style="width: 10vw">事因</div>
+            <div class="weui-cell__ft" style="width: 82vw; display: flex; justify-content: space-between;">
+                <label style="display: flex; align-items: center;">
+                    <input :disabled="disable_edit" type="radio" value="出差" v-model="reason_type" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <span style="margin-left: 2vw; white-space: nowrap;">出差</span>
+                </label>
+                <label style="display: flex; align-items: center;">
+                    <input :disabled="disable_edit" type="radio" value="接送" v-model="reason_type" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <span style="margin-left: 2vw; white-space: nowrap;">接送</span>
+                </label>
+                <label style="display: flex; align-items: center;">
+                    <input :disabled="disable_edit" type="radio" value="团建" v-model="reason_type" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <span style="margin-left: 2vw; white-space: nowrap;">团建</span>
+                </label>
+                <label style="display: flex; align-items: center;">
+                    <input :disabled="disable_edit" type="radio" value="修车" v-model="reason_type" style="width: 20px;"/> <!-- 增加单选按钮的尺寸 -->
+                    <span style="margin-left: 2vw; white-space: nowrap;">修车</span>
+                </label>
+            </div>
+
         </div>
+            <div  v-if="is_pub==1" class="weui-cell">
+                <div  style="width: 10vw" >备注:</div>
+                <div class="weui-cell__ft">
+                    <input style="width: 70vw; background-color: honeydew"  v-model="reason"  placeholder="请输入备注"></input>
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="weui-btn weui-btn_primary submit-button" @click="submit">提交</button>
+            </div>
+        </div>
+
     </div>
-    <div class="button-container">
-        <button class="weui-btn weui-btn_primary submit-button" @click="submit">提交</button>
-    </div>
+
 </div>
 
 <script>
     new Vue({
         el: '#main',
         data: {
+            disable_edit:false,
             user_name: '',
             car_no: '',
             take_gps: "",
             back_gps: "",
+            reason_type:"出差",
             take_time: '', // Default value for pick-up time
             back_time: '', // Default value for return time
             reason: '',
@@ -135,20 +183,27 @@
                 this[imgType+"_temp"] =r.expressResult[0];
             },
             async submit() {
-                try{
-                    const r = await M.getLocation();
-                    this.take_gps=`${r[0].toFixed(3)},${r[1].toFixed(3)}`;
-                }catch(e){
-                    alert(e.message);
+                if(this.car_no===""){
+                    wxToast("请选择车辆");
+                    return;
                 }
-                const r=await  MIO.vehicleRegistCreate({
+                if(this.take_mile<=0){
+                    wxToast("取车里程错误");
+                    return;
+                }
+                if(this.back_mile<=0 || this.back_mile<=this.take_mile){
+                    wxToast("还车里程错误");
+                    return;
+                }
+                const r=await  MIO.vehicleRegistSupplement({
                     car_no:this.car_no,
                     take_mile: this.take_mile,
+                    back_mile: this.back_mile,
                     take_time:this.take_time,
-                    take_gps: this.take_gps,
+                    back_time:this.back_time
                 });
                 if(M.checkR(r)){
-                    wxToast("添加成功");
+                    wxToast("补登成功");
                     location.href="/memberhtml/pages/vehicle_regist/index.html";
                     return;
                 }
@@ -160,7 +215,8 @@
                this.carOptions=r.data.data;
             }
             this.car_no ="";
-            this.take_time = new Date().format("yyyy-MM-ddThh:mm");;
+            this.take_time = new Date().format("yyyy-MM-ddThh:mm");
+            this.back_time = new Date().format("yyyy-MM-ddThh:mm");;
 
         }
     });

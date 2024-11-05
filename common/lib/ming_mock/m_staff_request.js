@@ -211,6 +211,15 @@
     M.checkR=function (r){
         return r.code==200 || r.code==0;
     }
+
+    M.getUserInfo=()=>{
+        const userInfo={
+              username : localStorage.getItem('username'),
+              user_id : localStorage.getItem('user_id'),
+        };
+        return userInfo;
+    }
+
     window.M.request={}
     window.M.request.get=get;
     window.M.request.post=post;

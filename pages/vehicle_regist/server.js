@@ -9,12 +9,34 @@ app.get("/vehicleRegistCreate",async (req,res)=>{
 })
 
 
+app.get("/vehicleRegistSupplement",async (req,res)=>{
+    const r= await M.request.post("/member_ajax/vehicleRegist/supplement",{
+        car_no:req.params.car_no,
+        take_time:req.params.take_time,
+        take_mile:req.params.take_mile,
+        back_mile:req.params.take_mile,
+        back_time:req.params.back_time,
+        take_gps:req.params.take_gps
+    });
+    res.send(r);
+})
+
+app.get("/supplementPass",async (req,res)=>{
+    const r= await M.request.post("/member_ajax/vehicleRegist/supplementPass",{
+        id:req.params.id,
+    });
+    res.send(r);
+})
+
+
+
 
 app.get("/vehicleRegistGetList",async (req,res)=>{
     const r= await M.request.get("/member_ajax/vehicleRegist/getList",{
         page:req.params.page,
         num:req.params.pageSize,
-        filter:req.params.filter
+        filter:req.params.filter,
+        t:req.params.t
     });
     res.send(r);
 });

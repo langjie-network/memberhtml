@@ -117,17 +117,11 @@
                 this[imgType+"_temp"] =r.expressResult[0];
             },
             async submit() {
-                try{
-                    const r = await M.getLocation();
-                    this.take_gps=`${r[0].toFixed(3)},${r[1].toFixed(3)}`;
-                }catch(e){
-                    alert(e.message);
-                }
                 const r=await  MIO.vehicleRegistCreate({
                     car_no:this.car_no,
                     take_mile: this.take_mile,
                     take_time:this.take_time,
-                    take_gps: this.take_gps,
+                    take_gps: "",
                 });
                 if(M.checkR(r)){
                     wxToast("添加成功");

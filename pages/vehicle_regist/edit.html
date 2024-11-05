@@ -106,7 +106,7 @@
     <div class="weui-panel">
         <div class="weui-panel">
             <div class="weui-cell">
-                <div @click="goBack" class="weui-cell__bd">{{ car_no }}-{{g_v_id}}</div>
+                <div @click="goBack" class="weui-cell__bd">{{ car_no }}-{{g_v_id}}({{status}})</div>
                 <div class="weui-cell__ft">{{ user_name }}</div>
             </div>
         </div>
@@ -237,8 +237,9 @@
         el: '#main',
         data: {
             g_v_id:0,
-            disable_edit:false,
+            disable_edit:true,
             user_name: '',
+            status:"",
             car_no: '',
             take_gps: "",
             back_gps: "",
@@ -395,10 +396,13 @@
                 this.back_mile = record.back_mile;
                 this.take_mile = record.take_mile;
                 this.reason = record.reason;
+                this.status=record.status;
                 this.reason_type = record.reason_type;
                 this.is_pub = record.is_pub;
                 if(this.back_mile >0 && this.back_mile-this.take_mile>0){
                     this.disable_edit=true;
+                }else {
+                    this.disable_edit=false;
                 }
             },
 

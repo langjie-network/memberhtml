@@ -64,7 +64,7 @@
 
     <div class="weui-panel">
         <div class="weui-panel__bd">
-            <div style="display: flex;justify-content: space-between" @click="goEditPage(record.id)" class="weui-cell" v-for="(record, index) in records" :key="index">
+            <div style="display: flex;justify-content: space-between" @click="goEditPage(record)" class="weui-cell" v-for="(record, index) in records" :key="index">
                 <div class="detail-info">
                     {{ record.car_no }}-{{record.id}}
                     <div>{{ record.take_time?.substring(0,10) }}</div>
@@ -108,7 +108,7 @@
                 isLoading: false // Loading state
             },
             async mounted() {
-                this.fetch();
+                this.search();
                 window.addEventListener('scroll', this.handleScroll); // Add scroll event listener
             },
             beforeDestroy() {
@@ -122,17 +122,22 @@
                     const r = await MIO.vehicleRegistGetList({
                         page: this.page,
                         pageSize: this.pageSize,
-                        filter: JSON.stringify(this.filter)
+                        filter: JSON.stringify(this.filter),
+                        t:Date.now()
                     });
                     this.records = this.records.concat(r.data.data); // Append new records
                     this.isLoading = false; // Reset loading state
                     $('#loadingToast').remove();
                 },
-                goEditPage(v_id){
+                goEditPage(record){
                     M.setPageParam({
-                        v_id:v_id
+                        v_id:record.id
                     });
-                    location.href="./edit.html"
+                    if(record.status==="待审查"||record.status==="已审查"){
+                        location.href="./editForSupplement.html";
+                        return;
+                    }
+                    location.href="./edit.html";
                 },
                 search() {
                     this.page = 1; // Reset to first page on search
