@@ -40,17 +40,20 @@
 <body>
 <div id="main">
     <div class="weui-search-bar">
-        <form class="weui-search-bar__form" @submit.prevent="search" >
-            <div class="weui-search-bar__box search-container">
+        <form  style="width: 30vw" class="weui-search-bar__form" @submit.prevent="search" >
+            <div  class="weui-search-bar__box search-container">
                 <input type="search" class="weui-search-bar__input" placeholder="请输入车牌" v-model="searchQuery" required>
             </div>
         </form>
         <div>
             <button type="submit" class="weui-btn weui-btn_mini add-button" @click="search">搜索</button>
         </div>
-        <duv>
-            <button type="button" class="weui-btn weui-btn_mini add-button" @click="addRecord">添加</button>
-        </duv>
+        <div>
+            <button type="button" class="weui-btn weui-btn_mini add-button" @click="supplementRecord">添加</button>
+        </div>
+        <div>
+            <button type="button" class="weui-btn weui-btn_mini add-button" @click="addRecord">补登</button>
+        </div>
     </div>
     <div class="weui-panel">
         <div class="weui-panel__bd">
@@ -121,6 +124,9 @@
                 },
                 addRecord() {
                     location.href="./add.html"
+                },
+                supplementRecord(){
+                    location.href="./supplement.html"
                 },
                 handleScroll() {
                     // Check if scrolled to bottom
