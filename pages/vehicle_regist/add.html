@@ -45,7 +45,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__bd">车牌号</div>
                 <div class="weui-cell__ft">
-                    <select style="width: 50vw" v-model="car_no" @change="carNoChange">
+                    <select style="width: 54vw" v-model="car_no" @change="carNoChange">
                         <option v-for="carOption in carOptions" :key="carOption" :value="carOption.serialNo">{{carOption.serialNo}}</option>
                     </select>
                 </div>
@@ -53,13 +53,13 @@
             <div class="weui-cell">
                 <div class="weui-cell__bd">取车时间</div>
                 <div class="weui-cell__ft">
-                    <input style="width: 30vw" type="datetime-local" v-model="take_time" />
+                    <input style="width: 50vw" type="datetime-local" v-model="take_time" />
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">拿车行程</div>
                 <div class="weui-cell__ft">
-                    <input type="number" v-model="take_mile" placeholder="请输入拿车行程" />
+                    <input style="width: 50vw"  type="number" v-model="take_mile" placeholder="请输入取车行程" />
                 </div>
             </div>
         </div>

@@ -34,6 +34,11 @@
             max-width: 160px; /* 设置搜索框的最大宽度 */
             min-width: 160px; /* 设置搜索框的最小宽度 */
         }
+
+        .detail-info {
+            margin-top: 5px;
+        }
+
     </style>
 
 </head>
@@ -49,20 +54,33 @@
             <button type="submit" class="weui-btn weui-btn_mini add-button" @click="search">搜索</button>
         </div>
         <div>
-            <button type="button" class="weui-btn weui-btn_mini add-button" @click="supplementRecord">添加</button>
+            <button type="button" class="weui-btn weui-btn_mini add-button" @click="addRecord">添加</button>
         </div>
         <div>
-            <button type="button" class="weui-btn weui-btn_mini add-button" @click="addRecord">补登</button>
+            <button type="button" class="weui-btn weui-btn_mini add-button" @click="supplementRecord">补登</button>
         </div>
     </div>
+
+
     <div class="weui-panel">
         <div class="weui-panel__bd">
-            <div @click="goEditPage(record.id)" class="weui-cell" v-for="(record, index) in records" :key="index">
-                <div class="weui-cell__bd">{{ record.car_no }}-{{record.id}}</div>
-                <div class="weui-cell__ft">{{ record.take_time?.substring(0,10) }}</div>
+            <div style="display: flex;justify-content: space-between" @click="goEditPage(record.id)" class="weui-cell" v-for="(record, index) in records" :key="index">
+                <div class="detail-info">
+                    {{ record.car_no }}-{{record.id}}
+                    <div>{{ record.take_time?.substring(0,10) }}</div>
+                </div>
+                <div class="detail-info">
+                    <div>责任人: {{ record.manager_user_name }}</div>
+                    <div>使用人: {{record.user_name}}</div>
+                </div>
+                <div class="detail-info">
+                    <div>状态: {{ record.status }}</div>
+                    <div>类型: {{ record.is_pub?"公用":"私用" }}</div>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
 </body>
 
