@@ -202,9 +202,14 @@
             </div>
 
         </div>
-        <div v-if="is_pub==1" class="weui-cell__ft">
-            <input :disabled="disable_edit"  v-model="reason"  style="background-color: honeydew" placeholder=""></input>
-        </div>
+        <div v-if="is_pub==1" >
+
+            <div class="weui-cell">
+                <div  style="width: 10vw" >备注:</div>
+                <div class="weui-cell__ft">
+                    <input style="width: 70vw; background-color: honeydew" :disabled="disable_edit"  v-model="reason"  placeholder="请输入备注"></input>
+                </div>
+            </div>
     </div>
 
     <div class="button-container">
