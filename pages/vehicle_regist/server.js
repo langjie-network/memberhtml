@@ -96,10 +96,10 @@ app.get("/goodsCarList",async (req,res)=>{
 
 
 app.get("/fetchPrevMile",async (req,res)=>{
-    const r= await M.request.get("/member_ajax/vehicleRegist/getPrevMile",{
-         car_no:req.params.car_no
-        });
-      res.send(r);
+    // const r= await M.request.get("/member_ajax/vehicleRegist/getPrevMile",{
+    //      car_no:req.params.car_no
+    //     });
+      res.send({code:0, data:0});
 });
 
 
