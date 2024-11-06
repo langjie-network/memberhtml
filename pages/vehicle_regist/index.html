@@ -67,7 +67,7 @@
             <div style="display: flex;justify-content: space-between" @click="goEditPage(record)" class="weui-cell" v-for="(record, index) in records" :key="index">
                 <div class="detail-info">
                     {{ record.car_no }}-{{record.id}}
-                    <div>{{ record.take_time?.substring(0,10) }}</div>
+                    <div>{{new Date(record.take_time).format("yyyy-MM-dd hh:mm")}}</div>
                 </div>
                 <div class="detail-info">
                     <div>责任人: {{ record.manager_user_name }}</div>
