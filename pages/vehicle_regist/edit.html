@@ -7,6 +7,7 @@
     <script type="text/javascript" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/viphelp/js/lib/vue3/vue@2.js"></script>
     <script src="../../../js/kendo/jquery.min.js" type="text/javascript"></script>
     <script src="../../../js/common.js" type="text/javascript"></script>
+    <script src="./ImgUtils.js" type="text/javascript"></script>
     <script src="../../common/lib/ming_mock/m_staff_request.js" type="text/javascript"></script>
     <script src="./server.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
@@ -286,7 +287,8 @@
             },
             async onFileChange(event, imgType) {
                 wxLoadToast("上传中...");
-                const file = event.target.files[0];
+                let file = event.target.files[0];
+                file=await ImgUtils.zip(file,{quality:0.3});
                 const r = await MIO.member_ajax_ossUpload({
                     file: file
                 });
