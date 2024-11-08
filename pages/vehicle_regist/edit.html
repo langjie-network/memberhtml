@@ -365,6 +365,10 @@
                 }
             },
             async submit() {
+                if(!this.take_img_temp){
+                    alertToast("缺少取车图");
+                    return;
+                }
                   if(!this.back_img_temp){
                       alertToast("缺少还车图");
                       return;
@@ -373,6 +377,16 @@
                     alertToast("缺少还车行程");
                     return;
                  }
+
+                if(this.take_mile<=0){
+                    wxToast("取车里程错误");
+                    return;
+                }
+                if(this.back_mile<=0 || this.back_mile<=this.take_mile){
+                    wxToast("还车里程错误");
+                    return;
+                }
+
                   const r=await  MIO.vehicleRegistUpdate({
                         id: this.g_v_id,
                         take_mile: this.take_mile,
