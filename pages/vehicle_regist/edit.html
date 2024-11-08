@@ -97,14 +97,14 @@
             top: 0;
             right: 0;
         }
-
-
     </style>
 </head>
 <body>
 <div id="main">
-
-    <div class="weui-panel">
+    <div v-if="isPreviewImg" @click="closePreviewImg" class="weui-panel__bd">
+        <img style="width: 100vw" src="https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/展会照片/随行场/13-2.png">
+    </div>
+    <div v-else class="weui-panel">
         <div class="weui-panel">
             <div class="weui-cell">
                 <div @click="goBack" class="weui-cell__bd">{{ car_no }}-{{g_v_id}}({{status}})</div>
@@ -216,6 +216,16 @@
     <div class="button-container">
         <button
                 class="weui-btn weui-btn_primary submit-button"
+                @click="submitForSave"
+                :disabled="disable_edit"
+                :style='{
+                   "background-color":disable_edit? "#CCC":null
+                }'
+        >
+            保存
+        </button>
+        <button
+                class="weui-btn weui-btn_primary submit-button"
                 @click="submit"
                 :disabled="disable_edit"
                 :style='{
@@ -237,6 +247,7 @@
     new Vue({
         el: '#main',
         data: {
+            isPreviewImg:false,
             g_v_id:0,
             disable_edit:true,
             user_name: '',
@@ -262,10 +273,14 @@
             ]
         },
         methods: {
+            closePreviewImg(){
+                this.isPreviewImg=false;
+            },
             showImg(event,imgUrl){
                 event.stopPropagation();
                 if(imgUrl!=null && !imgUrl.endsWith("null")){
-                    location.href=imgUrl;
+                  //  location.href=imgUrl;
+                    this.isPreviewImg=true;
                 }
             },
             goBack(){
@@ -325,17 +340,37 @@
                     alertToast(r.msg);
                 }
             },
+            async submitForSave(){
+                const r=await  MIO.vehicleRegistUpdateForSave({
+                    id: this.g_v_id,
+                    take_mile: this.take_mile,
+                    take_time:this.take_time,
+                    back_mile: this.back_mile,
+                    back_time: this.back_time,
+                    back_gps: this.back_gps,
+                    reason: this.reason,
+                    reason_type: this.reason_type,
+                    take_img: this.take_img_temp,
+                    back_img: this.back_img_temp,
+                    is_pub: this.is_pub,
+                });
+                if(r.code===200){
+                    wxToast("保存成功");
+                    location.href="/memberhtml/pages/vehicle_regist/index.html";
+                    return;
+                }else {
+                    wxToast(r.msg);
+                }
+            },
             async submit() {
                   if(!this.back_img_temp){
                       alertToast("缺少还车图");
                       return;
                   }
-
-                if(!this.back_mile==null||this.back_mile<=0){
+                 if(!this.back_mile==null||this.back_mile<=0){
                     alertToast("缺少还车行程");
                     return;
-                }
-
+                 }
                   const r=await  MIO.vehicleRegistUpdate({
                         id: this.g_v_id,
                         take_mile: this.take_mile,

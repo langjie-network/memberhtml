@@ -53,6 +53,11 @@ app.get("/vehicleRegistUpdate",async (req,res)=>{
     res.send(r);
 });
 
+app.get("/vehicleRegistUpdateForSave",async (req,res)=>{
+    const r= await M.request.put("/member_ajax/vehicleRegist/updateForSave",req.params);
+    res.send(r);
+});
+
 
 app.get("/vehicleRegistUpdateTake",async (req,res)=>{
     const r= await M.request.put("/member_ajax/vehicleRegist/updateTake",req.params);
