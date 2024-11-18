@@ -452,7 +452,7 @@
                 this.status=record.status;
                 this.reason_type = record.reason_type;
                 this.is_pub = record.is_pub;
-                if(this.back_mile >0 && this.back_mile-this.take_mile>0){
+                if(this.status!='待取车' && this.status!='待还车' && this.back_mile >0 && this.back_mile-this.take_mile>0){
                     this.disable_edit=true;
                 }else {
                     this.disable_edit=false;
