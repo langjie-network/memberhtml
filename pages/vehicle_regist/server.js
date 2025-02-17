@@ -16,7 +16,10 @@ app.get("/vehicleRegistSupplement",async (req,res)=>{
         take_mile:req.params.take_mile,
         back_mile:req.params.back_mile,
         back_time:req.params.back_time,
-        take_gps:req.params.take_gps
+        take_gps:req.params.take_gps,
+        reason_type:req.params.reason_type,
+        reason:req.params.reason,
+        is_pub:req.params.is_pub
     });
     res.send(r);
 })
