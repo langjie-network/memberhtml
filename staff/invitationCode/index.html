@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,52 +15,69 @@
     <script src="/memberhtml/staff/invitationCode/server.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/2.0.1/weui.min.css">
     <style>
-
         .container {
-        text-align: center;
-        margin-top: 20px;
-    }
-    .image-container {
-        margin-bottom: 20px;
-    }
-    .list-container {
-        list-style-type: none;
-        padding: 0;
-    }
-    .list-container li {
-        margin: 5px 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #ddd;
-        padding: 10px;
-    }
-    .list-container li:last-child {
-        border-bottom: none;
-    }
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        .list-container {
+            list-style-type: none;
+            padding: 0;
+        }
+        .list-container li {
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+        .list-container li:last-child {
+            border-bottom: none;
+        }
 
-    /* Adjust image size */
-    .image-container img {
-        width: 150px; /* Adjust the width as needed */
-        height: auto;
-    }
+        /* Adjust image size */
+        .image-container img {
+            width: 150px;
+            height: auto;
+        }
 
-    /* WeUI styles for table */
-    .weui-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .weui-tr {
-        border-bottom: 1px solid #ebebeb;
-    }
-    .weui-td {
-        padding: 10px;
-        text-align: left;
-    }
-    .weui-th {
-        background-color: #f7f7f7;
-        font-weight: bold;
-    }
+        /* WeUI styles for table */
+        .weui-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .weui-tr {
+            border-bottom: 1px solid #ebebeb;
+        }
+        .weui-td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        .weui-th {
+            background-color: #f7f7f7;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: blue;
+            background-color: white;
+            cursor: pointer;
+            border: none;
+            padding: 0;
+        }
+
+        .iconfont {
+            font-size: 16px;
+            color: #666;
+        }
+
     </style>
 </head>
 <body>
@@ -69,44 +85,53 @@
     <div class="image-container">
         <img :src="invitationCode" alt="我的二维码">
     </div>
-    <div  style="height:110vw;overflow: scroll" class="list-container">
+    <div style="height:110vw;overflow: scroll" class="list-container">
         <table class="weui-table">
             <thead>
             <tr class="weui-tr">
                 <th class="weui-th">时间</th>
                 <th class="weui-th">头像</th>
-                <th class="weui-th">姓名</th>
+                <th style="width: 20vw" class="weui-th">姓名</th>
                 <th class="weui-th">公司</th>
+                <th class="weui-th">操作</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="(item, index) in memberList" :key="index" class="weui-tr">
-                <td class="weui-td">{{ new Date(item.submit_time).format("yyyy-MM-dd hh:mm")  }}</td>
+                <td class="weui-td">{{ new Date(item.submit_time).format("yyyy-MM-dd hh:mm") }}</td>
                 <td class="weui-td">
                     <img style="width: 30px" :src="item.avatar || 'https://via.placeholder.com/40'" alt="头像" class="weui-cell__hd">
                 </td>
                 <td class="weui-td">{{ item.name }}</td>
-                <td  style="overflow:scroll; width: 20vw;" class="weui-td">{{ item.company }}</td>
+                <td style="overflow:scroll; width: 20vw;" class="weui-td">{{ item.pending_company }}</td>
+                <td class="weui-td">
+                    <button class="edit-btn" @click="handleEdit(item)">
+                        编辑
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
 
-<script>    new Vue({
-    el: '#app',
-    data: {
-        invitationCode: 'https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/mp_gift/yaoqingma/<%=result.name+result.uid%>.png',
-        memberList: []
-    },
-    methods: {
-
-    },
-   async mounted() {
-        const r= await MIO.myInvitationMember({});
-        this.memberList=r.data;
-    }
-});
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            invitationCode: 'https://langjie.oss-cn-hangzhou.aliyuncs.com/space/root/project/mp_gift/yaoqingma/<%=result.name+result.uid%>.png',
+            memberList: []
+        },
+        methods: {
+            handleEdit(item) {
+                location.href="/m/staff/h5page/invitationCode/edit/0?user_id="+item.user_id;
+            }
+        },
+        async mounted() {
+            const r = await MIO.myInvitationMember({});
+            this.memberList = r.data;
+        }
+    });
 </script>
 </body>
 </html>
