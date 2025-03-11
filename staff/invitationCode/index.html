@@ -96,10 +96,7 @@
             </thead>
             <tbody>
             <tr v-for="(item, index) in memberList" :key="index" class="weui-tr">
-                <td class="weui-td">{{ new Date(item.submit_time).format("yyyy-MM-dd hh:mm") }}</td>
-                <td class="weui-td">
-                    <img style="width: 30px" :src="item.avatar || 'https://via.placeholder.com/40'" alt="头像" class="weui-cell__hd">
-                </td>
+                <td class="weui-td">{{ new Date(item.submit_time).format("yy-MM-dd hh:mm") }}</td>
                 <td class="weui-td">{{ item.name }}</td>
                 <td style="overflow:scroll; width: 20vw;" class="weui-td">{{ item.pending_company }}</td>
                 <td class="weui-td">
