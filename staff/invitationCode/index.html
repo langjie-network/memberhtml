@@ -60,6 +60,10 @@
             background-color: #f7f7f7;
             font-weight: bold;
         }
+        .text-right {
+            text-align: right !important;
+            padding-right: 20px;
+        }
 
         .edit-btn {
             display: inline-flex;
@@ -71,6 +75,7 @@
             border: none;
             padding: 0;
             font-size: large;
+            margin-right: 20px;
         }
 
         .iconfont {
@@ -89,21 +94,21 @@
         <table class="weui-table">
             <thead>
             <tr class="weui-tr">
-                <th class="weui-th">时间</th>
+                <th class="weui-th">领奖</th>
                 <th style="width: 20vw" class="weui-th">姓名</th>
-                <th class="weui-th">公司</th>
-                <th class="weui-th">操作</th>
+                <th class="weui-th">手机</th>
+                <th class="weui-th text-right">操作</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="(item, index) in memberList" :key="index" class="weui-tr">
-                <td class="weui-td">{{ new Date(item.submit_time).format("yyyyMMdd hh:mm") }}</td>
-                <td class="weui-td">{{ item.name }}</td>
-                <td style="overflow:scroll; width: 20vw;" class="weui-td">{{ item.pending_company }}</td>
                 <td class="weui-td">
-                    <button class="edit-btn" @click="handleEdit(item)">
-                        编辑
-                    </button>
+                    <input type="checkbox"  v-model="item.is_prize_send" @change="handleReceiveChange(item)">
+                </td>
+                <td class="weui-td">{{ item.name }}</td>
+                <td class="weui-td">{{ item.phone }}</td>
+                <td class="weui-td text-right">
+                    <a href="#" @click="handleEdit(item)">编辑</a>
                 </td>
             </tr>
             </tbody>
@@ -121,6 +126,13 @@
         methods: {
             handleEdit(item) {
                 location.href="/m/staff/h5page/invitationCode/edit/0?user_id="+item.user_id;
+            },
+            async handleReceiveChange(item) {
+                console.log('领奖状态改变:', item.name, item.is_prize_send);
+                await MIO.changeIsPrizeSend({
+                    user_id:item.user_id,
+                    is_prize_send:item.is_prize_send?1:0
+                });
             }
         },
         async mounted() {
