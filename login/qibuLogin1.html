@@ -8,11 +8,10 @@
     <title>Document</title>
 </head>
 <body>
-
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
-    alert(code);
+    location.href = 'https://www.luckyphoto.com.cn/qibuServer1/open/wx/wxLogin?code=' + code;
 </script>
 
 </body>
